@@ -36,7 +36,7 @@ class MultiSelectField extends BaseField {
 			'<select class="ztc-input" id="%1$s" name="%2$s" multiple size="%3$d"%4$s>',
 			esc_attr( $this->input_id() ),
 			esc_attr( $this->input_name( '[]' ) ),
-			min( count( $options ) > 0 ? count( $options ) : 1, (int) $this->arg( 'size', 6 ) ),
+			absint( min( count( $options ) > 0 ? count( $options ) : 1, (int) $this->arg( 'size', 6 ) ) ),
 			$this->describedby_attr() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pre-escaped attribute.
 		);
 

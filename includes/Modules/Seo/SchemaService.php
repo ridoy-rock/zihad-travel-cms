@@ -238,7 +238,7 @@ final class SchemaService {
 	 * Per Google's guidelines the last item (the current page) may omit
 	 * its URL.
 	 *
-	 * @param array<array{name: string, url: string}> $trail Ordered crumbs.
+	 * @param array<array{name: string, url?: string}> $trail Ordered crumbs.
 	 *
 	 * @return array<string, mixed> Empty for trails shorter than two crumbs.
 	 */

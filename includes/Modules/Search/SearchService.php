@@ -133,8 +133,8 @@ final class SearchService {
 	 */
 	public function filter_clauses( string $type, array $params ): array {
 		return array(
-			'tax_query'  => $this->tax_query( $type, $params ),
-			'meta_query' => $this->meta_query( $type, $params ),
+			'tax_query'  => $this->tax_query( $type, $params ),  // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+			'meta_query' => $this->meta_query( $type, $params ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		);
 	}
 

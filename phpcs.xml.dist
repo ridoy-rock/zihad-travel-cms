@@ -6,6 +6,9 @@
 	<exclude-pattern>/vendor/*</exclude-pattern>
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/assets/vendor/*</exclude-pattern>
+	<!-- The smoke suites are deliberately terse stub scripts (dev
+	     tooling, never shipped); WPCS applies to shipped code. -->
+	<exclude-pattern>/tests/*</exclude-pattern>
 
 	<arg value="sp"/>
 	<arg name="colors"/>
@@ -19,6 +22,19 @@
 		<!-- PSR-4 class file names (Plugin.php) instead of class-plugin.php. -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<!-- The plugin's locked, BC-frozen prefix is `ztc`/`ZTC` (options,
+		     meta keys, hooks, CSS — shipped since the first release). WPCS
+		     rejects prefixes shorter than four characters outright and then
+		     flags every correctly-prefixed ztc_* symbol as non-prefixed, so
+		     the whole sniff is noise here; prefixing is enforced in review
+		     (see CONTRIBUTING.md → Prefixes). -->
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals"/>
+		<!-- Exceptions are never printed raw: REST controllers serialize
+		     them to JSON and admin surfaces escape on output. -->
+		<exclude name="WordPress.Security.EscapeOutput.ExceptionNotEscaped"/>
+		<!-- Implementations document via {@inheritDoc}; the canonical
+		     param docs live on the interfaces/abstract bases. -->
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag"/>
 	</rule>
 
 	<rule ref="PHPCompatibilityWP"/>

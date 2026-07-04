@@ -38,7 +38,7 @@ final class Template {
 	 *                                   e.g. `admin/dashboard.php`.
 	 * @param array<string, mixed> $data Variables exposed to the template as `$data`.
 	 */
-	public function render( string $name, array $data = array() ): void {
+	public function render( string $name, array $data = array() ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $data is read by the included template through function scope.
 		$file = $this->locate( $name );
 
 		if ( '' === $file ) {

@@ -25,11 +25,15 @@ final class Plugin {
 
 	/**
 	 * Singleton instance.
+	 *
+	 * @var Plugin|null
 	 */
 	private static ?Plugin $instance = null;
 
 	/**
 	 * The DI container.
+	 *
+	 * @var Container
 	 */
 	private Container $container;
 
@@ -42,6 +46,8 @@ final class Plugin {
 
 	/**
 	 * Whether boot() has already run.
+	 *
+	 * @var bool
 	 */
 	private bool $booted = false;
 

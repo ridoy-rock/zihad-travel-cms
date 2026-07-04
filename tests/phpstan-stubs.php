@@ -19,9 +19,11 @@ namespace Elementor {
 		public function end_controls_section() {}
 	}
 	class Controls_Manager {
-		public const TEXT   = 'text';
-		public const SELECT = 'select';
-		public const NUMBER = 'number';
+		public const TEXT     = 'text';
+		public const TEXTAREA = 'textarea';
+		public const SELECT   = 'select';
+		public const NUMBER   = 'number';
+		public const URL      = 'url';
 	}
 }
 
@@ -31,6 +33,7 @@ namespace Elementor\Core\DynamicTags {
 		/** @return mixed */
 		public function get_settings( ?string $setting = null ) { return null; }
 	}
+	class Data_Tag extends Tag {}
 }
 
 namespace Elementor\Modules\DynamicTags {
@@ -41,12 +44,23 @@ namespace Elementor\Modules\DynamicTags {
 	}
 }
 
+namespace WP_CLI\Utils {
+	/** @return object */
+	function make_progress_bar( string $message, int $count ) { return new \stdClass(); }
+}
+
 namespace {
 	class WP_CLI {
 		public static function add_command( string $name, mixed $callable ): void {}
 		public static function log( string $message ): void {}
 		public static function success( string $message ): void {}
+		public static function warning( string $message ): void {}
 		public static function error( string $message ): void {}
 		public static function line( string $message = '' ): void {}
 	}
+
+	/**
+	 * The plugin kernel accessor, defined in zihad-travel-cms.php.
+	 */
+	function ztc(): \ZihadTravelCMS\Plugin { return \ZihadTravelCMS\Plugin::instance(); }
 }

@@ -9,7 +9,18 @@ parameters:
         - tests/phpstan-bootstrap.php
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        # Elementor is an optional integration; its classes only exist
-        # when the plugin is active (modules gate on elementor/loaded).
-        - '#unknown class Elementor\\#'
-        - '#Elementor\\[A-Za-z\\]+ not found#'
+        # fgetcsv() really can return null (invalid handle) and [] on
+        # some platforms — the guards are deliberate belt-and-braces
+        # the stubs' narrower type cannot see.
+        -
+            identifier: identical.alwaysFalse
+            path: includes/Modules/Importer/Readers/CsvReader.php
+        # The importer builds the post array dynamically from mapping
+        # targets; the stubs' fixed array shape cannot express that.
+        -
+            identifier: argument.type
+            path: includes/Modules/Importer/ImportService.php
+        # wp-admin includes exist at runtime under the real ABSPATH.
+        -
+            identifier: requireOnce.fileNotFound
+            path: includes/Modules/Importer/ImageImporter.php

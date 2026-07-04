@@ -45,7 +45,7 @@ class MediaField extends BaseField {
 			'<input type="hidden" id="%1$s" name="%2$s" value="%3$d" data-ztc-media-input>',
 			esc_attr( $this->input_id() ),
 			esc_attr( $this->input_name() ),
-			$attachment_id
+			absint( $attachment_id )
 		);
 
 		echo '<div class="ztc-media__preview" data-ztc-media-preview aria-live="polite">';

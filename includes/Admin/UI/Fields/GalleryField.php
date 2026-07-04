@@ -79,7 +79,7 @@ class GalleryField extends BaseField {
 	 * @param int $attachment_id Attachment ID.
 	 */
 	protected function render_item( int $attachment_id ): void {
-		printf( '<li class="ztc-gallery__item" data-ztc-gallery-item data-id="%d">', $attachment_id );
+		printf( '<li class="ztc-gallery__item" data-ztc-gallery-item data-id="%d">', absint( $attachment_id ) );
 		echo wp_get_attachment_image( $attachment_id, 'thumbnail', false, array( 'class' => 'ztc-gallery__thumb' ) );
 		printf(
 			'<span class="ztc-gallery__actions"><button type="button" class="button-link" data-ztc-move="up" aria-label="%1$s"><span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span></button><button type="button" class="button-link" data-ztc-move="down" aria-label="%2$s"><span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span></button><button type="button" class="button-link button-link-delete" data-ztc-gallery-remove aria-label="%3$s"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button></span>',

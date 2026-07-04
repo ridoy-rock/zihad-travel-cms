@@ -177,7 +177,15 @@ final class WizardService {
 				'intro'  => __( 'Optional — used by map embeds.', 'zihad-travel-cms' ),
 				'fields' => array(
 					new TextField( 'integrations.maps_api_key', __( 'Google Maps API Key', 'zihad-travel-cms' ) ),
-					new NumberField( 'integrations.maps_default_zoom', __( 'Default Zoom', 'zihad-travel-cms' ), array( 'min' => 1, 'max' => 20, 'step' => 1 ) ),
+					new NumberField(
+						'integrations.maps_default_zoom',
+						__( 'Default Zoom', 'zihad-travel-cms' ),
+						array(
+							'min'  => 1,
+							'max'  => 20,
+							'step' => 1,
+						)
+					),
 				),
 			),
 			array(
@@ -201,8 +209,24 @@ final class WizardService {
 						__( 'Search Widget', 'zihad-travel-cms' ),
 						array( 'checkbox_label' => __( 'Show the search widget on the homepage', 'zihad-travel-cms' ) )
 					),
-					new NumberField( 'homepage.featured_countries_count', __( 'Featured Countries', 'zihad-travel-cms' ), array( 'min' => 0, 'max' => 24, 'step' => 1 ) ),
-					new NumberField( 'homepage.popular_tours_count', __( 'Popular Tours', 'zihad-travel-cms' ), array( 'min' => 0, 'max' => 24, 'step' => 1 ) ),
+					new NumberField(
+						'homepage.featured_countries_count',
+						__( 'Featured Countries', 'zihad-travel-cms' ),
+						array(
+							'min'  => 0,
+							'max'  => 24,
+							'step' => 1,
+						)
+					),
+					new NumberField(
+						'homepage.popular_tours_count',
+						__( 'Popular Tours', 'zihad-travel-cms' ),
+						array(
+							'min'  => 0,
+							'max'  => 24,
+							'step' => 1,
+						)
+					),
 				),
 			),
 			array(
@@ -473,12 +497,13 @@ final class WizardService {
 		$progress = $state['demo'];
 		$types    = DemoDataInstaller::TYPES;
 
-		$index     = (int) ( $progress['index'] ?? 0 );
-		$job_id    = (string) ( $progress['job'] ?? '' );
-		$processed = 0;
-		$total     = 0;
+		$index      = (int) ( $progress['index'] ?? 0 );
+		$job_id     = (string) ( $progress['job'] ?? '' );
+		$processed  = 0;
+		$total      = 0;
+		$type_count = count( $types );
 
-		while ( $batch_calls > 0 && $index < count( $types ) ) {
+		while ( $batch_calls > 0 && $index < $type_count ) {
 			if ( '' === $job_id ) {
 				$job_id = $this->installer->start( $types[ $index ] )->id;
 			}

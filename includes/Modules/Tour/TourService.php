@@ -230,17 +230,17 @@ final class TourService {
 		}
 
 		return array(
-			'id'              => $post->ID,
-			'title'           => get_the_title( $post ),
-			'url'             => (string) get_permalink( $post ),
-			'excerpt'         => get_the_excerpt( $post ),
-			'image'           => $this->media->image_url( (int) get_post_thumbnail_id( $post ), MediaService::SIZE_CARD ),
-			'country'         => $this->country_name( $post->ID ),
-			'types'           => wp_list_pluck( $this->repository->terms( $post->ID, TourTypeTaxonomy::NAME ), 'name' ),
-			'duration'        => $this->duration_text( $post->ID ),
-			'price'           => $this->formatted_price( $post->ID ),
-			'regular_price'   => $this->price( $post->ID ) > 0 ? $this->format_amount( $this->price( $post->ID ) ) : '',
-			'on_sale'         => $this->is_on_sale( $post->ID ),
+			'id'            => $post->ID,
+			'title'         => get_the_title( $post ),
+			'url'           => (string) get_permalink( $post ),
+			'excerpt'       => get_the_excerpt( $post ),
+			'image'         => $this->media->image_url( (int) get_post_thumbnail_id( $post ), MediaService::SIZE_CARD ),
+			'country'       => $this->country_name( $post->ID ),
+			'types'         => wp_list_pluck( $this->repository->terms( $post->ID, TourTypeTaxonomy::NAME ), 'name' ),
+			'duration'      => $this->duration_text( $post->ID ),
+			'price'         => $this->formatted_price( $post->ID ),
+			'regular_price' => $this->price( $post->ID ) > 0 ? $this->format_amount( $this->price( $post->ID ) ) : '',
+			'on_sale'       => $this->is_on_sale( $post->ID ),
 		);
 	}
 }

@@ -96,7 +96,9 @@ final class JobRepository {
 		$ids   = $this->ids();
 		$ids[] = $job_id;
 
-		while ( count( $ids ) > self::MAX_JOBS ) {
+		$excess = count( $ids ) - self::MAX_JOBS;
+
+		while ( $excess-- > 0 ) {
 			$oldest = array_shift( $ids );
 			delete_option( self::OPTION_PREFIX . $oldest );
 		}

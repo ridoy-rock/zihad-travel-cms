@@ -174,10 +174,11 @@ final class ExportService {
 
 		$handle = fopen( 'php://temp', 'r+' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 
-		fputcsv( $handle, array_keys( $records[0] ) );
+		// Explicit escape argument ('' = none): PHP 8.4+ forward-compat.
+		fputcsv( $handle, array_keys( $records[0] ), ',', '"', '' );
 
 		foreach ( $records as $record ) {
-			fputcsv( $handle, array_map( array( $this, 'to_cell' ), $record ) );
+			fputcsv( $handle, array_map( array( $this, 'to_cell' ), $record ), ',', '"', '' );
 		}
 
 		rewind( $handle );
@@ -198,7 +199,7 @@ final class ExportService {
 			return (string) $value;
 		}
 
-		$is_flat = $value === array_filter( $value, 'is_string' ) && array_is_list( $value );
+		$is_flat = array_filter( $value, 'is_string' ) === $value && array_is_list( $value );
 
 		return $is_flat
 			? implode( '|', $value )

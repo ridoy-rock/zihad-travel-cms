@@ -24,9 +24,9 @@ final class InquiryMeta extends BasePostMeta {
 	public const EMAIL   = 'ztc_inquiry_email';
 	public const PHONE   = 'ztc_inquiry_phone';
 	public const MESSAGE = 'ztc_inquiry_message';
-	public const TYPE    = 'ztc_inquiry_type';    // visa|tour.
+	public const TYPE    = 'ztc_inquiry_type';    // Holds 'visa' or 'tour'.
 	public const SUBJECT = 'ztc_inquiry_subject'; // Related visa/tour post ID.
-	public const STATUS  = 'ztc_inquiry_status';  // new|contacted|closed.
+	public const STATUS  = 'ztc_inquiry_status';  // Workflow: new, contacted, closed.
 
 	/**
 	 * {@inheritDoc}

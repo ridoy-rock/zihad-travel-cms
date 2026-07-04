@@ -111,13 +111,15 @@ final class InquiryFormWidget extends Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output is escaped internally.
-		echo ztc()->get( InquiryFormRenderer::class )->render(
+		$html = ztc()->get( InquiryFormRenderer::class )->render(
 			array(
 				'heading' => (string) ( $settings['heading'] ?? '' ),
 				'type'    => (string) ( $settings['inquiry_type'] ?? 'visa' ),
 				'post_id' => (int) ( $settings['post_id'] ?? 0 ),
 			)
 		);
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output is escaped internally.
+		echo $html;
 	}
 }

@@ -7,6 +7,9 @@
  */
 
 define( 'ABSPATH', '/tmp/wordpress/' );
+define( 'MINUTE_IN_SECONDS', 60 );
+define( 'HOUR_IN_SECONDS', 3600 );
+define( 'DAY_IN_SECONDS', 86400 );
 define( 'ZTC_VERSION', '1.0.0' );
 define( 'ZTC_MIN_PHP', '8.2' );
 define( 'ZTC_MIN_WP', '6.4' );

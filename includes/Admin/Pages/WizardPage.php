@@ -306,16 +306,16 @@ final class WizardPage extends AdminPage {
 	 */
 	private function actions( array $ids, int $index ): array {
 		return array(
-			'form'        => admin_url( 'admin-post.php' ),
-			'save'        => self::ACTION_SAVE,
-			'demo'        => self::ACTION_DEMO,
-			'skip_step'   => self::ACTION_SKIP_STEP,
-			'back'        => $index > 0 ? $this->url( $ids[ $index - 1 ] ) : '',
-			'skip_all'    => wp_nonce_url( admin_url( 'admin-post.php?action=' . self::ACTION_SKIP_ALL ), self::ACTION_SKIP_ALL ),
-			'restart'     => wp_nonce_url( admin_url( 'admin-post.php?action=' . self::ACTION_RESTART ), self::ACTION_RESTART ),
-			'dashboard'   => admin_url( 'admin.php?page=' . AdminPage::MENU_SLUG ),
-			'settings'    => admin_url( 'admin.php?page=zihad-travel-cms-settings' ),
-			'permalinks'  => admin_url( 'options-permalink.php' ),
+			'form'       => admin_url( 'admin-post.php' ),
+			'save'       => self::ACTION_SAVE,
+			'demo'       => self::ACTION_DEMO,
+			'skip_step'  => self::ACTION_SKIP_STEP,
+			'back'       => $index > 0 ? $this->url( $ids[ $index - 1 ] ) : '',
+			'skip_all'   => wp_nonce_url( admin_url( 'admin-post.php?action=' . self::ACTION_SKIP_ALL ), self::ACTION_SKIP_ALL ),
+			'restart'    => wp_nonce_url( admin_url( 'admin-post.php?action=' . self::ACTION_RESTART ), self::ACTION_RESTART ),
+			'dashboard'  => admin_url( 'admin.php?page=' . AdminPage::MENU_SLUG ),
+			'settings'   => admin_url( 'admin.php?page=zihad-travel-cms-settings' ),
+			'permalinks' => admin_url( 'options-permalink.php' ),
 		);
 	}
 

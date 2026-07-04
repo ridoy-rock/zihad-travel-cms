@@ -68,7 +68,7 @@ class RichEditorField extends BaseField {
 	}
 
 	/**
-	 * wp_editor() ids may only contain lowercase letters and
+	 * The wp_editor() ids may only contain lowercase letters and
 	 * underscores.
 	 */
 	private function editor_id(): string {

@@ -26,6 +26,8 @@ final class HomepageSearch implements Registrable {
 
 	/**
 	 * Rendered-once guard for this request.
+	 *
+	 * @var bool
 	 */
 	private bool $rendered = false;
 

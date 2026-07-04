@@ -68,11 +68,11 @@ final class Container {
 	/**
 	 * Register an existing object as a shared instance.
 	 *
-	 * @param string $id     Identifier, usually a class or interface name.
-	 * @param object $object The instance to store.
+	 * @param string $id       Identifier, usually a class or interface name.
+	 * @param object $instance The instance to store.
 	 */
-	public function instance( string $id, object $object ): void {
-		$this->instances[ $id ] = $object;
+	public function instance( string $id, object $instance ): void {
+		$this->instances[ $id ] = $instance;
 	}
 
 	/**

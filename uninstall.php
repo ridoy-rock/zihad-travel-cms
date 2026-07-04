@@ -27,11 +27,11 @@ function ztc_uninstall_site() {
 	foreach ( $post_types as $post_type ) {
 		$post_ids = get_posts(
 			array(
-				'post_type'      => $post_type,
-				'post_status'    => 'any',
-				'numberposts'    => -1,
-				'fields'         => 'ids',
-				'no_found_rows'  => true,
+				'post_type'     => $post_type,
+				'post_status'   => 'any',
+				'numberposts'   => -1,
+				'fields'        => 'ids',
+				'no_found_rows' => true,
 			)
 		);
 
@@ -70,12 +70,16 @@ function ztc_uninstall_site() {
 	// Delete import job records and transients created by the plugin.
 	global $wpdb;
 
+	// Raw SQL is permitted in uninstall.php only (see CONTRIBUTING):
+	// prefixed LIKE cleanup has no WP API equivalent, and caching is
+	// irrelevant while uninstalling.
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	$wpdb->query(
 		"DELETE FROM {$wpdb->options}
 		 WHERE option_name LIKE 'ztc\_import\_job\_%'
 		    OR option_name LIKE '\_transient\_ztc\_%'
 		    OR option_name LIKE '\_transient\_timeout\_ztc\_%'"
-	); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	);
 }
 
 if ( is_multisite() ) {

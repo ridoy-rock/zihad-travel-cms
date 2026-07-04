@@ -38,16 +38,14 @@ final class ImportController {
 	/**
 	 * Constructor.
 	 *
-	 * @param ImportService   $import   Import engine.
-	 * @param ExportService   $export   Export engine.
-	 * @param JobRepository   $jobs     Job repository.
-	 * @param MappingRegistry $registry Mapping registry.
+	 * @param ImportService $import Import engine.
+	 * @param ExportService $export Export engine.
+	 * @param JobRepository $jobs   Job repository.
 	 */
 	public function __construct(
 		private ImportService $import,
 		private ExportService $export,
 		private JobRepository $jobs,
-		private MappingRegistry $registry,
 	) {}
 
 	/**
@@ -65,10 +63,24 @@ final class ImportController {
 				'callback'            => array( $this, 'start' ),
 				'permission_callback' => $permission,
 				'args'                => array(
-					'type'                => array( 'type' => 'string', 'required' => true ),
-					'media_id'            => array( 'type' => 'integer', 'required' => true, 'minimum' => 1 ),
-					'mode'                => array( 'type' => 'string', 'enum' => ImportService::MODES, 'default' => 'upsert' ),
-					'rollback_on_failure' => array( 'type' => 'boolean', 'default' => false ),
+					'type'                => array(
+						'type'     => 'string',
+						'required' => true,
+					),
+					'media_id'            => array(
+						'type'     => 'integer',
+						'required' => true,
+						'minimum'  => 1,
+					),
+					'mode'                => array(
+						'type'    => 'string',
+						'enum'    => ImportService::MODES,
+						'default' => 'upsert',
+					),
+					'rollback_on_failure' => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
 				),
 			)
 		);
@@ -81,8 +93,16 @@ final class ImportController {
 				'callback'            => array( $this, 'process' ),
 				'permission_callback' => $permission,
 				'args'                => array(
-					'job_id' => array( 'type' => 'string', 'required' => true ),
-					'batch'  => array( 'type' => 'integer', 'default' => 20, 'minimum' => 1, 'maximum' => 100 ),
+					'job_id' => array(
+						'type'     => 'string',
+						'required' => true,
+					),
+					'batch'  => array(
+						'type'    => 'integer',
+						'default' => 20,
+						'minimum' => 1,
+						'maximum' => 100,
+					),
 				),
 			)
 		);
@@ -95,7 +115,10 @@ final class ImportController {
 				'callback'            => array( $this, 'status' ),
 				'permission_callback' => $permission,
 				'args'                => array(
-					'job_id' => array( 'type' => 'string', 'required' => true ),
+					'job_id' => array(
+						'type'     => 'string',
+						'required' => true,
+					),
 				),
 			)
 		);
@@ -118,7 +141,10 @@ final class ImportController {
 				'callback'            => array( $this, 'rollback' ),
 				'permission_callback' => $permission,
 				'args'                => array(
-					'job_id' => array( 'type' => 'string', 'required' => true ),
+					'job_id' => array(
+						'type'     => 'string',
+						'required' => true,
+					),
 				),
 			)
 		);
@@ -131,8 +157,15 @@ final class ImportController {
 				'callback'            => array( $this, 'do_export' ),
 				'permission_callback' => $permission,
 				'args'                => array(
-					'type'   => array( 'type' => 'string', 'required' => true ),
-					'format' => array( 'type' => 'string', 'enum' => ExportService::FORMATS, 'default' => 'json' ),
+					'type'   => array(
+						'type'     => 'string',
+						'required' => true,
+					),
+					'format' => array(
+						'type'    => 'string',
+						'enum'    => ExportService::FORMATS,
+						'default' => 'json',
+					),
 				),
 			)
 		);
@@ -226,7 +259,7 @@ final class ImportController {
 	/**
 	 * Convert engine exceptions into proper REST errors.
 	 *
-	 * @param callable(): array<string, mixed> $operation The operation.
+	 * @param callable $operation Operation producing the response payload array.
 	 */
 	private function guard( callable $operation ): WP_REST_Response|WP_Error {
 		try {

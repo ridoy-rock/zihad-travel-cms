@@ -38,7 +38,10 @@ final class TourImportMapping implements ImportMapping {
 	 */
 	public function fields(): array {
 		return array(
-			'title'      => array( 'target' => 'post:title', 'required' => true ),
+			'title'      => array(
+				'target'   => 'post:title',
+				'required' => true,
+			),
 			'slug'       => array( 'target' => 'post:slug' ),
 			'status'     => array( 'target' => 'post:status' ),
 			'content'    => array( 'target' => 'post:content' ),

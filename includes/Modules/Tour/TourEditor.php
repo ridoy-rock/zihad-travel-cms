@@ -343,12 +343,17 @@ final class TourEditor extends Editor {
 	/**
 	 * Published countries as select options (ID => title).
 	 *
-	 * @return array<string, string>
+	 * @return array<int, string>
 	 */
 	private function country_options(): array {
 		$options = array();
 
-		foreach ( $this->countries->all( array( 'orderby' => 'title', 'order' => 'ASC' ) ) as $country ) {
+		foreach ( $this->countries->all(
+			array(
+				'orderby' => 'title',
+				'order'   => 'ASC',
+			)
+		) as $country ) {
 			$options[ (string) $country->ID ] = $country->post_title;
 		}
 

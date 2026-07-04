@@ -19,11 +19,11 @@ defined( 'ABSPATH' ) || exit;
  */
 final class MediaService {
 
-	public const SIZE_HERO      = 'full';
-	public const SIZE_CARD      = 'large';
-	public const SIZE_GALLERY   = 'large';
-	public const SIZE_FLAG      = 'thumbnail';
-	public const SIZE_ICON      = 'thumbnail';
+	public const SIZE_HERO    = 'full';
+	public const SIZE_CARD    = 'large';
+	public const SIZE_GALLERY = 'large';
+	public const SIZE_FLAG    = 'thumbnail';
+	public const SIZE_ICON    = 'thumbnail';
 
 	/**
 	 * URL of an image attachment, or '' when unavailable.

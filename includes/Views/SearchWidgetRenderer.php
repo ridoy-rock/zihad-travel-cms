@@ -46,6 +46,8 @@ final class SearchWidgetRenderer {
 
 	/**
 	 * Per-request widget counter (unique ids for the radio tabs).
+	 *
+	 * @var int
 	 */
 	private int $instances = 0;
 

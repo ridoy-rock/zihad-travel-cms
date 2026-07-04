@@ -68,12 +68,16 @@ final class Integrations implements Registrable {
 		$ga_id = $this->settings->analytics_id();
 
 		if ( '' !== $ga_id ) {
+			// The gtag loader is Google's canonical inline snippet; it is
+			// intentionally not enqueued (must sit in the head, unaltered).
+			// phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 			printf(
 				'<script async src="https://www.googletagmanager.com/gtag/js?id=%1$s"></script>' . "\n" .
 				'<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","%2$s");</script>' . "\n",
 				esc_attr( $ga_id ),
 				esc_js( $ga_id )
 			);
+			// phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 		}
 
 		$pixel_id = $this->settings->pixel_id();

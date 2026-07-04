@@ -41,7 +41,9 @@ final class CsvReader {
 			throw new RuntimeException( sprintf( 'Could not open "%s".', $path ) );
 		}
 
-		$header = fgetcsv( $handle );
+		// The explicit escape argument ('' = none) keeps PHP 8.4+ from
+		// deprecating the call and disables PHP's proprietary escaping.
+		$header = fgetcsv( $handle, null, ',', '"', '' );
 
 		if ( ! is_array( $header ) || array() === $header ) {
 			fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
@@ -56,7 +58,7 @@ final class CsvReader {
 		$records = array();
 
 		while ( true ) {
-			$row = fgetcsv( $handle );
+			$row = fgetcsv( $handle, null, ',', '"', '' );
 
 			if ( false === $row || null === $row ) {
 				break;

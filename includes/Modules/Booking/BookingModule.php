@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * Rendering is shared by the shortcode, the Elementor widget and the
  * single visa/tour templates via InquiryFormRenderer.
  *
- * v2.0 grows this module into real bookings (availability, payments) —
+ * Version 2.0 grows this module into real bookings (availability, payments) —
  * the CPT and pipeline are the foundation.
  */
 final class BookingModule extends BaseModule {

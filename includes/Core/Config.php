@@ -107,11 +107,11 @@ final class Config {
 				'default_country'   => 0,
 			),
 			'homepage'     => array(
-				'hero_title'              => '',
-				'hero_subtitle'           => '',
-				'show_search'             => true,
+				'hero_title'               => '',
+				'hero_subtitle'            => '',
+				'show_search'              => true,
 				'featured_countries_count' => 8,
-				'popular_tours_count'     => 6,
+				'popular_tours_count'      => 6,
 			),
 			'company'      => array(
 				'name'            => '',

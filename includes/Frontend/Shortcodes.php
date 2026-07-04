@@ -39,6 +39,7 @@ final class Shortcodes implements Registrable {
 	 * @param GridRenderer         $grids    Card grid renderer.
 	 * @param SearchFormData       $search   Search form view-models.
 	 * @param SearchWidgetRenderer $widget   Tabbed search widget.
+	 * @param InquiryFormRenderer  $inquiry  Inquiry form renderer.
 	 * @param CtaCard              $cta      CTA card.
 	 * @param Template             $template Template renderer.
 	 */

@@ -178,7 +178,10 @@ final class ImportService {
 	 */
 	private function import_record( ImportMapping $mapping, array $record, ImportJob $job ): string {
 		$fields  = $mapping->fields();
-		$postarr = array( 'post_type' => $mapping->post_type(), 'post_status' => 'publish' );
+		$postarr = array(
+			'post_type'   => $mapping->post_type(),
+			'post_status' => 'publish',
+		);
 
 		foreach ( $fields as $key => $definition ) {
 			$target   = (string) ( $definition['target'] ?? '' );

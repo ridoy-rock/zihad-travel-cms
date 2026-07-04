@@ -237,8 +237,24 @@ final class SettingsPage extends AdminPage {
 						__( 'Search Widget', 'zihad-travel-cms' ),
 						array( 'checkbox_label' => __( 'Show the search widget on the homepage', 'zihad-travel-cms' ) )
 					),
-					new NumberField( 'homepage.featured_countries_count', __( 'Featured Countries', 'zihad-travel-cms' ), array( 'min' => 0, 'max' => 24, 'step' => 1 ) ),
-					new NumberField( 'homepage.popular_tours_count', __( 'Popular Tours', 'zihad-travel-cms' ), array( 'min' => 0, 'max' => 24, 'step' => 1 ) ),
+					new NumberField(
+						'homepage.featured_countries_count',
+						__( 'Featured Countries', 'zihad-travel-cms' ),
+						array(
+							'min'  => 0,
+							'max'  => 24,
+							'step' => 1,
+						)
+					),
+					new NumberField(
+						'homepage.popular_tours_count',
+						__( 'Popular Tours', 'zihad-travel-cms' ),
+						array(
+							'min'  => 0,
+							'max'  => 24,
+							'step' => 1,
+						)
+					),
 				)
 			),
 			new Tab(
@@ -309,7 +325,15 @@ final class SettingsPage extends AdminPage {
 				__( 'Maps', 'zihad-travel-cms' ),
 				array(
 					new TextField( 'integrations.maps_api_key', __( 'Google Maps API Key', 'zihad-travel-cms' ) ),
-					new NumberField( 'integrations.maps_default_zoom', __( 'Default Zoom', 'zihad-travel-cms' ), array( 'min' => 1, 'max' => 20, 'step' => 1 ) ),
+					new NumberField(
+						'integrations.maps_default_zoom',
+						__( 'Default Zoom', 'zihad-travel-cms' ),
+						array(
+							'min'  => 1,
+							'max'  => 20,
+							'step' => 1,
+						)
+					),
 				)
 			),
 			new Tab(
@@ -401,14 +425,20 @@ final class SettingsPage extends AdminPage {
 	}
 
 	/**
-	 * Published countries as select options (ID => title).
+	 * Published countries as select options (ID => title). PHP casts
+	 * the numeric string keys back to integers.
 	 *
-	 * @return array<string, string>
+	 * @return array<int, string>
 	 */
 	private function country_options(): array {
 		$options = array();
 
-		foreach ( $this->countries->all( array( 'orderby' => 'title', 'order' => 'ASC' ) ) as $country ) {
+		foreach ( $this->countries->all(
+			array(
+				'orderby' => 'title',
+				'order'   => 'ASC',
+			)
+		) as $country ) {
 			$options[ (string) $country->ID ] = $country->post_title;
 		}
 

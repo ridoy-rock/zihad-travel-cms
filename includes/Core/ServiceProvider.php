@@ -26,6 +26,8 @@ abstract class ServiceProvider {
 
 	/**
 	 * The plugin container.
+	 *
+	 * @var Container
 	 */
 	protected Container $container;
 

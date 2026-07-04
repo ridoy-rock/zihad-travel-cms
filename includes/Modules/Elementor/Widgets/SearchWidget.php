@@ -114,13 +114,15 @@ final class SearchWidget extends Widget_Base {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output is escaped internally.
-		echo ztc()->get( SearchWidgetRenderer::class )->render(
+		$html = ztc()->get( SearchWidgetRenderer::class )->render(
 			array(
 				'heading' => (string) ( $settings['heading'] ?? '' ),
 				'tabs'    => (string) ( $settings['tabs'] ?? 'visa,tour' ),
 				'default' => (string) ( $settings['default_tab'] ?? '' ),
 			)
 		);
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output is escaped internally.
+		echo $html;
 	}
 }

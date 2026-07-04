@@ -101,7 +101,7 @@ final class DemoDataController {
 	/**
 	 * Convert exceptions into REST errors.
 	 *
-	 * @param callable(): array<string, mixed> $operation The operation.
+	 * @param callable $operation Operation producing the response payload array.
 	 */
 	private function guard( callable $operation ): WP_REST_Response|WP_Error {
 		try {

@@ -93,7 +93,13 @@ final class DemoContentGenerator {
 	private function country_record( array $seed, int $index, string $locale ): array {
 		$templates = $this->sources->templates();
 		$country   = (array) ( $templates['country'] ?? array() );
-		$tokens    = $this->tokens( $seed, array( '{plot}' => (string) ( 2 + ( $index % 18 ) ), '{road}' => (string) ( 50 + ( $index % 40 ) ) ) );
+		$tokens    = $this->tokens(
+			$seed,
+			array(
+				'{plot}' => (string) ( 2 + ( $index % 18 ) ),
+				'{road}' => (string) ( 50 + ( $index % 40 ) ),
+			)
+		);
 		$slug      = $this->slug( $seed );
 
 		return array(
@@ -232,7 +238,13 @@ final class DemoContentGenerator {
 
 		$titles  = array_values( (array) ( $tour['titles'] ?? array() ) );
 		$pattern = (array) $this->pick( $titles, $pick );
-		$tokens  = $this->tokens( $seed, array( '{days}' => $days, '{nights}' => $nights ) );
+		$tokens  = $this->tokens(
+			$seed,
+			array(
+				'{days}'   => $days,
+				'{nights}' => $nights,
+			)
+		);
 
 		$slug  = $this->slug( $seed ) . '-' . (string) ( $pattern['slug'] ?? 'tour' ) . '-' . $days . 'd';
 		$title = $this->interpolate( (string) ( $pattern[ $locale ] ?? $pattern['en'] ?? '' ), $tokens );
@@ -267,7 +279,10 @@ final class DemoContentGenerator {
 			'tour_types' => array( (string) ( $type[ $locale ] ?? $type['en'] ?? '' ) ),
 			'price'      => $price,
 			'sale_price' => $sale,
-			'duration'   => array( 'days' => $days, 'nights' => $nights ),
+			'duration'   => array(
+				'days'   => $days,
+				'nights' => $nights,
+			),
 			'highlights' => $this->list_of( $tour['highlights'] ?? array(), $locale, $tokens ),
 			'itinerary'  => $rows,
 			'included'   => $this->list_of( $tour['included'] ?? array(), $locale, $tokens ),
