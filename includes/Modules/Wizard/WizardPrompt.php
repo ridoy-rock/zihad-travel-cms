@@ -46,7 +46,8 @@ final class WizardPrompt implements Registrable {
 	 * Remember to open the wizard on the next admin request.
 	 */
 	public function flag_redirect(): void {
-		update_option( WizardService::REDIRECT_OPTION, 1 );
+		// One-shot admin flag: never autoloaded on the frontend.
+		update_option( WizardService::REDIRECT_OPTION, 1, false );
 	}
 
 	/**

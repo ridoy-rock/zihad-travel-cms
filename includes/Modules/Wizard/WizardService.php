@@ -570,6 +570,7 @@ final class WizardService {
 	 * @param array<string, mixed> $state New state.
 	 */
 	private function save_state( array $state ): void {
-		update_option( self::STATE_OPTION, $state );
+		// Admin-only state: keep it out of the frontend autoload set.
+		update_option( self::STATE_OPTION, $state, false );
 	}
 }
