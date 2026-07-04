@@ -52,6 +52,21 @@ final class AdminServiceProvider extends ServiceProvider {
 
 		$this->container->get( Menu::class )->register();
 
+		// Modules add their pages through the ztc_admin_pages filter,
+		// and the Modules provider boots after this one — resolving the
+		// page list here would miss them (the Setup/Import screens
+		// would 404 with "not allowed"). Defer until ModuleManager has
+		// loaded every module, later in the same plugins_loaded tick —
+		// the mirror of how RestApiServiceProvider defers its
+		// controller filter to rest_api_init.
+		add_action( 'ztc_modules_loaded', array( $this, 'register_pages' ) );
+	}
+
+	/**
+	 * Instantiate and register every admin page (built-in + filtered).
+	 * Runs on `ztc_modules_loaded`, before `admin_menu` fires.
+	 */
+	public function register_pages(): void {
 		foreach ( $this->pages() as $page_class ) {
 			$page = $this->container->get( $page_class );
 

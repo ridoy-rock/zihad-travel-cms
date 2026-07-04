@@ -53,6 +53,8 @@ $GLOBALS['transients']   = array();
 $GLOBALS['routes']       = array();
 $GLOBALS['hooks']        = array();
 $GLOBALS['can']          = true;
+$GLOBALS['menus']        = array();
+$GLOBALS['submenus']     = array();
 
 // --- Real (minimal) hook system.
 function add_filter( $hook, $cb, $priority = 10, $args = 1 ) {
@@ -85,7 +87,7 @@ function remove_action( ...$a ) { return remove_filter( ...$a ); }
 function did_action( $h ) { return 0; }
 
 // --- WP stubs.
-function is_admin() { return false; }
+function is_admin() { return true; } // Admin context: exercises AdminServiceProvider's page registration.
 function __( $t, $d = 'default' ) { return $t; }
 function esc_html( $t ) { return htmlspecialchars( (string) $t, ENT_QUOTES ); }
 function esc_attr( $t ) { return htmlspecialchars( (string) $t, ENT_QUOTES ); }
@@ -133,6 +135,8 @@ function wp_get_referer() { return 'https://example.test/wp-admin/'; }
 function wp_doing_ajax() { return false; }
 function is_network_admin() { return false; }
 function wp_enqueue_media() {}
+function add_menu_page( $pt, $mt, $cap, $slug, $cb = '', $icon = '', $pos = null ) { $GLOBALS['menus'][] = array( 'slug' => $slug, 'cap' => $cap ); return $slug; }
+function add_submenu_page( $parent, $pt, $mt, $cap, $slug, $cb = '' ) { $GLOBALS['submenus'][] = array( 'parent' => $parent, 'slug' => $slug, 'cap' => $cap, 'callback' => $cb ); return $slug; }
 function wp_enqueue_style( $h ) {}
 function wp_enqueue_script( $h ) {}
 function submit_button( $label ) {}
@@ -238,6 +242,30 @@ assert( null !== $plugin->get( ModuleManager::class )->get( 'wizard' ) );
 assert( in_array( WizardPage::class, apply_filters( 'ztc_admin_pages', array() ), true ) );
 assert( in_array( WizardController::class, apply_filters( 'ztc_rest_controllers', array() ), true ) );
 echo "module wiring: OK\n";
+
+// --- 1b. Admin page registration (regression: the Setup page showed
+//         "Sorry, you are not allowed to access this page" because the
+//         ztc_admin_pages filter was consumed before modules attached
+//         to it; pages must resolve on ztc_modules_loaded).
+do_action( 'admin_menu' );
+
+$wizard_menu = null;
+foreach ( $GLOBALS['submenus'] as $registered ) {
+	if ( 'zihad-travel-cms-setup' === $registered['slug'] ) { $wizard_menu = $registered; }
+}
+assert( null !== $wizard_menu, 'setup wizard admin page never registered' );
+assert( 'zihad-travel-cms' === $wizard_menu['parent'] );                 // under the Travel CMS menu
+assert( 'manage_options' === $wizard_menu['cap'] );                      // same capability pattern as Settings
+assert( is_callable( $wizard_menu['callback'] ) );
+assert( current_user_can( $wizard_menu['cap'] ) );                       // an administrator gets in
+
+$slugs = array_column( $GLOBALS['submenus'], 'slug' );
+assert( in_array( 'zihad-travel-cms-settings', $slugs, true ) );         // built-in pages still register
+assert( in_array( 'zihad-travel-cms-import', $slugs, true ) );           // Importer rides the same filter — fixed too
+
+// The dashboard quick action links exactly this slug.
+assert( str_contains( (string) file_get_contents( ZTC_PLUGIN_DIR . 'templates/admin/dashboard.php' ), 'page=zihad-travel-cms-setup' ) );
+echo "admin page registration: OK\n";
 
 // --- 2. Step registry: order, and every field maps to a real settings key.
 $expected = array( 'welcome', 'company', 'branding', 'contact', 'social', 'whatsapp', 'maps', 'analytics', 'homepage', 'demo', 'finish' );
@@ -439,8 +467,7 @@ assert( false === $controller->get_state()->data['completed'] );
 echo "rest controller: OK\n";
 
 // --- 10. Activation prompt: one-shot redirect + notice.
-$prompt = $plugin->get( WizardPrompt::class );
-$prompt->register();                                                      // module only registers it in wp-admin
+$prompt = $plugin->get( WizardPrompt::class ); // hooks registered by WizardModule (admin context)
 
 do_action( 'ztc_activated' );                                            // Activator fires this
 assert( 1 === $GLOBALS['options'][ WizardService::REDIRECT_OPTION ] );
