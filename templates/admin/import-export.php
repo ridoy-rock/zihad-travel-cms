@@ -69,6 +69,36 @@ defined( 'ABSPATH' ) || exit;
 	</div>
 
 	<div class="card" style="max-width: 720px;">
+		<h2><?php esc_html_e( 'Demo Data', 'zihad-travel-cms' ); ?></h2>
+		<p><?php esc_html_e( 'Install a full demo dataset (100+ countries, 400+ visas, 100+ tours) with placeholder images. Content is generated from data files and installed through the importer, so re-installing updates instead of duplicating.', 'zihad-travel-cms' ); ?></p>
+
+		<div class="ztc-demo" data-ztc-demo>
+			<p>
+				<label for="ztc-demo-locale"><strong><?php esc_html_e( 'Language', 'zihad-travel-cms' ); ?></strong></label>
+				<select id="ztc-demo-locale" data-ztc-demo-locale>
+					<option value="en"><?php esc_html_e( 'English (with Bangla names)', 'zihad-travel-cms' ); ?></option>
+					<option value="bn"><?php esc_html_e( 'Bangla', 'zihad-travel-cms' ); ?></option>
+				</select>
+
+				<button type="button" class="button" data-ztc-demo-generate>
+					<?php esc_html_e( 'Regenerate files', 'zihad-travel-cms' ); ?>
+				</button>
+
+				<button type="button" class="button button-primary" data-ztc-demo-install>
+					<?php esc_html_e( 'Install demo data', 'zihad-travel-cms' ); ?>
+				</button>
+			</p>
+
+			<div class="ztc-progress" data-ztc-demo-progress hidden>
+				<div class="ztc-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<div class="ztc-progress__bar" data-ztc-progress-bar></div>
+				</div>
+				<p class="ztc-progress__status" data-ztc-progress-status aria-live="polite"></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="card" style="max-width: 720px;">
 		<h2><?php esc_html_e( 'Export', 'zihad-travel-cms' ); ?></h2>
 		<p><?php esc_html_e( 'Exports round-trip: an exported file can be imported back on this or another site.', 'zihad-travel-cms' ); ?></p>
 

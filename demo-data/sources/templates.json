@@ -1,0 +1,181 @@
+{
+  "images": {
+    "hero": "https://picsum.photos/seed/ztc-{slug}-hero/1600/900",
+    "thumbnail": "https://picsum.photos/seed/ztc-{slug}-card/800/600",
+    "gallery": "https://picsum.photos/seed/ztc-{slug}-g{n}/1200/800",
+    "flag": "https://flagcdn.com/w320/{iso}.png",
+    "gallery_count": 3
+  },
+  "visa_types": [
+    { "slug": "tourist", "en": "Tourist Visa", "bn": "ট্যুরিস্ট ভিসা" },
+    { "slug": "business", "en": "Business Visa", "bn": "বিজনেস ভিসা" },
+    { "slug": "student", "en": "Student Visa", "bn": "স্টুডেন্ট ভিসা" },
+    { "slug": "medical", "en": "Medical Visa", "bn": "মেডিকেল ভিসা" },
+    { "slug": "work", "en": "Work Visa", "bn": "ওয়ার্ক ভিসা" }
+  ],
+  "entry_types": ["single", "multiple", "double"],
+  "processing_times": {
+    "en": ["7–10 business days", "10–15 business days", "5–7 business days", "15–20 business days", "3–5 business days"],
+    "bn": ["৭–১০ কর্মদিবস", "১০–১৫ কর্মদিবস", "৫–৭ কর্মদিবস", "১৫–২০ কর্মদিবস", "৩–৫ কর্মদিবস"]
+  },
+  "validity": {
+    "en": ["90 days from issue", "6 months from issue", "30 days from issue", "1 year from issue"],
+    "bn": ["ইস্যু থেকে ৯০ দিন", "ইস্যু থেকে ৬ মাস", "ইস্যু থেকে ৩০ দিন", "ইস্যু থেকে ১ বছর"]
+  },
+  "stay": {
+    "en": ["Up to 30 days", "Up to 15 days", "Up to 60 days", "Up to 90 days"],
+    "bn": ["সর্বোচ্চ ৩০ দিন", "সর্বোচ্চ ১৫ দিন", "সর্বোচ্চ ৬০ দিন", "সর্বোচ্চ ৯০ দিন"]
+  },
+  "fees": ["USD 50 + service charge", "USD 80 + service charge", "USD 100 + service charge", "USD 120 + service charge", "USD 60 + service charge", "USD 150 + service charge"],
+  "country": {
+    "short_description": {
+      "en": "Plan your {country} trip with expert visa support, curated tours and honest local advice from our travel specialists.",
+      "bn": "{country_bn} ভ্রমণের পরিকল্পনা করুন — ভিসা সহায়তা, বাছাই করা ট্যুর প্যাকেজ এবং আমাদের বিশেষজ্ঞদের আন্তরিক পরামর্শের সাথে।"
+    },
+    "overview": {
+      "en": "<p>{country} is one of the most rewarding destinations in {region}. From the energy of {capital} to day trips out to {city2}, travellers find a mix of culture, food and scenery that keeps them coming back.</p><p>Our team handles visas, flights and hotels for {country} every week, so you get current, practical guidance — not guesswork.</p>",
+      "bn": "<p>{region_bn} অঞ্চলের অন্যতম আকর্ষণীয় গন্তব্য {country_bn}। রাজধানী {capital} থেকে শুরু করে {city2} পর্যন্ত — সংস্কৃতি, খাবার আর প্রাকৃতিক সৌন্দর্যের এক অসাধারণ মিশেল এখানে।</p><p>আমাদের টিম প্রতি সপ্তাহে {country_bn}-এর ভিসা, ফ্লাইট ও হোটেল নিয়ে কাজ করে, তাই আপনি পাবেন হালনাগাদ ও বাস্তবসম্মত পরামর্শ।</p>"
+    },
+    "travel_tips": {
+      "en": "<ul><li>Carry a copy of your passport and visa at all times.</li><li>Local currency is {currency}; card payments are common in {capital}.</li><li>Learn a few phrases of {language} — locals appreciate the effort.</li><li>Book internal transport early during peak season.</li></ul>",
+      "bn": "<ul><li>সব সময় পাসপোর্ট ও ভিসার কপি সাথে রাখুন।</li><li>স্থানীয় মুদ্রা {currency}; {capital}-এ কার্ড পেমেন্ট বেশ প্রচলিত।</li><li>{language} ভাষার দু-একটি বাক্য শিখে নিন — স্থানীয়রা খুশি হবেন।</li><li>পিক সিজনে অভ্যন্তরীণ যাতায়াত আগেভাগে বুক করুন।</li></ul>"
+    },
+    "hero_subtitle": {
+      "en": "Discover {country} with confidence",
+      "bn": "নিশ্চিন্তে ঘুরে আসুন {country_bn}"
+    },
+    "best_time": ["October – March", "November – February", "March – May", "September – November", "April – June"],
+    "faq": [
+      {
+        "q": { "en": "Do Bangladeshi citizens need a visa for {country}?", "bn": "বাংলাদেশি নাগরিকদের কি {country_bn} যেতে ভিসা লাগে?" },
+        "a": { "en": "In most cases yes. Check our {country} visa pages for current requirements, fees and processing times.", "bn": "বেশিরভাগ ক্ষেত্রে হ্যাঁ। বর্তমান শর্ত, ফি ও প্রসেসিং সময় জানতে আমাদের {country_bn} ভিসা পেজগুলো দেখুন।" }
+      },
+      {
+        "q": { "en": "What is the best time to visit {country}?", "bn": "{country_bn} ভ্রমণের সেরা সময় কোনটি?" },
+        "a": { "en": "Weather is most pleasant outside the peak summer months; see the quick facts for the recommended window.", "bn": "গ্রীষ্মের চড়া মৌসুম এড়িয়ে গেলে আবহাওয়া সবচেয়ে মনোরম থাকে; প্রস্তাবিত সময় জানতে কুইক ফ্যাক্টস দেখুন।" }
+      },
+      {
+        "q": { "en": "Can you arrange both visa and tour for {country}?", "bn": "আপনারা কি {country_bn}-এর ভিসা এবং ট্যুর দুটোই ব্যবস্থা করেন?" },
+        "a": { "en": "Yes — we bundle visa processing with our {country} tour packages, which usually saves both time and money.", "bn": "হ্যাঁ — আমরা {country_bn} ট্যুর প্যাকেজের সাথে ভিসা প্রসেসিং একসাথে করি, এতে সময় ও খরচ দুটোই বাঁচে।" }
+      }
+    ],
+    "embassy": {
+      "name": { "en": "Embassy of {country} in Dhaka", "bn": "ঢাকায় {country_bn} দূতাবাস" },
+      "address": { "en": "Plot {plot}, Road {road}\nBaridhara Diplomatic Zone, Dhaka 1212", "bn": "প্লট {plot}, রোড {road}\nবারিধারা কূটনৈতিক এলাকা, ঢাকা ১২১২" }
+    }
+  },
+  "visa": {
+    "title": { "en": "{country} {type}", "bn": "{country_bn} {type_bn}" },
+    "excerpt": {
+      "en": "Apply for your {country} {type} with complete document support, honest timelines and transparent fees.",
+      "bn": "সম্পূর্ণ ডকুমেন্ট সহায়তা, সঠিক সময়সীমা ও স্বচ্ছ ফি-সহ {country_bn} {type_bn}-এর জন্য আবেদন করুন।"
+    },
+    "requirements": {
+      "en": "<p>Applicants for the {country} {type} must hold a passport valid for at least six months beyond the travel date, show sufficient funds for the stay, and provide a confirmed return ticket. Additional documents may be requested by the embassy.</p>",
+      "bn": "<p>{country_bn} {type_bn}-এর আবেদনকারীর পাসপোর্টের মেয়াদ ভ্রমণের তারিখ থেকে কমপক্ষে ছয় মাস থাকতে হবে, অবস্থানের জন্য পর্যাপ্ত ব্যাংক ব্যালান্স দেখাতে হবে এবং নিশ্চিত রিটার্ন টিকিট জমা দিতে হবে। দূতাবাস প্রয়োজনে অতিরিক্ত কাগজপত্র চাইতে পারে।</p>"
+    },
+    "documents": {
+      "en": ["Passport valid for 6+ months", "Two recent passport-size photos", "Bank statement (last 6 months)", "Confirmed return air ticket", "Hotel booking confirmation", "Completed application form"],
+      "bn": ["৬ মাসের বেশি মেয়াদি পাসপোর্ট", "সাম্প্রতিক দুই কপি পাসপোর্ট সাইজ ছবি", "শেষ ৬ মাসের ব্যাংক স্টেটমেন্ট", "নিশ্চিত রিটার্ন এয়ার টিকিট", "হোটেল বুকিং কনফার্মেশন", "পূরণকৃত আবেদন ফরম"]
+    },
+    "benefits": {
+      "en": ["Free document review before submission", "Application tracking with SMS updates", "Embassy appointment scheduling", "Dedicated support on WhatsApp"],
+      "bn": ["জমার আগে বিনামূল্যে ডকুমেন্ট যাচাই", "এসএমএস আপডেটসহ আবেদন ট্র্যাকিং", "দূতাবাস অ্যাপয়েন্টমেন্টের ব্যবস্থা", "হোয়াটসঅ্যাপে ডেডিকেটেড সাপোর্ট"]
+    },
+    "steps": [
+      { "t": { "en": "Submit your documents", "bn": "ডকুমেন্ট জমা দিন" }, "d": { "en": "Send scanned copies for a free review, then drop the originals at our office or request pickup.", "bn": "বিনামূল্যে যাচাইয়ের জন্য স্ক্যান কপি পাঠান, তারপর মূল কাগজপত্র আমাদের অফিসে দিন বা পিকআপের অনুরোধ করুন।" } },
+      { "t": { "en": "Verification & form filling", "bn": "যাচাই ও ফরম পূরণ" }, "d": { "en": "Our team verifies everything and completes the embassy forms on your behalf.", "bn": "আমাদের টিম সবকিছু যাচাই করে আপনার পক্ষে দূতাবাসের ফরম পূরণ করে।" } },
+      { "t": { "en": "Embassy submission", "bn": "দূতাবাসে জমা" }, "d": { "en": "We submit the application and schedule biometrics or interview where required.", "bn": "আমরা আবেদন জমা দিই এবং প্রয়োজনে বায়োমেট্রিক্স বা ইন্টারভিউয়ের সময় নির্ধারণ করি।" } },
+      { "t": { "en": "Passport collection", "bn": "পাসপোর্ট সংগ্রহ" }, "d": { "en": "Collect your passport from our office, or get it delivered by courier anywhere in Bangladesh.", "bn": "আমাদের অফিস থেকে পাসপোর্ট সংগ্রহ করুন, অথবা বাংলাদেশের যেকোনো জায়গায় কুরিয়ারে ডেলিভারি নিন।" } }
+    ],
+    "faq": [
+      {
+        "q": { "en": "How long does the {country} {type} take?", "bn": "{country_bn} {type_bn} পেতে কত দিন লাগে?" },
+        "a": { "en": "Standard processing is shown in the visa facts; peak-season applications can take slightly longer.", "bn": "সাধারণ প্রসেসিং সময় ভিসা তথ্যে দেওয়া আছে; পিক সিজনে সামান্য বেশি সময় লাগতে পারে।" }
+      },
+      {
+        "q": { "en": "Is the visa fee refundable if my application is rejected?", "bn": "আবেদন প্রত্যাখ্যাত হলে কি ভিসা ফি ফেরত পাওয়া যায়?" },
+        "a": { "en": "Embassy fees are non-refundable, which is why our free document review matters — it catches most issues before submission.", "bn": "দূতাবাসের ফি ফেরতযোগ্য নয়, এজন্যই আমাদের বিনামূল্যের ডকুমেন্ট যাচাই গুরুত্বপূর্ণ — জমার আগেই বেশিরভাগ সমস্যা ধরা পড়ে।" }
+      },
+      {
+        "q": { "en": "Do you handle family applications together?", "bn": "পরিবারের সবার আবেদন কি একসাথে করা যায়?" },
+        "a": { "en": "Yes, we process family and group applications together and keep the travel dates aligned.", "bn": "হ্যাঁ, আমরা পরিবার ও গ্রুপের আবেদন একসাথে প্রসেস করি এবং ভ্রমণের তারিখ মিলিয়ে রাখি।" }
+      }
+    ],
+    "notes": {
+      "en": "<p><strong>Note:</strong> Visa approval is always at the sole discretion of the embassy. Fees and processing times can change without notice — we will confirm the current figures before you pay.</p>",
+      "bn": "<p><strong>দ্রষ্টব্য:</strong> ভিসা অনুমোদন সম্পূর্ণভাবে দূতাবাসের এখতিয়ার। ফি ও প্রসেসিং সময় নোটিশ ছাড়া পরিবর্তিত হতে পারে — পেমেন্টের আগে আমরা বর্তমান তথ্য নিশ্চিত করব।</p>"
+    },
+    "apply": { "en": "Apply Now", "bn": "এখনই আবেদন করুন" }
+  },
+  "tour": {
+    "titles": [
+      { "slug": "discovery", "en": "{days}-Day {country} Discovery", "bn": "{days} দিনের {country_bn} ডিসকভারি" },
+      { "slug": "highlights", "en": "{country} Highlights: {capital} & {city2}", "bn": "{country_bn} হাইলাইটস: {capital} ও {city2}" },
+      { "slug": "premium", "en": "Premium {country} Escape", "bn": "প্রিমিয়াম {country_bn} এসকেপ" }
+    ],
+    "excerpt": {
+      "en": "A carefully paced {days}-day journey through {country} covering {capital} and {city2}, with flights, hotels and guides arranged end to end.",
+      "bn": "ফ্লাইট, হোটেল ও গাইডসহ {capital} এবং {city2} ঘিরে {days} দিনের গোছানো {country_bn} ভ্রমণ।"
+    },
+    "highlights": {
+      "en": ["Guided city tour of {capital}", "Day trip to {city2}", "Authentic local food experiences", "Comfortable 4-star accommodation"],
+      "bn": ["গাইডসহ {capital} শহর ভ্রমণ", "{city2}-তে ডে ট্রিপ", "স্থানীয় ঐতিহ্যবাহী খাবারের অভিজ্ঞতা", "আরামদায়ক ৪-তারকা হোটেল"]
+    },
+    "itinerary": [
+      { "t": { "en": "Arrival in {capital}", "bn": "{capital}-এ আগমন" }, "d": { "en": "Airport pickup, hotel check-in and a relaxed evening orientation walk.", "bn": "এয়ারপোর্ট পিকআপ, হোটেল চেক-ইন এবং সন্ধ্যায় হালকা ঘোরাঘুরি।" } },
+      { "t": { "en": "{capital} city tour", "bn": "{capital} সিটি ট্যুর" }, "d": { "en": "Full-day guided tour covering the landmarks, markets and food streets of {capital}.", "bn": "{capital}-এর দর্শনীয় স্থান, বাজার ও খাবারের গলি ঘুরে দেখার পূর্ণদিনের গাইডেড ট্যুর।" } },
+      { "t": { "en": "Day trip to {city2}", "bn": "{city2}-তে ডে ট্রিপ" }, "d": { "en": "Travel out to {city2} for the day with lunch and entry tickets included.", "bn": "দুপুরের খাবার ও প্রবেশ টিকিটসহ সারাদিনের জন্য {city2} ভ্রমণ।" } },
+      { "t": { "en": "Free day & shopping", "bn": "ফ্রি ডে ও শপিং" }, "d": { "en": "Explore at your own pace, with optional activities our guide can arrange on request.", "bn": "নিজের মতো করে ঘুরুন; চাইলে গাইড ঐচ্ছিক অ্যাক্টিভিটির ব্যবস্থা করে দেবেন।" } },
+      { "t": { "en": "Departure", "bn": "প্রস্থান" }, "d": { "en": "Check-out, last-minute souvenir stop and airport drop-off.", "bn": "চেক-আউট, শেষ মুহূর্তের কেনাকাটা এবং এয়ারপোর্ট ড্রপ।" } }
+    ],
+    "included": {
+      "en": ["Return economy air ticket", "Hotel with daily breakfast", "Airport transfers", "Guided sightseeing as per itinerary", "All applicable taxes"],
+      "bn": ["রিটার্ন ইকোনমি এয়ার টিকিট", "প্রতিদিন সকালের নাস্তাসহ হোটেল", "এয়ারপোর্ট ট্রান্সফার", "সূচি অনুযায়ী গাইডেড সাইটসিয়িং", "সব প্রযোজ্য কর"]
+    },
+    "excluded": {
+      "en": ["Visa fee", "Lunch and dinner", "Personal expenses", "Anything not listed as included"],
+      "bn": ["ভিসা ফি", "দুপুর ও রাতের খাবার", "ব্যক্তিগত খরচ", "অন্তর্ভুক্ত তালিকার বাইরের যেকোনো কিছু"]
+    },
+    "hotels": [
+      { "n": { "en": "{capital} Grand Hotel", "bn": "{capital} গ্র্যান্ড হোটেল" }, "r": "4-star", "d": { "en": "Centrally located with easy access to the main attractions of {capital}.", "bn": "{capital}-এর প্রধান আকর্ষণগুলোর কাছেই কেন্দ্রীয় অবস্থানে।" } },
+      { "n": { "en": "{city2} Resort & Spa", "bn": "{city2} রিসোর্ট অ্যান্ড স্পা" }, "r": "4-star", "d": { "en": "A relaxed property for the {city2} leg of the trip.", "bn": "{city2} অংশের জন্য নিরিবিলি ও আরামদায়ক রিসোর্ট।" } }
+    ],
+    "flights": {
+      "en": "<p>Round-trip economy flights from Dhaka are included, with convenient departure times. Upgrades to business class are available on request.</p>",
+      "bn": "<p>ঢাকা থেকে সুবিধাজনক সময়ের রিটার্ন ইকোনমি ফ্লাইট অন্তর্ভুক্ত। অনুরোধে বিজনেস ক্লাসে আপগ্রেডের সুযোগ আছে।</p>"
+    },
+    "meals": {
+      "en": "<p>Daily breakfast at the hotel is included. Our guides will point you to the best local restaurants for lunch and dinner.</p>",
+      "bn": "<p>হোটেলে প্রতিদিনের সকালের নাস্তা অন্তর্ভুক্ত। দুপুর ও রাতের খাবারের জন্য গাইড আপনাকে সেরা স্থানীয় রেস্টুরেন্টের সন্ধান দেবেন।</p>"
+    },
+    "faq": [
+      {
+        "q": { "en": "Is this tour suitable for families with children?", "bn": "এই ট্যুরটি কি শিশুসহ পরিবারের জন্য উপযোগী?" },
+        "a": { "en": "Yes — the pace is family-friendly and child discounts apply for under-11s sharing a room.", "bn": "হ্যাঁ — সূচিটি পরিবারবান্ধব এবং রুম শেয়ার করলে ১১ বছরের কম বয়সীদের জন্য ছাড় প্রযোজ্য।" }
+      },
+      {
+        "q": { "en": "Can the departure date be customized?", "bn": "যাত্রার তারিখ কি নিজের মতো ঠিক করা যায়?" },
+        "a": { "en": "Group departures run on fixed dates, but we can run the same itinerary privately on any date for 2+ travellers.", "bn": "গ্রুপ ট্যুর নির্দিষ্ট তারিখে চলে, তবে ২ জনের বেশি হলে যেকোনো তারিখে একই সূচিতে প্রাইভেট ট্যুরের ব্যবস্থা করা যায়।" }
+      }
+    ],
+    "map": "https://www.google.com/maps/search/{capital}",
+    "tour_types": [
+      { "en": "Group Tour", "bn": "গ্রুপ ট্যুর" },
+      { "en": "Family Package", "bn": "ফ্যামিলি প্যাকেজ" },
+      { "en": "Honeymoon", "bn": "হানিমুন" },
+      { "en": "Adventure", "bn": "অ্যাডভেঞ্চার" }
+    ],
+    "durations": [[5, 4], [6, 5], [7, 6], [4, 3], [8, 7], [10, 9]],
+    "prices": [79900, 94900, 109900, 64900, 129900, 149900, 89900, 119900],
+    "sale_ratio": 0.85
+  },
+  "seo": {
+    "title": { "en": "{title} | Best Price & Expert Support", "bn": "{title} | সেরা মূল্য ও বিশেষজ্ঞ সহায়তা" },
+    "description": {
+      "en": "Get {title} with transparent pricing, fast processing and dedicated support from our travel experts. Contact us on WhatsApp today.",
+      "bn": "স্বচ্ছ মূল্য, দ্রুত প্রসেসিং ও বিশেষজ্ঞ সহায়তাসহ {title} নিন। আজই হোয়াটসঅ্যাপে যোগাযোগ করুন।"
+    },
+    "keywords": { "en": "{country}, visa, tour, travel agency, Bangladesh", "bn": "{country_bn}, ভিসা, ট্যুর, ট্রাভেল এজেন্সি, বাংলাদেশ" }
+  }
+}

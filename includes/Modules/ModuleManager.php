@@ -77,6 +77,7 @@ final class ModuleManager {
 			Search\SearchModule::class,
 			Booking\BookingModule::class,
 			Importer\ImporterModule::class,
+			DemoData\DemoDataModule::class,
 			Seo\SeoModule::class,
 			Ai\AiModule::class,
 			Elementor\ElementorModule::class,

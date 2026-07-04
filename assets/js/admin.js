@@ -503,8 +503,102 @@
 		}
 	}
 
+	function initDemo( root ) {
+		var progressWrap = root.querySelector( '[data-ztc-demo-progress]' );
+		var progressBar = progressWrap.querySelector( '[data-ztc-progress-bar]' );
+		var statusText = progressWrap.querySelector( '[data-ztc-progress-status]' );
+		var generateButton = root.querySelector( '[data-ztc-demo-generate]' );
+		var installButton = root.querySelector( '[data-ztc-demo-install]' );
+
+		function status( text, percent ) {
+			progressWrap.hidden = false;
+			statusText.textContent = text;
+
+			if ( 'number' === typeof percent ) {
+				progressBar.style.width = percent + '%';
+			}
+		}
+
+		function setBusy( busy ) {
+			generateButton.disabled = busy;
+			installButton.disabled = busy;
+		}
+
+		generateButton.addEventListener( 'click', function () {
+			setBusy( true );
+			status( 'Generating…', 0 );
+
+			restFetch( '/demo/generate', {
+				method: 'POST',
+				body: JSON.stringify( { locale: root.querySelector( '[data-ztc-demo-locale]' ).value } )
+			} )
+				.then( function ( result ) {
+					status(
+						'Generated ' + result.counts.country + ' countries, ' +
+						result.counts.visa + ' visas, ' + result.counts.tour + ' tours.',
+						100
+					);
+				} )
+				.catch( function ( error ) {
+					status( error.message );
+				} )
+				.finally( function () {
+					setBusy( false );
+				} );
+		} );
+
+		installButton.addEventListener( 'click', function () {
+			var types = [ 'country', 'visa', 'tour' ];
+			setBusy( true );
+
+			function installType( index ) {
+				if ( index >= types.length ) {
+					status( 'Demo data installed.', 100 );
+					setBusy( false );
+					return;
+				}
+
+				restFetch( '/demo/start', {
+					method: 'POST',
+					body: JSON.stringify( { type: types[ index ] } )
+				} )
+					.then( function ( job ) {
+						// Drive the importer's own process loop.
+						function step( currentJob ) {
+							status(
+								'Importing ' + types[ index ] + ' — ' + currentJob.processed + '/' + currentJob.total,
+								currentJob.progress
+							);
+
+							if ( currentJob.finished ) {
+								installType( index + 1 );
+								return;
+							}
+
+							restFetch( '/import/process', {
+								method: 'POST',
+								body: JSON.stringify( { job_id: currentJob.id, batch: 10 } )
+							} ).then( step ).catch( function ( error ) {
+								status( error.message );
+								setBusy( false );
+							} );
+						}
+
+						step( job );
+					} )
+					.catch( function ( error ) {
+						status( error.message );
+						setBusy( false );
+					} );
+			}
+
+			installType( 0 );
+		} );
+	}
+
 	ready( function () {
 		document.querySelectorAll( '[data-ztc-import]' ).forEach( initImport );
 		document.querySelectorAll( '[data-ztc-export]' ).forEach( initExport );
+		document.querySelectorAll( '[data-ztc-demo]' ).forEach( initDemo );
 	} );
 } )();
