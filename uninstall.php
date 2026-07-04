@@ -64,13 +64,15 @@ function ztc_uninstall_site() {
 	delete_option( 'ztc_version' );
 	delete_option( 'ztc_installed_at' );
 	delete_option( 'ztc_flush_rewrite_rules' );
+	delete_option( 'ztc_import_jobs' );
 
-	// Delete transients created by the plugin.
+	// Delete import job records and transients created by the plugin.
 	global $wpdb;
 
 	$wpdb->query(
 		"DELETE FROM {$wpdb->options}
-		 WHERE option_name LIKE '\_transient\_ztc\_%'
+		 WHERE option_name LIKE 'ztc\_import\_job\_%'
+		    OR option_name LIKE '\_transient\_ztc\_%'
 		    OR option_name LIKE '\_transient\_timeout\_ztc\_%'"
 	); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 }

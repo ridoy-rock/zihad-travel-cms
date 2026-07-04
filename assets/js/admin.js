@@ -353,3 +353,158 @@
 		} );
 	} );
 } )();
+
+/**
+ * Import/Export screen: media-library file picker, batched import loop
+ * with progress bar + error log, and export downloads via REST.
+ */
+( function () {
+	'use strict';
+
+	var config = window.ztcAdmin || {};
+
+	function restFetch( path, options ) {
+		options = options || {};
+		options.headers = Object.assign(
+			{ 'Content-Type': 'application/json', 'X-WP-Nonce': config.restNonce || '' },
+			options.headers || {}
+		);
+
+		return fetch( config.restUrl + path, options ).then( function ( response ) {
+			return response.json().then( function ( data ) {
+				if ( ! response.ok ) {
+					throw new Error( data.message || 'Request failed' );
+				}
+
+				return data;
+			} );
+		} );
+	}
+
+	function initImport( root ) {
+		var mediaInput = root.querySelector( '[data-ztc-import-media-id]' );
+		var filename = root.querySelector( '[data-ztc-import-filename]' );
+		var startButton = root.querySelector( '[data-ztc-import-start]' );
+		var progressWrap = root.querySelector( '[data-ztc-import-progress]' );
+		var progressBar = root.querySelector( '[data-ztc-progress-bar]' );
+		var progressTrack = progressWrap ? progressWrap.querySelector( '[role="progressbar"]' ) : null;
+		var statusText = root.querySelector( '[data-ztc-progress-status]' );
+		var errorsWrap = root.querySelector( '[data-ztc-import-errors]' );
+		var errorList = root.querySelector( '[data-ztc-import-error-list]' );
+
+		root.querySelector( '[data-ztc-import-file]' ).addEventListener( 'click', function () {
+			if ( ! window.wp || ! window.wp.media ) {
+				return;
+			}
+
+			var frame = window.wp.media( { title: 'Select import file', multiple: false } );
+
+			frame.on( 'select', function () {
+				var file = frame.state().get( 'selection' ).first().toJSON();
+				mediaInput.value = file.id;
+				filename.textContent = file.filename || file.title || '';
+				startButton.disabled = false;
+			} );
+
+			frame.open();
+		} );
+
+		function renderProgress( job ) {
+			progressWrap.hidden = false;
+			progressBar.style.width = job.progress + '%';
+
+			if ( progressTrack ) {
+				progressTrack.setAttribute( 'aria-valuenow', String( Math.round( job.progress ) ) );
+			}
+
+			statusText.textContent =
+				job.status + ' — ' + job.processed + '/' + job.total +
+				' (created ' + job.created + ', updated ' + job.updated +
+				', skipped ' + job.skipped + ', failed ' + job.failed + ')';
+
+			var errors = Object.keys( job.errors || {} );
+			errorsWrap.hidden = 0 === errors.length;
+			errorList.innerHTML = '';
+			errors.forEach( function ( key ) {
+				var item = document.createElement( 'li' );
+				item.textContent = key + ': ' + job.errors[ key ];
+				errorList.appendChild( item );
+			} );
+		}
+
+		function processLoop( jobId ) {
+			restFetch( '/import/process', {
+				method: 'POST',
+				body: JSON.stringify( { job_id: jobId, batch: 20 } )
+			} )
+				.then( function ( job ) {
+					renderProgress( job );
+
+					if ( ! job.finished ) {
+						processLoop( jobId );
+					} else {
+						startButton.disabled = false;
+					}
+				} )
+				.catch( function ( error ) {
+					statusText.textContent = error.message;
+					startButton.disabled = false;
+				} );
+		}
+
+		startButton.addEventListener( 'click', function () {
+			startButton.disabled = true;
+
+			restFetch( '/import/start', {
+				method: 'POST',
+				body: JSON.stringify( {
+					type: root.querySelector( '[data-ztc-import-type]' ).value,
+					media_id: parseInt( mediaInput.value, 10 ),
+					mode: root.querySelector( '[data-ztc-import-mode]' ).value,
+					rollback_on_failure: root.querySelector( '[data-ztc-import-rollback]' ).checked
+				} )
+			} )
+				.then( function ( job ) {
+					renderProgress( job );
+					processLoop( job.id );
+				} )
+				.catch( function ( error ) {
+					statusText.textContent = error.message;
+					progressWrap.hidden = false;
+					startButton.disabled = false;
+				} );
+		} );
+	}
+
+	function initExport( root ) {
+		root.querySelector( '[data-ztc-export-download]' ).addEventListener( 'click', function () {
+			var type = root.querySelector( '[data-ztc-export-type]' ).value;
+			var format = root.querySelector( '[data-ztc-export-format]' ).value;
+
+			restFetch( '/export?type=' + encodeURIComponent( type ) + '&format=' + encodeURIComponent( format ) )
+				.then( function ( result ) {
+					var blob = new Blob( [ result.body ], { type: result.mime } );
+					var link = document.createElement( 'a' );
+					link.href = URL.createObjectURL( blob );
+					link.download = result.filename;
+					document.body.appendChild( link );
+					link.click();
+					link.remove();
+					URL.revokeObjectURL( link.href );
+				} );
+		} );
+	}
+
+	function ready( fn ) {
+		if ( 'loading' === document.readyState ) {
+			document.addEventListener( 'DOMContentLoaded', fn );
+		} else {
+			fn();
+		}
+	}
+
+	ready( function () {
+		document.querySelectorAll( '[data-ztc-import]' ).forEach( initImport );
+		document.querySelectorAll( '[data-ztc-export]' ).forEach( initExport );
+	} );
+} )();

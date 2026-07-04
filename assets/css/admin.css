@@ -291,3 +291,50 @@ legend.ztc-field__label {
 .ztc-repeater--faq .ztc-repeater__row-number::before {
 	content: "";
 }
+
+/* ------------------------------------------------------------------
+ * Import progress.
+ * ---------------------------------------------------------------- */
+
+.ztc-progress__track {
+	background: #f0f0f1;
+	border: 1px solid #dcdcde;
+	border-radius: 10px;
+	height: 20px;
+	overflow: hidden;
+}
+
+.ztc-progress__bar {
+	background: #2271b1;
+	height: 100%;
+	transition: width 0.2s ease-in-out;
+	width: 0;
+}
+
+.ztc-progress__status {
+	color: #50575e;
+	margin: 6px 0 0;
+}
+
+.ztc-import__filename {
+	font-style: italic;
+	margin-left: 8px;
+}
+
+.ztc-import__errors ul {
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+	list-style: none;
+	margin: 0;
+	max-height: 200px;
+	overflow-y: auto;
+	padding: 8px 12px;
+}
+
+.ztc-import__errors li {
+	border-bottom: 1px solid #f0f0f1;
+	color: #b32d2e;
+	margin: 0;
+	padding: 4px 0;
+}

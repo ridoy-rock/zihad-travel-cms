@@ -6,6 +6,7 @@ Documentation for every module ships here, one file per feature.
 |---|---|
 | [architecture.md](architecture.md) | Kernel, container, providers, modules, data layer, admin UI framework, frontend engine |
 | [tour-editor.md](tour-editor.md) | The tabbed Tour editor, its fields, validation rules and extension points |
+| [importer.md](importer.md) | The generic CSV/JSON import/export engine: mappings, jobs, REST, WP-CLI |
 
 ## Conventions
 

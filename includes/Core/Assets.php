@@ -76,9 +76,10 @@ final class Assets implements Registrable {
 				self::SCRIPT_ADMIN,
 				'ztcAdmin',
 				array(
-					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-					'restUrl' => esc_url_raw( rest_url( 'ztc/v1' ) ),
-					'nonce'   => wp_create_nonce( 'ztc_admin' ),
+					'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+					'restUrl'   => esc_url_raw( rest_url( 'ztc/v1' ) ),
+					'nonce'     => wp_create_nonce( 'ztc_admin' ),
+					'restNonce' => wp_create_nonce( 'wp_rest' ),
 				)
 			);
 		}
