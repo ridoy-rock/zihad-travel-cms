@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  syntax:
+    name: Syntax (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.2', '8.3' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: PHP lint
+        run: find . -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 -P4 php -l > /dev/null && echo "PHP lint OK"
+      - name: JS syntax
+        run: for f in assets/js/*.js; do node --check "$f"; done
+      - name: XML validation
+        run: php -r 'exit( false === simplexml_load_file( "wpml-config.xml" ) ? 1 : 0 );'
+
+  tests:
+    name: Smoke suites (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.2', '8.3' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          ini-values: zend.assertions=1, assert.exception=1
+      - name: Run all suites
+        run: bash tests/run.sh php
+
+  phpcs:
+    name: Coding standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+      - name: Install dev tools
+        run: composer install --prefer-dist --no-progress
+      - name: PHPCS (WordPress Coding Standards)
+        run: composer lint
+
+  phpstan:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+      - name: Install dev tools
+        run: composer install --prefer-dist --no-progress
+      - name: PHPStan
+        run: composer stan

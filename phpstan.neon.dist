@@ -1,0 +1,15 @@
+parameters:
+    level: 5
+    paths:
+        - includes/
+    scanFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+        - tests/phpstan-stubs.php
+    bootstrapFiles:
+        - tests/phpstan-bootstrap.php
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # Elementor is an optional integration; its classes only exist
+        # when the plugin is active (modules gate on elementor/loaded).
+        - '#unknown class Elementor\\#'
+        - '#Elementor\\[A-Za-z\\]+ not found#'

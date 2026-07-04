@@ -52,21 +52,25 @@ or AI-assisted — follows the rules below. Read
 ## Testing Requirements
 
 - **Every module ships with an automated test suite** before it is
-  considered complete. Suites are standalone PHP scripts using
-  WordPress-function stubs (no WP install required):
+  considered complete. Suites live in [tests/](tests/) — standalone PHP
+  scripts using WordPress-function stubs (no WP install required):
 
   ```bash
-  php -d zend.assertions=1 -d assert.exception=1 <suite>.php
+  tests/run.sh              # every suite
+  php -d zend.assertions=1 -d assert.exception=1 tests/<suite>.php
   ```
 
 - A suite must cover: happy path (render/round-trip), sanitization of
   hostile input, security guards (forged nonce writes nothing), and the
   module's key invariants (e.g. importer resume/rollback, generator
   determinism).
-- **All existing suites must pass before every commit** — currently 11:
+- **All existing suites must pass before every commit** — currently 15:
   boot, registration, services, editor framework, visa/country/tour editors,
-  frontend engine, importer, demo data, settings/dashboard.
-- Lint everything: `composer lint` (PHP), `node --check` (JS).
+  frontend engine, importer, demo data, settings/dashboard, SEO, setup
+  wizard, search widget, booking/inquiries.
+- Static checks: `composer lint` (PHPCS/WPCS), `composer stan` (PHPStan),
+  `node --check` (JS). CI runs all of it on every push/PR
+  ([.github/workflows/ci.yml](.github/workflows/ci.yml)).
 - If you change `demo-data/sources/`, regenerate the committed output files
   and re-run the demo-data suite (determinism is asserted).
 
