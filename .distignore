@@ -1,6 +1,10 @@
 # Excluded from the distributable zip (bin/package.sh / wp dist-archive).
 # Directory entries are root-anchored so e.g. /vendor never matches
-# assets/vendor (the shipped Bootstrap build).
+# assets/vendor (the shipped Bootstrap build). Unanchored patterns
+# (.DS_Store, *.map, .gitkeep) match at any depth.
+.DS_Store
+.gitkeep
+/.claude
 /.distignore
 /.git
 /.github
@@ -13,6 +17,10 @@
 /ROADMAP.md
 /bin
 /build
+# composer.json has no runtime role in the dist: the plugin bootstrap
+# falls back to its own PSR-4 autoloader when vendor/ is absent, and
+# zip installs never run composer.
+/composer.json
 /composer.lock
 /docs
 /node_modules
