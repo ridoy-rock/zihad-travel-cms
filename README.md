@@ -123,14 +123,16 @@ zihad-travel-cms/
 ```bash
 git clone <repo> wp-content/plugins/zihad-travel-cms
 cd wp-content/plugins/zihad-travel-cms
-composer install          # dev tools: PHPCS + WPCS + PHPCompatibility
+composer install          # dev tools: PHPCS/WPCS, PHPCompatibility, PHPStan
 composer lint             # WordPress Coding Standards
-composer lint:fix
+composer stan             # PHPStan level 5
+composer test             # all smoke suites (tests/run.sh)
+bin/package.sh            # build the distributable zip
 ```
 
-- **Tests**: standalone smoke suites (WordPress-function stubs — no WP
-  install needed) run with
-  `php -d zend.assertions=1 -d assert.exception=1 <suite>.php`.
+- **Tests**: standalone smoke suites in [tests/](tests/)
+  (WordPress-function stubs — no WP install needed); CI runs them on
+  PHP 8.2/8.3 plus PHPCS and PHPStan on every push.
   See [CONTRIBUTING.md](CONTRIBUTING.md#testing-requirements).
 - **WP-CLI**: `wp ztc import|export|import-status|import-rollback`,
   `wp ztc demo generate|install`.

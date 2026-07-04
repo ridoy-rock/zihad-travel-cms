@@ -13,6 +13,7 @@ Documentation for every module ships here, one file per feature.
 | [setup-wizard.md](setup-wizard.md) | The eleven-step first-run wizard: settings orchestration, resume/skip/rerun semantics, no-JS demo install, REST API, extension hooks |
 | [search-widget.md](search-widget.md) | The tabbed Visa/Tour search widget: one render path for shortcode/Elementor/homepage, duration mirror, range filters, no-JS archive parity, caching |
 | [booking.md](booking.md) | Visa/tour inquiry forms: one submission pipeline (validation, honeypot, rate limit), private Inquiry CPT, Mailer contract, REST endpoint, shared rendering |
+| [release-checklist.md](release-checklist.md) | 1.0 release hardening status, security/performance review summaries and the manual QA script |
 
 ## Conventions
 

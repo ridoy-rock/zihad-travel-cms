@@ -1,6 +1,6 @@
 # Zihad Travel CMS — Project Status
 
-_Last updated: 2026-07-05 (after Module 8: Booking / Inquiry Forms)._
+_Last updated: 2026-07-05 (after Module 8 + release hardening)._
 
 _See also: [README.md](README.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md) (v1.0 → v2.0) · [CHANGELOG.md](CHANGELOG.md) · [CONTRIBUTING.md](CONTRIBUTING.md)._
 
@@ -69,7 +69,8 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | 5 | **SEO** | `d5542e0` | Title/description/keywords, canonical URLs (incl. pagination), robots, OpenGraph + Twitter Cards on all plugin routes; Schema.org JSON-LD via one SchemaService (TouristTrip, GovernmentService, Country, CollectionPage, BreadcrumbList — FAQPage stays with the FAQ part); per-post `ztc_seo` extended with robots/canonical; `seo.*` settings + 12th tab via existing filters; auto-defers to Yoast/Rank Math; 8 `ztc_seo_*` output filters; once-per-request memoized resolution |
 | 6 | **Setup Wizard** | `36a693c` | Eleven-step first-run installer that only orchestrates existing services (settings pipeline, demo installer, health checks, dashboard data); resumable/skippable/rerunnable, independent per-step saves, pre-filled fields (no silent overwrites), no-JS demo install via bounded import batches, one-shot activation redirect, `ztc/v1/wizard*` REST, `ztc_wizard_steps` filter + lifecycle actions |
 | 7 | **Homepage Search Widget** | `ac2526b` | Tabbed Visa (Country, Visa Type) / Tour (Country, Tour Type, Duration, Budget) search; one render path for shortcode + Elementor "Travel Search" widget + settings-gated homepage injection; CSS-only tabs, no-JS archive parity via `ArchiveFilters` (`pre_get_posts` reusing `SearchService::filter_clauses()`); `ztc_duration_days` numeric mirror + sync; cached country options; validated `duration`/`budget` REST range params |
-| 8 | **Booking / Inquiry Forms** | — | Visa/tour inquiry forms → private `ztc_inquiry` CPT (REST-hidden, admin columns); one pipeline for the nonce-protected no-JS handler + validated public `POST ztc/v1/inquiry` (honeypot, per-IP rate limit, server-side validation); `Contracts\Mailer` abstraction (`ztc_mailer`) with filterable notifications; one render path (single templates via `ztc_template_view`, `[ztc_inquiry_form]`, Elementor "Inquiry Form") |
+| 8 | **Booking / Inquiry Forms** | `99626a7` | Visa/tour inquiry forms → private `ztc_inquiry` CPT (REST-hidden, admin columns); one pipeline for the nonce-protected no-JS handler + validated public `POST ztc/v1/inquiry` (honeypot, per-IP rate limit, server-side validation); `Contracts\Mailer` abstraction (`ztc_mailer`) with filterable notifications; one render path (single templates via `ztc_template_view`, `[ztc_inquiry_form]`, Elementor "Inquiry Form") |
+| — | **Release hardening** | `b9a8b4b`…`38d7462` | Tests → `tests/` + CI (PHP 8.2/8.3, PHPCS, PHPStan); Bootstrap 5.3.3 shipped; PHPCS + PHPStan level 5 clean; security/capability/performance audit; `.pot` regenerated (534 strings); LICENSE + Update URI; `.distignore` + `bin/package.sh` verified zip; `docs/release-checklist.md` with the manual QA script |
 
 **Testing:** 15 standalone smoke suites (WP-function stubs, no WordPress
 install needed) covering boot, registration, services, the editor framework,
@@ -80,14 +81,15 @@ booking/inquiries — all green after Module 8.
 **Docs:** [docs/](docs/) — architecture, tour editor, importer, demo data,
 settings, SEO, setup wizard, search widget, booking.
 
-## Remaining Roadmap (strict order)
+## Remaining Roadmap
 
-1. **Release hardening** — ship real Bootstrap 5 builds, migrate the smoke
-   suites into `tests/` with CI (PHPCS + PHPStan + suites), custom
-   capabilities ("Travel Manager" role), licensing/update mechanism,
-   regenerate the `.pot` file.
-2. **v1.1+** — analytics, inquiry management screen, reviews, WPML/Polylang
-   adapters, AI module (see [ROADMAP.md](ROADMAP.md)).
+1. **Manual QA before tagging 1.0.0** — run the on-site script in
+   [docs/release-checklist.md](docs/release-checklist.md) (fresh install,
+   wizard + demo, search, inquiries, Elementor, mobile) on the staged
+   Local "testing" site.
+2. **v1.1+** — Travel Manager role, inquiry management screen, update
+   client + licensing server, analytics, reviews, WPML/Polylang adapters,
+   AI module (see [ROADMAP.md](ROADMAP.md)).
 
 **Release hardening (before 1.0 ship, alongside the modules):** ship real
 Bootstrap 5 builds in `assets/vendor/bootstrap/` (currently empty
@@ -117,7 +119,8 @@ licensing & update mechanism; regenerate the `.pot` file.
 
 ## Current Completion
 
-**≈ 92%** toward a shippable 1.0.
+**≈ 98%** toward a shippable 1.0 — code complete and hardened; manual
+on-site QA is the last gate.
 
 | Area | Status |
 |---|---|
@@ -131,4 +134,4 @@ licensing & update mechanism; regenerate the `.pot` file.
 | Setup wizard | ██████████ 100% |
 | Booking / inquiry | ██████████ 100% |
 | AI module | █░░░░░░░░░ 10% (hooks + REST meta ready) |
-| Release hardening (assets, CI, caps, licensing) | ██░░░░░░░░ 20% |
+| Release hardening (assets, CI, analysis, packaging) | █████████░ 95% (manual QA + update client pending) |

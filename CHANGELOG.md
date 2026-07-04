@@ -238,3 +238,28 @@ so all work is under **Unreleased** (targeting 1.0.0) in chronological order.
   frontend suite updated for the new shortcode.
 - Docs: `docs/booking.md`; `ztc_inquiry` declared non-translatable in
   `wpml-config.xml`.
+
+### Release hardening — 2026-07-05
+
+- Tests graduated into `tests/` (portable paths, `tests/run.sh`);
+  GitHub Actions CI: syntax/JS/XML checks + all suites on PHP 8.2/8.3
+  + PHPCS + PHPStan.
+- Production Bootstrap 5.3.3 build ships in `assets/vendor/bootstrap/`
+  (the placeholders are gone).
+- Static analysis clean: PHPCS (WPCS + PHPCompatibilityWP) 0 errors on
+  shipped code with documented ruleset deviations; PHPStan level 5
+  0 errors. Real fixes along the way: Shortcodes constructor docblock
+  drift, a dead ImportController dependency, PHP 8.4-safe explicit CSV
+  escape arguments, correctly-scoped escape annotations, hoisted loop
+  counts, assorted docblock types.
+- Security/capability/performance audit (summary in
+  `docs/release-checklist.md`); wizard state/redirect options no longer
+  autoloaded on the frontend.
+- Translation template regenerated (534 strings, all modules).
+- GPL-2.0 `LICENSE` shipped; `Update URI` header added; `.distignore`
+  + `bin/package.sh` produce a verified distributable zip (a bare
+  `vendor` exclude that silently dropped the bundled Bootstrap was
+  caught and root-anchored); `readme.txt` rewritten for 1.0.
+- `docs/release-checklist.md`: hardening status, security and
+  performance reviews, and the manual QA script for the remaining
+  on-site verification.
