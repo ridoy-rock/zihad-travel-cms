@@ -21,14 +21,16 @@ contact, branding, WhatsApp, Maps/GA/Pixel ids).
 
 ## Settings screen
 
-`Admin\Pages\SettingsPage` — eleven tabs (General, Homepage, Branding,
+`Admin\Pages\SettingsPage` — eleven built-in tabs (General, Homepage, Branding,
 Contact, Social Media, WhatsApp, Maps, Analytics, Booking, Performance,
 Custom CSS/JS) rendered with the same `Tab` + field components as the content
 editors (the tab JS/CSS is shared too). Field names are Config dot keys;
 values load from `Config::get()`; saving runs each field's `sanitize()`, then
 the structural sanitizer, then **one** batched `update_option`. Submission
 goes through `admin-post.php` with nonce + `manage_options` guards. Extend
-with the `ztc_settings_tabs` filter.
+with the `ztc_settings_tabs` filter — the SEO module adds its tab (and its
+`seo.*` schema via `ztc_default_settings`) exactly this way; see
+[seo.md](seo.md).
 
 `CodeField` (new reusable component) backs the Custom CSS/JS tab: verbatim
 storage apart from `</script>`/`</style>` injection guards.

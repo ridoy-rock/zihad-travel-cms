@@ -28,8 +28,9 @@ use ZihadTravelCMS\Settings\SettingsSanitizer;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The global settings screen: eleven tabs built from the same Tab +
- * field components the content editors use. Field names are the
+ * The global settings screen: eleven built-in tabs (modules append
+ * more via `ztc_settings_tabs`, e.g. the SEO tab) built from the same
+ * Tab + field components the content editors use. Field names are the
  * Config dot keys, values load from Config, and saves run each
  * field's sanitize(), then the structural SettingsSanitizer, then one
  * batched option write — the same pipeline REST writes use.
@@ -182,7 +183,8 @@ final class SettingsPage extends AdminPage {
 	}
 
 	/**
-	 * The eleven settings tabs.
+	 * The settings tabs: eleven built-in plus any appended through the
+	 * `ztc_settings_tabs` filter.
 	 *
 	 * @return array<Tab>
 	 */

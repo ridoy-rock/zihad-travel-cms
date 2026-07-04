@@ -102,3 +102,40 @@ so all work is under **Unreleased** (targeting 1.0.0) in chronological order.
 
 - Root documentation set: README, PROJECT_STATUS, ROADMAP, ARCHITECTURE,
   CHANGELOG, CONTRIBUTING.
+
+### Module 5: SEO — 2026-07-04
+
+- `Modules\Seo`: document title, meta description/keywords, canonical
+  URLs (per-post override, archives, `/page/N/` pagination), robots
+  directives (per-post + `noindex_archives`), OpenGraph and Twitter
+  Card tags on all plugin routes — singles, archives and taxonomy
+  archives.
+- Schema.org JSON-LD through one reusable `SchemaService` (typed
+  `node()` builder, recursive empty-property cleaning): TouristTrip
+  (itinerary ItemList + numeric-price Offer), GovernmentService
+  (serviceType, areaServed, fee), Country (Bangla `alternateName`),
+  CollectionPage and BreadcrumbList; FAQPage intentionally stays with
+  the frontend FAQ part next to the visible questions.
+- Auto-deferral: the output pipeline is inert while Yoast SEO or
+  Rank Math is active (`ztc_seo_defer` filter to override); the module
+  itself keeps loading so the settings schema is never dropped by the
+  structural sanitizer.
+- `ztc_seo` meta extended with `robots` and `canonical` (registered
+  REST schema, `SeoField` UI with a whitelisted robots select and URL
+  canonical input); `BasePostMeta` object fields gained a `url`
+  sanitize kind.
+- New `seo.*` settings section + 12th settings tab (separator, default
+  description/keywords/social image, Twitter handle, OG/Twitter/schema
+  toggles, archive indexing, per-type archive titles/descriptions) —
+  registered via `ztc_default_settings`/`ztc_settings_tabs`, so every
+  existing write path (form, REST) accepts it unchanged; new keys
+  registered as WPML admin-texts.
+- Developer filters for every generated value: `ztc_seo_title`,
+  `ztc_seo_description`, `ztc_seo_canonical`, `ztc_seo_robots`,
+  `ztc_seo_opengraph`, `ztc_seo_twitter`, `ztc_seo_schema`,
+  `ztc_seo_head`.
+- Performance: SEO data resolves once per request (memoized in
+  `SeoService`, filters included).
+- Tests: new `seo-smoke` suite (12 suites total, all green); visa- and
+  country-editor suites updated for the extended `ztc_seo` shape.
+- Docs: `docs/seo.md`.

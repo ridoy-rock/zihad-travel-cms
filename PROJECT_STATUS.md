@@ -1,6 +1,6 @@
 # Zihad Travel CMS — Project Status
 
-_Last updated: 2026-07-04 (after Module 4: Global Dashboard & Settings, commit `89cc196`)._
+_Last updated: 2026-07-04 (after Module 5: SEO)._
 
 _See also: [README.md](README.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md) (v1.0 → v2.0) · [CHANGELOG.md](CHANGELOG.md) · [CONTRIBUTING.md](CONTRIBUTING.md)._
 
@@ -11,7 +11,7 @@ Engine for travel agencies (primary market: Bangladesh — first-class Bangla
 content support). It manages three content types — **Countries**, **Visas**
 and **Tours** — with professional admin editors, a themeable frontend, AJAX
 search, Elementor integration, a generic import/export engine, installable
-demo data, and (upcoming) SEO, booking/inquiry and AI modules.
+demo data, a full SEO module, and (upcoming) booking/inquiry and AI modules.
 
 **Targets:** PHP 8.2+, WordPress 6.4+, WordPress Coding Standards, PSR-4,
 OOP/MVC, Bootstrap 5 frontend, native JavaScript, translation-ready,
@@ -66,30 +66,26 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | 2 | **Import/Export engine** | `f7ef0d3` | Generic mapping contract; CSV/JSON both directions; batched jobs with progress/resume/error log/rollback; duplicate detection (create/update/upsert); image URL sideloading with dedup; REST + WP-CLI + admin progress UI |
 | 3 | **Demo Data generator + installer** | `95ddd61` | Data-driven (105 seed countries en+bn, localized template bank); deterministic generator (105 countries / 473 visas / 132 tours, byte-identical regeneration); installer is a thin wrapper over the importer; `en`/`bn` locales with shared slugs |
 | 4 | **Global Dashboard & Settings** | `89cc196` | 11-tab settings screen (reusing the field framework); structural SettingsSanitizer on every write path; REST settings API; Elementor SettingTag; frontend Integrations (brand CSS vars, custom CSS/JS, GA, FB Pixel, floating WhatsApp); dashboard widgets (counts, demo status, recent imports) |
+| 5 | **SEO** | — | Title/description/keywords, canonical URLs (incl. pagination), robots, OpenGraph + Twitter Cards on all plugin routes; Schema.org JSON-LD via one SchemaService (TouristTrip, GovernmentService, Country, CollectionPage, BreadcrumbList — FAQPage stays with the FAQ part); per-post `ztc_seo` extended with robots/canonical; `seo.*` settings + 12th tab via existing filters; auto-defers to Yoast/Rank Math; 8 `ztc_seo_*` output filters; once-per-request memoized resolution |
 
-**Testing:** 11 standalone smoke suites (WP-function stubs, no WordPress
+**Testing:** 12 standalone smoke suites (WP-function stubs, no WordPress
 install needed) covering boot, registration, services, the editor framework,
-all three editors, the frontend engine, importer, demo data, and
-settings/dashboard — all green as of `89cc196`.
+all three editors, the frontend engine, importer, demo data,
+settings/dashboard and SEO — all green after Module 5.
 
 **Docs:** [docs/](docs/) — architecture, tour editor, importer, demo data,
-settings.
+settings, SEO.
 
 ## Remaining Roadmap (strict order)
 
-1. **SEO Module** — global defaults + per-post `ztc_seo` rendering; meta
-   title/description; canonical URLs; OpenGraph; Twitter Cards; Schema.org
-   (TouristTrip / GovernmentService / Country); breadcrumb + FAQ schema
-   (FAQ JSON-LD already ships in the frontend part); steps aside when
-   Yoast/Rank Math is active.
-2. **Setup Wizard** — professional first-run installer (company info,
+1. **Setup Wizard** — professional first-run installer (company info,
    defaults, demo data, permalink check).
-3. **Homepage Search Widget** — tabbed Visa (Country, Visa Type) / Tour
+2. **Homepage Search Widget** — tabbed Visa (Country, Visa Type) / Tour
    (Country, Tour Type, Duration, Budget) search; shortcode + Elementor
    widget + AJAX, reusing `SearchService`/`GridRenderer`.
-4. **Booking / Inquiry Forms** — visa & tour inquiries, WhatsApp CTA, email
+3. **Booking / Inquiry Forms** — visa & tour inquiries, WhatsApp CTA, email
    notifications (settings section already exists).
-5. **AI Module** — auto-fill via the editor toolbar hooks + REST-registered
+4. **AI Module** — auto-fill via the editor toolbar hooks + REST-registered
    meta (extension points already in place).
 
 **Release hardening (before 1.0 ship, alongside the modules):** ship real
@@ -120,7 +116,7 @@ licensing & update mechanism; regenerate the `.pot` file.
 
 ## Current Completion
 
-**≈ 60%** toward a shippable 1.0.
+**≈ 70%** toward a shippable 1.0.
 
 | Area | Status |
 |---|---|
@@ -130,7 +126,7 @@ licensing & update mechanism; regenerate the `.pot` file.
 | Elementor integration | ████████░░ 80% (widgets + 3 dynamic tags; more widgets with search/booking) |
 | Import/Export + Demo data | ██████████ 100% |
 | Dashboard & Settings | ██████████ 100% |
-| SEO | ██░░░░░░░░ 20% (per-post fields + FAQ JSON-LD exist; rendering module pending) |
+| SEO | ██████████ 100% |
 | Setup wizard | ░░░░░░░░░░ 0% |
 | Booking / inquiry | █░░░░░░░░░ 10% (settings + WhatsApp CTA exist) |
 | AI module | █░░░░░░░░░ 10% (hooks + REST meta ready) |

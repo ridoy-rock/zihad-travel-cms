@@ -77,6 +77,16 @@
 				<key name="name" />
 				<key name="address" />
 			</key>
+			<key name="seo">
+				<key name="default_description" />
+				<key name="default_keywords" />
+				<key name="archive_tour_title" />
+				<key name="archive_tour_description" />
+				<key name="archive_visa_title" />
+				<key name="archive_visa_description" />
+				<key name="archive_country_title" />
+				<key name="archive_country_description" />
+			</key>
 		</key>
 	</admin-texts>
 </wpml-config>

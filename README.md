@@ -39,7 +39,12 @@ import/export engine, and installable bilingual (English/Bangla) demo data.
 - **Demo data** — deterministic generator (105 countries, 473 visas,
   132 tours) built from data files with full Bangla support; installs
   through the importer, re-installs update instead of duplicating.
-- **Settings & dashboard** — 11-tab settings screen (branding, contact,
+- **SEO** — meta title/description/keywords, canonical URLs, robots
+  directives, OpenGraph, Twitter Cards and Schema.org JSON-LD
+  (TouristTrip, GovernmentService, Country, BreadcrumbList, FAQPage) with
+  per-post overrides and global defaults; automatically defers to
+  Yoast SEO / Rank Math; every output filterable (`ztc_seo_*`).
+- **Settings & dashboard** — 12-tab settings screen (branding, contact,
   WhatsApp, Maps/Analytics/Pixel, booking, performance, custom CSS/JS),
   REST settings API, dashboard widgets (content counts, demo status,
   recent imports), floating WhatsApp button, brand-color CSS variables.

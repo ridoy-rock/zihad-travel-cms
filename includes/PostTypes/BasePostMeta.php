@@ -281,7 +281,8 @@ abstract class BasePostMeta implements Registrable {
 	}
 
 	/**
-	 * The shared SEO block (title, description, keywords).
+	 * The shared SEO block (title, description, keywords, robots,
+	 * canonical). Rendered into the document head by the SEO module.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -291,6 +292,8 @@ abstract class BasePostMeta implements Registrable {
 				'title'       => 'text',
 				'description' => 'text',
 				'keywords'    => 'text',
+				'robots'      => 'text',
+				'canonical'   => 'url',
 			)
 		);
 	}
@@ -358,7 +361,7 @@ abstract class BasePostMeta implements Registrable {
 	 * properties are stripped.
 	 *
 	 * @param mixed                 $value      Raw meta value.
-	 * @param array<string, string> $properties Property name => 'text' or 'rich'.
+	 * @param array<string, string> $properties Property name => 'text', 'rich' or 'url'.
 	 *
 	 * @return array<string, string>
 	 */
@@ -371,9 +374,11 @@ abstract class BasePostMeta implements Registrable {
 				? (string) $value[ $property ]
 				: '';
 
-			$clean[ $property ] = 'rich' === $kind
-				? wp_kses_post( $raw )
-				: sanitize_text_field( $raw );
+			$clean[ $property ] = match ( $kind ) {
+				'rich'  => wp_kses_post( $raw ),
+				'url'   => esc_url_raw( $raw ),
+				default => sanitize_text_field( $raw ),
+			};
 		}
 
 		return $clean;

@@ -8,7 +8,8 @@ Documentation for every module ships here, one file per feature.
 | [tour-editor.md](tour-editor.md) | The tabbed Tour editor, its fields, validation rules and extension points |
 | [importer.md](importer.md) | The generic CSV/JSON import/export engine: mappings, jobs, REST, WP-CLI |
 | [demo-data.md](demo-data.md) | The regenerable demo content generator and the installer that reuses the importer |
-| [settings.md](settings.md) | The 11-tab settings screen, settings data layer, REST API, frontend integrations and dashboard |
+| [settings.md](settings.md) | The settings screen (11 built-in tabs + filter-added tabs), settings data layer, REST API, frontend integrations and dashboard |
+| [seo.md](seo.md) | Meta/OpenGraph/Twitter output, canonical URLs, robots, Schema.org JSON-LD, Yoast/Rank Math deferral and the `ztc_seo_*` filters |
 
 ## Conventions
 

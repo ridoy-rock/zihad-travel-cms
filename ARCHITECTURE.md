@@ -84,7 +84,8 @@ Fields own their persistence: post meta by default, `TaxonomyField` writes
 terms. 19 reusable components (Text, Textarea, RichEditor, Number, Url,
 Select, MultiSelect, Checkbox, Toggle, Media, Gallery, Repeater, Faq,
 Timeline, List, Seo, Taxonomy, Duration, Code) cover every editor **and** the
-11-tab Settings screen (`Admin\Pages\SettingsPage`), which swaps post-meta
+Settings screen (`Admin\Pages\SettingsPage` — 11 built-in tabs, extended to
+12 by the SEO module via `ztc_settings_tabs`), which swaps post-meta
 persistence for one batched, shape-validated option write
 (`Settings\SettingsSanitizer`). AI/auto-fill toolbars can inject via
 `ztc_editor_render_before/after`.
