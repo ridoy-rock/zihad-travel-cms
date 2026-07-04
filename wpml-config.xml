@@ -1,0 +1,82 @@
+<wpml-config>
+	<!--
+		Multilingual readiness for WPML / Polylang.
+		translate = the field is re-entered per language.
+		copy      = the value (IDs, numbers, URLs) is shared across languages.
+	-->
+	<custom-types>
+		<custom-type translate="1">ztc_tour</custom-type>
+		<custom-type translate="1">ztc_visa</custom-type>
+		<custom-type translate="1">ztc_country</custom-type>
+	</custom-types>
+
+	<taxonomies>
+		<taxonomy translate="1">ztc_tour_type</taxonomy>
+		<taxonomy translate="1">ztc_visa_type</taxonomy>
+		<taxonomy translate="1">ztc_region</taxonomy>
+	</taxonomies>
+
+	<custom-fields>
+		<!-- Country -->
+		<custom-field action="copy">ztc_hero_image</custom-field>
+		<custom-field action="copy">ztc_flag</custom-field>
+		<custom-field action="copy">ztc_currency</custom-field>
+		<custom-field action="translate">ztc_capital</custom-field>
+		<custom-field action="translate">ztc_language</custom-field>
+		<custom-field action="copy">ztc_timezone</custom-field>
+		<custom-field action="translate">ztc_bangla_name</custom-field>
+		<custom-field action="translate">ztc_short_description</custom-field>
+		<custom-field action="translate">ztc_hero_subtitle</custom-field>
+		<custom-field action="translate">ztc_overview</custom-field>
+		<custom-field action="translate">ztc_travel_tips</custom-field>
+		<custom-field action="translate">ztc_best_time_to_visit</custom-field>
+		<custom-field action="translate">ztc_popular_cities</custom-field>
+		<custom-field action="translate">ztc_embassy_name</custom-field>
+		<custom-field action="translate">ztc_embassy_address</custom-field>
+		<custom-field action="copy">ztc_embassy_phone</custom-field>
+		<custom-field action="copy">ztc_embassy_email</custom-field>
+		<custom-field action="copy">ztc_embassy_website</custom-field>
+		<custom-field action="copy">ztc_featured</custom-field>
+		<custom-field action="copy">ztc_show_on_homepage</custom-field>
+
+		<!-- Visa -->
+		<custom-field action="copy">ztc_country</custom-field>
+		<custom-field action="translate">ztc_processing_time</custom-field>
+		<custom-field action="translate">ztc_validity</custom-field>
+		<custom-field action="translate">ztc_stay_duration</custom-field>
+		<custom-field action="translate">ztc_entry_type</custom-field>
+		<custom-field action="translate">ztc_visa_fee</custom-field>
+		<custom-field action="translate">ztc_requirements</custom-field>
+		<custom-field action="translate">ztc_required_documents</custom-field>
+		<custom-field action="translate">ztc_benefits</custom-field>
+		<custom-field action="translate">ztc_application_process</custom-field>
+		<custom-field action="translate">ztc_faq</custom-field>
+		<custom-field action="translate">ztc_important_notes</custom-field>
+		<custom-field action="copy">ztc_whatsapp_number</custom-field>
+		<custom-field action="translate">ztc_apply_button_text</custom-field>
+		<custom-field action="translate">ztc_seo</custom-field>
+
+		<!-- Tour -->
+		<custom-field action="copy">ztc_price</custom-field>
+		<custom-field action="copy">ztc_sale_price</custom-field>
+		<custom-field action="translate">ztc_duration</custom-field>
+		<custom-field action="copy">ztc_gallery</custom-field>
+		<custom-field action="translate">ztc_highlights</custom-field>
+		<custom-field action="translate">ztc_itinerary</custom-field>
+		<custom-field action="translate">ztc_included</custom-field>
+		<custom-field action="translate">ztc_excluded</custom-field>
+		<custom-field action="translate">ztc_hotels</custom-field>
+		<custom-field action="translate">ztc_flights</custom-field>
+		<custom-field action="translate">ztc_meals</custom-field>
+		<custom-field action="copy">ztc_map</custom-field>
+	</custom-fields>
+
+	<admin-texts>
+		<key name="ztc_settings">
+			<key name="company">
+				<key name="name" />
+				<key name="address" />
+			</key>
+		</key>
+	</admin-texts>
+</wpml-config>

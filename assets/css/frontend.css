@@ -1,0 +1,256 @@
+/**
+ * Zihad Travel CMS — frontend engine styles.
+ *
+ * Mobile-first, layered on Bootstrap 5 utilities. Every block is
+ * prefixed .ztc- so theme styles are never clobbered.
+ */
+
+/* ------------------------------------------------------------------
+ * Hero.
+ * ---------------------------------------------------------------- */
+
+.ztc-hero {
+	background: #1d2327;
+	background-position: center;
+	background-size: cover;
+	color: #fff;
+}
+
+.ztc-hero__overlay {
+	background: rgba(13, 23, 33, 0.55);
+	padding: 3rem 0;
+}
+
+.ztc-hero__title {
+	color: #fff;
+	font-size: 1.75rem;
+	margin: 0 0 0.25rem;
+}
+
+.ztc-hero__subtitle {
+	font-size: 1.1rem;
+	margin: 0;
+	opacity: 0.9;
+}
+
+.ztc-hero__meta {
+	margin: 0.5rem 0 0;
+	opacity: 0.85;
+}
+
+@media (min-width: 768px) {
+	.ztc-hero__overlay {
+		padding: 5rem 0;
+	}
+
+	.ztc-hero__title {
+		font-size: 2.5rem;
+	}
+}
+
+/* ------------------------------------------------------------------
+ * Layout + sections.
+ * ---------------------------------------------------------------- */
+
+.ztc-single__body,
+.ztc-archive__body {
+	padding: 2rem 0 3rem;
+}
+
+.ztc-archive__head {
+	padding: 2rem 0 1rem;
+}
+
+.ztc-section {
+	margin-bottom: 2rem;
+}
+
+.ztc-section__heading {
+	font-size: 1.35rem;
+	margin-bottom: 0.75rem;
+}
+
+/* ------------------------------------------------------------------
+ * Checklists, chips, timeline.
+ * ---------------------------------------------------------------- */
+
+.ztc-checklist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ztc-checklist li {
+	padding: 0.35rem 0 0.35rem 1.6rem;
+	position: relative;
+}
+
+.ztc-checklist li::before {
+	content: "\2713";
+	color: #198754;
+	font-weight: 700;
+	left: 0;
+	position: absolute;
+}
+
+.ztc-checklist--excluded li::before {
+	content: "\2715";
+	color: #dc3545;
+}
+
+.ztc-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ztc-chips__item {
+	background: #f0f0f1;
+	border-radius: 999px;
+	padding: 0.35rem 0.9rem;
+}
+
+.ztc-timeline {
+	counter-reset: ztc-step;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ztc-timeline__step {
+	border-left: 2px solid #dee2e6;
+	counter-increment: ztc-step;
+	margin-left: 1rem;
+	padding: 0 0 1.5rem 1.75rem;
+	position: relative;
+}
+
+.ztc-timeline__step:last-child {
+	border-left-color: transparent;
+	padding-bottom: 0;
+}
+
+.ztc-timeline__step::before {
+	background: #0d6efd;
+	border-radius: 50%;
+	color: #fff;
+	content: counter(ztc-step);
+	font-size: 0.8rem;
+	font-weight: 700;
+	height: 1.7rem;
+	left: -0.9rem;
+	line-height: 1.7rem;
+	position: absolute;
+	text-align: center;
+	top: -0.1rem;
+	width: 1.7rem;
+}
+
+.ztc-timeline__title {
+	font-size: 1.05rem;
+	margin: 0 0 0.35rem;
+}
+
+/* ------------------------------------------------------------------
+ * Facts card, embassy, FAQ.
+ * ---------------------------------------------------------------- */
+
+.ztc-facts__list {
+	margin: 0 0 1rem;
+}
+
+.ztc-facts__list dt {
+	color: #6c757d;
+	font-size: 0.85rem;
+	text-transform: uppercase;
+}
+
+.ztc-facts__list dd {
+	margin: 0 0 0.75rem;
+}
+
+.ztc-facts__flag {
+	border-radius: 2px;
+	vertical-align: -2px;
+}
+
+.ztc-price__amount {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.ztc-faq__item {
+	border: 1px solid #dee2e6;
+	border-radius: 0.375rem;
+	margin-bottom: 0.5rem;
+}
+
+.ztc-faq__question {
+	cursor: pointer;
+	font-weight: 600;
+	padding: 0.85rem 1rem;
+}
+
+.ztc-faq__question:focus-visible {
+	outline: 2px solid #0d6efd;
+	outline-offset: -2px;
+}
+
+.ztc-faq__answer {
+	border-top: 1px solid #dee2e6;
+	padding: 0.85rem 1rem;
+}
+
+/* ------------------------------------------------------------------
+ * Gallery grid.
+ * ---------------------------------------------------------------- */
+
+.ztc-gallery-grid {
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.ztc-gallery-grid__image {
+	aspect-ratio: 4 / 3;
+	border-radius: 0.375rem;
+	height: auto;
+	object-fit: cover;
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	.ztc-gallery-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+/* ------------------------------------------------------------------
+ * Cards, grids, search.
+ * ---------------------------------------------------------------- */
+
+.ztc-card .card-img-top {
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+}
+
+.ztc-card__flag {
+	max-width: 40px;
+}
+
+.ztc-grid--loading {
+	opacity: 0.5;
+	pointer-events: none;
+	transition: opacity 0.15s ease-in-out;
+}
+
+.ztc-search {
+	margin-bottom: 1.5rem;
+}
+
+.ztc-grid-section__heading {
+	margin-bottom: 1rem;
+}
