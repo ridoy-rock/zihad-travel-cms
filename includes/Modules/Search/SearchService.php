@@ -91,14 +91,14 @@ final class SearchService {
 			$args['s'] = $keyword;
 		}
 
-		$tax_query = $this->tax_query( $type, $params );
-		if ( array() !== $tax_query ) {
-			$args['tax_query'] = $tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+		$clauses = $this->filter_clauses( $type, $params );
+
+		if ( array() !== $clauses['tax_query'] ) {
+			$args['tax_query'] = $clauses['tax_query']; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 		}
 
-		$meta_query = $this->meta_query( $type, $params );
-		if ( array() !== $meta_query ) {
-			$args['meta_query'] = $meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+		if ( array() !== $clauses['meta_query'] ) {
+			$args['meta_query'] = $clauses['meta_query']; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		}
 
 		if ( 'price' === ( $params['orderby'] ?? '' ) && 'tour' === $type ) {
@@ -117,6 +117,25 @@ final class SearchService {
 		 * @param array<string, mixed> $params Request parameters.
 		 */
 		return (array) apply_filters( 'ztc_search_query_args', $args, $params );
+	}
+
+	/**
+	 * The taxonomy and meta clauses for a set of filter parameters.
+	 *
+	 * Public so other query paths (the archive no-JS filters) apply
+	 * exactly the same rules as the REST search — one translation of
+	 * request parameters into SQL clauses, everywhere.
+	 *
+	 * @param string               $type   Content type: tour|visa|country.
+	 * @param array<string, mixed> $params Request parameters.
+	 *
+	 * @return array{tax_query: array<array<string, mixed>>, meta_query: array<array<string, mixed>>}
+	 */
+	public function filter_clauses( string $type, array $params ): array {
+		return array(
+			'tax_query'  => $this->tax_query( $type, $params ),
+			'meta_query' => $this->meta_query( $type, $params ),
+		);
 	}
 
 	/**
@@ -172,16 +191,64 @@ final class SearchService {
 			$max = (float) ( $params['max_price'] ?? 0 );
 
 			if ( $min > 0 || $max > 0 ) {
-				$clauses[] = array(
-					'key'     => TourMeta::PRICE,
-					'value'   => $max > 0 ? array( $min, $max ) : $min,
-					'compare' => $max > 0 ? 'BETWEEN' : '>=',
-					'type'    => 'NUMERIC',
-				);
+				$clauses[] = $this->range_clause( TourMeta::PRICE, $min, $max );
+			}
+
+			// Single-select ranges ("min-max", 0 = open end) posted by
+			// the search widget's budget and duration dropdowns.
+			$budget = $this->parse_range( (string) ( $params['budget'] ?? '' ) );
+			if ( null !== $budget ) {
+				$clauses[] = $this->range_clause( TourMeta::PRICE, $budget[0], $budget[1] );
+			}
+
+			$duration = $this->parse_range( (string) ( $params['duration'] ?? '' ) );
+			if ( null !== $duration ) {
+				$clauses[] = $this->range_clause( TourMeta::DURATION_DAYS, $duration[0], $duration[1] );
 			}
 		}
 
 		return $clauses;
+	}
+
+	/**
+	 * A NUMERIC range clause; a zero maximum means "and up".
+	 *
+	 * @param string $key Meta key.
+	 * @param float  $min Lower bound.
+	 * @param float  $max Upper bound (0 = open).
+	 *
+	 * @return array<string, mixed>
+	 */
+	private function range_clause( string $key, float $min, float $max ): array {
+		return array(
+			'key'     => $key,
+			'value'   => $max > 0 ? array( $min, $max ) : $min,
+			'compare' => $max > 0 ? 'BETWEEN' : '>=',
+			'type'    => 'NUMERIC',
+		);
+	}
+
+	/**
+	 * Parse a "min-max" range string (e.g. `500-1000`, `15-0` for
+	 * open-ended). Returns null for anything malformed or empty.
+	 *
+	 * @param string $value Raw range value.
+	 *
+	 * @return array{0: float, 1: float}|null
+	 */
+	private function parse_range( string $value ): ?array {
+		if ( ! preg_match( '/^(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)$/', $value, $matches ) ) {
+			return null;
+		}
+
+		$min = (float) $matches[1];
+		$max = (float) $matches[2];
+
+		if ( $min <= 0 && $max <= 0 ) {
+			return null;
+		}
+
+		return array( $min, $max );
 	}
 
 	/**

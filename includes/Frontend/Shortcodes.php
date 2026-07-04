@@ -15,6 +15,7 @@ use ZihadTravelCMS\Helpers\Template;
 use ZihadTravelCMS\Views\Cards\CtaCard;
 use ZihadTravelCMS\Views\GridRenderer;
 use ZihadTravelCMS\Views\SearchFormData;
+use ZihadTravelCMS\Views\SearchWidgetRenderer;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  *  [ztc_visas count="6" columns="3" type="tourist" country="0" heading=""]
  *  [ztc_countries count="6" columns="3" region="asia" heading=""]
  *  [ztc_search type="tour"]
+ *  [ztc_search_widget tabs="visa,tour" default="visa" heading=""]
  *  [ztc_cta title="" text="" button_text="" button_url=""]
  */
 final class Shortcodes implements Registrable {
@@ -32,14 +34,16 @@ final class Shortcodes implements Registrable {
 	/**
 	 * Constructor.
 	 *
-	 * @param GridRenderer   $grids    Card grid renderer.
-	 * @param SearchFormData $search   Search form view-models.
-	 * @param CtaCard        $cta      CTA card.
-	 * @param Template       $template Template renderer.
+	 * @param GridRenderer         $grids    Card grid renderer.
+	 * @param SearchFormData       $search   Search form view-models.
+	 * @param SearchWidgetRenderer $widget   Tabbed search widget.
+	 * @param CtaCard              $cta      CTA card.
+	 * @param Template             $template Template renderer.
 	 */
 	public function __construct(
 		private GridRenderer $grids,
 		private SearchFormData $search,
+		private SearchWidgetRenderer $widget,
 		private CtaCard $cta,
 		private Template $template,
 	) {}
@@ -52,7 +56,29 @@ final class Shortcodes implements Registrable {
 		add_shortcode( 'ztc_visas', array( $this, 'visas' ) );
 		add_shortcode( 'ztc_countries', array( $this, 'countries' ) );
 		add_shortcode( 'ztc_search', array( $this, 'search_form' ) );
+		add_shortcode( 'ztc_search_widget', array( $this, 'search_widget' ) );
 		add_shortcode( 'ztc_cta', array( $this, 'cta' ) );
+	}
+
+	/**
+	 * [ztc_search_widget] — the tabbed Visa/Tour search widget (the
+	 * same renderer the Elementor widget and homepage injection use).
+	 *
+	 * @param array<string, string>|string $atts Shortcode attributes.
+	 */
+	public function search_widget( array|string $atts ): string {
+		$atts = shortcode_atts(
+			array(
+				'tabs'    => 'visa,tour',
+				'default' => '',
+				'heading' => '',
+			),
+			is_array( $atts ) ? $atts : array(),
+			'ztc_search_widget'
+		);
+
+		// The renderer enqueues the frontend assets itself.
+		return $this->widget->render( $atts );
 	}
 
 	/**

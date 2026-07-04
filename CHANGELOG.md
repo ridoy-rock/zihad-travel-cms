@@ -174,3 +174,33 @@ so all work is under **Unreleased** (targeting 1.0.0) in chronological order.
   registration suite updated for the new module id.
 - Docs: `docs/setup-wizard.md`; dashboard gained a Setup Wizard quick
   action.
+
+### Module 7: Homepage Search Widget — 2026-07-05
+
+- Tabbed Visa/Tour search widget — Visas: keyword, Country, Visa Type;
+  Tours: keyword, Country, Tour Type, Duration, Budget — with **one**
+  render path (`Views\SearchWidgetRenderer` + theme-overridable
+  `search-widget.php` part) shared verbatim by the
+  `[ztc_search_widget]` shortcode, the new "Travel Search" Elementor
+  widget and the settings-gated homepage auto-injection
+  (`homepage.show_search`; Elementor-built front pages excluded;
+  `ztc_show_homepage_search` veto filter).
+- Progressive enhancement twice over: CSS-only radio tabs (no
+  JavaScript at all), and forms that submit to the type archives where
+  the new `ArchiveFilters` component applies the same clauses to the
+  main query via `pre_get_posts` — full no-JS parity plus shareable,
+  cacheable filtered URLs. With JavaScript the existing frontend.js
+  drives the forms through `GET ztc/v1/search` unchanged.
+- Performance: new `ztc_duration_days` numeric mirror
+  (`TourDurationSync` keeps it in sync on every meta write path) so
+  duration filters run as plain NUMERIC meta queries; country select
+  options cached in a transient (flushed on country save/delete);
+  single-select `duration`/`budget` "min-max" range params validated on
+  the REST route and parsed by one shared
+  `SearchService::filter_clauses()` used by REST and archives alike.
+- Fixed: archive queries no longer inherit a junk empty-string clause
+  when merging into an unset `tax_query`/`meta_query`.
+- Tests: new `search-widget-smoke` suite (14 suites total, all green);
+  registration/frontend suites updated for the new meta key and
+  shortcode.
+- Docs: `docs/search-widget.md`.

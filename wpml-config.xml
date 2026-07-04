@@ -60,6 +60,7 @@
 		<custom-field action="copy">ztc_price</custom-field>
 		<custom-field action="copy">ztc_sale_price</custom-field>
 		<custom-field action="translate">ztc_duration</custom-field>
+		<custom-field action="copy">ztc_duration_days</custom-field>
 		<custom-field action="copy">ztc_gallery</custom-field>
 		<custom-field action="translate">ztc_highlights</custom-field>
 		<custom-field action="translate">ztc_itinerary</custom-field>

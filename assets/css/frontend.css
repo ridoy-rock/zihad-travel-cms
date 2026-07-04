@@ -281,3 +281,58 @@
 	color: #fff;
 	transform: scale(1.08);
 }
+
+/* Tabbed search widget (CSS-only tabs — no JavaScript required). */
+.ztc-search-widget__radio {
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+.ztc-search-widget__box {
+	background: var(--ztc-surface, #fff);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 0.5rem;
+	box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.06);
+	padding: 1rem;
+}
+
+.ztc-search-widget__labels {
+	display: flex;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.ztc-search-widget__label {
+	border-bottom: 2px solid transparent;
+	cursor: pointer;
+	font-weight: 600;
+	padding: 0.25rem 0.75rem;
+}
+
+.ztc-search-widget__radio:focus-visible ~ .ztc-search-widget__labels .ztc-search-widget__label {
+	outline: 2px solid var(--ztc-brand, #0d6efd);
+	outline-offset: 2px;
+}
+
+.ztc-search-widget__panel {
+	display: none;
+}
+
+.ztc-search-widget__radio--visa:checked ~ .ztc-search-widget__labels .ztc-search-widget__label[for$="-visa"],
+.ztc-search-widget__radio--tour:checked ~ .ztc-search-widget__labels .ztc-search-widget__label[for$="-tour"] {
+	border-bottom-color: var(--ztc-brand, #0d6efd);
+	color: var(--ztc-brand, #0d6efd);
+}
+
+.ztc-search-widget__radio--visa:checked ~ .ztc-search-widget__panels .ztc-search-widget__panel--visa,
+.ztc-search-widget__radio--tour:checked ~ .ztc-search-widget__panels .ztc-search-widget__panel--tour {
+	display: block;
+}
+
+.ztc-search-widget__results:not(:empty) {
+	margin-top: 1.5rem;
+}

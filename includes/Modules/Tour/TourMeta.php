@@ -24,11 +24,12 @@ defined( 'ABSPATH' ) || exit;
  */
 final class TourMeta extends BasePostMeta {
 
-	public const COUNTRY    = 'ztc_country';
-	public const HERO_IMAGE = 'ztc_hero_image';
-	public const PRICE      = 'ztc_price';
-	public const SALE_PRICE = 'ztc_sale_price';
-	public const DURATION   = 'ztc_duration';
+	public const COUNTRY       = 'ztc_country';
+	public const HERO_IMAGE    = 'ztc_hero_image';
+	public const PRICE         = 'ztc_price';
+	public const SALE_PRICE    = 'ztc_sale_price';
+	public const DURATION      = 'ztc_duration';
+	public const DURATION_DAYS = 'ztc_duration_days';
 	public const GALLERY    = 'ztc_gallery';
 	public const HIGHLIGHTS = 'ztc_highlights';
 	public const ITINERARY  = 'ztc_itinerary';
@@ -63,6 +64,10 @@ final class TourMeta extends BasePostMeta {
 					'nights' => 'text',
 				)
 			),
+			// Numeric mirror of DURATION['days'], maintained by
+			// TourDurationSync so search can range-filter and sort
+			// without parsing the object.
+			self::DURATION_DAYS => $this->int_field(),
 			self::GALLERY    => $this->int_list_field(), // Attachment IDs.
 			self::HIGHLIGHTS => $this->string_list_field(),
 			self::ITINERARY  => $this->object_list_field(

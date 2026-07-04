@@ -101,6 +101,20 @@ final class SearchController {
 						'default' => 0,
 						'minimum' => 0,
 					),
+					'budget'    => array(
+						'description'       => __( 'Tour price range as "min-max"; 0 max means open-ended, e.g. 2000-0.', 'zihad-travel-cms' ),
+						'type'              => 'string',
+						'default'           => '',
+						'pattern'           => '^$|^\d+(\.\d+)?-\d+(\.\d+)?$',
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+					'duration'  => array(
+						'description'       => __( 'Tour length in days as "min-max"; 0 max means open-ended, e.g. 15-0.', 'zihad-travel-cms' ),
+						'type'              => 'string',
+						'default'           => '',
+						'pattern'           => '^$|^\d+-\d+$',
+						'sanitize_callback' => 'sanitize_text_field',
+					),
 					'orderby'   => array(
 						'type'    => 'string',
 						'enum'    => array( 'date', 'price', 'title' ),

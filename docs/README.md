@@ -11,6 +11,7 @@ Documentation for every module ships here, one file per feature.
 | [settings.md](settings.md) | The settings screen (11 built-in tabs + filter-added tabs), settings data layer, REST API, frontend integrations and dashboard |
 | [seo.md](seo.md) | Meta/OpenGraph/Twitter output, canonical URLs, robots, Schema.org JSON-LD, Yoast/Rank Math deferral and the `ztc_seo_*` filters |
 | [setup-wizard.md](setup-wizard.md) | The eleven-step first-run wizard: settings orchestration, resume/skip/rerun semantics, no-JS demo install, REST API, extension hooks |
+| [search-widget.md](search-widget.md) | The tabbed Visa/Tour search widget: one render path for shortcode/Elementor/homepage, duration mirror, range filters, no-JS archive parity, caching |
 
 ## Conventions
 

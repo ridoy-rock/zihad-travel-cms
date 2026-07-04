@@ -26,12 +26,18 @@ import/export engine, and installable bilingual (English/Bangla) demo data.
   with FAQPage JSON-LD; SEO-friendly URLs (`/tour/`, `/visa/`, `/country/`,
   `/visa-type/`, `/tour-type/`, `/region/`).
 - **AJAX search & filters** — public, cacheable REST endpoint
-  (`GET ztc/v1/search`) with keyword, region, type, country and price-range
-  filters; progressive enhancement (works without JavaScript).
+  (`GET ztc/v1/search`) with keyword, region, type, country, price, duration
+  and budget filters; progressive enhancement (works without JavaScript —
+  archive URLs filter server-side).
+- **Homepage search widget** — tabbed Visa (Country, Visa Type) / Tour
+  (Country, Tour Type, Duration, Budget) search with CSS-only tabs; one
+  shared render path for the shortcode, the Elementor widget and the
+  optional homepage auto-injection.
 - **Elementor** — "Travel CMS" widget category (Tours/Visas/Countries grids,
-  CTA) and dynamic tags (post fields, hero image, global settings).
+  CTA, Travel Search) and dynamic tags (post fields, hero image, global
+  settings).
 - **Shortcodes** — `[ztc_tours]`, `[ztc_visas]`, `[ztc_countries]`,
-  `[ztc_search]`, `[ztc_cta]`.
+  `[ztc_search]`, `[ztc_search_widget]`, `[ztc_cta]`.
 - **Import / Export** — generic CSV/JSON engine with batched jobs, live
   progress, resume, error logs, duplicate detection (create/update/upsert),
   rollback, and image sideloading from URLs. REST + WP-CLI + admin UI.
