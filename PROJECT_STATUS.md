@@ -1,6 +1,6 @@
 # Zihad Travel CMS — Project Status
 
-_Last updated: 2026-07-04 (after Module 5: SEO)._
+_Last updated: 2026-07-04 (after Module 6: Setup Wizard)._
 
 _See also: [README.md](README.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md) (v1.0 → v2.0) · [CHANGELOG.md](CHANGELOG.md) · [CONTRIBUTING.md](CONTRIBUTING.md)._
 
@@ -66,26 +66,25 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | 2 | **Import/Export engine** | `f7ef0d3` | Generic mapping contract; CSV/JSON both directions; batched jobs with progress/resume/error log/rollback; duplicate detection (create/update/upsert); image URL sideloading with dedup; REST + WP-CLI + admin progress UI |
 | 3 | **Demo Data generator + installer** | `95ddd61` | Data-driven (105 seed countries en+bn, localized template bank); deterministic generator (105 countries / 473 visas / 132 tours, byte-identical regeneration); installer is a thin wrapper over the importer; `en`/`bn` locales with shared slugs |
 | 4 | **Global Dashboard & Settings** | `89cc196` | 11-tab settings screen (reusing the field framework); structural SettingsSanitizer on every write path; REST settings API; Elementor SettingTag; frontend Integrations (brand CSS vars, custom CSS/JS, GA, FB Pixel, floating WhatsApp); dashboard widgets (counts, demo status, recent imports) |
-| 5 | **SEO** | — | Title/description/keywords, canonical URLs (incl. pagination), robots, OpenGraph + Twitter Cards on all plugin routes; Schema.org JSON-LD via one SchemaService (TouristTrip, GovernmentService, Country, CollectionPage, BreadcrumbList — FAQPage stays with the FAQ part); per-post `ztc_seo` extended with robots/canonical; `seo.*` settings + 12th tab via existing filters; auto-defers to Yoast/Rank Math; 8 `ztc_seo_*` output filters; once-per-request memoized resolution |
+| 5 | **SEO** | `d5542e0` | Title/description/keywords, canonical URLs (incl. pagination), robots, OpenGraph + Twitter Cards on all plugin routes; Schema.org JSON-LD via one SchemaService (TouristTrip, GovernmentService, Country, CollectionPage, BreadcrumbList — FAQPage stays with the FAQ part); per-post `ztc_seo` extended with robots/canonical; `seo.*` settings + 12th tab via existing filters; auto-defers to Yoast/Rank Math; 8 `ztc_seo_*` output filters; once-per-request memoized resolution |
+| 6 | **Setup Wizard** | — | Eleven-step first-run installer that only orchestrates existing services (settings pipeline, demo installer, health checks, dashboard data); resumable/skippable/rerunnable, independent per-step saves, pre-filled fields (no silent overwrites), no-JS demo install via bounded import batches, one-shot activation redirect, `ztc/v1/wizard*` REST, `ztc_wizard_steps` filter + lifecycle actions |
 
-**Testing:** 12 standalone smoke suites (WP-function stubs, no WordPress
+**Testing:** 13 standalone smoke suites (WP-function stubs, no WordPress
 install needed) covering boot, registration, services, the editor framework,
 all three editors, the frontend engine, importer, demo data,
-settings/dashboard and SEO — all green after Module 5.
+settings/dashboard, SEO and the setup wizard — all green after Module 6.
 
 **Docs:** [docs/](docs/) — architecture, tour editor, importer, demo data,
-settings, SEO.
+settings, SEO, setup wizard.
 
 ## Remaining Roadmap (strict order)
 
-1. **Setup Wizard** — professional first-run installer (company info,
-   defaults, demo data, permalink check).
-2. **Homepage Search Widget** — tabbed Visa (Country, Visa Type) / Tour
+1. **Homepage Search Widget** — tabbed Visa (Country, Visa Type) / Tour
    (Country, Tour Type, Duration, Budget) search; shortcode + Elementor
    widget + AJAX, reusing `SearchService`/`GridRenderer`.
-3. **Booking / Inquiry Forms** — visa & tour inquiries, WhatsApp CTA, email
+2. **Booking / Inquiry Forms** — visa & tour inquiries, WhatsApp CTA, email
    notifications (settings section already exists).
-4. **AI Module** — auto-fill via the editor toolbar hooks + REST-registered
+3. **AI Module** — auto-fill via the editor toolbar hooks + REST-registered
    meta (extension points already in place).
 
 **Release hardening (before 1.0 ship, alongside the modules):** ship real
@@ -116,7 +115,7 @@ licensing & update mechanism; regenerate the `.pot` file.
 
 ## Current Completion
 
-**≈ 70%** toward a shippable 1.0.
+**≈ 78%** toward a shippable 1.0.
 
 | Area | Status |
 |---|---|
@@ -127,7 +126,7 @@ licensing & update mechanism; regenerate the `.pot` file.
 | Import/Export + Demo data | ██████████ 100% |
 | Dashboard & Settings | ██████████ 100% |
 | SEO | ██████████ 100% |
-| Setup wizard | ░░░░░░░░░░ 0% |
+| Setup wizard | ██████████ 100% |
 | Booking / inquiry | █░░░░░░░░░ 10% (settings + WhatsApp CTA exist) |
 | AI module | █░░░░░░░░░ 10% (hooks + REST meta ready) |
 | Release hardening (assets, CI, caps, licensing) | ██░░░░░░░░ 20% |

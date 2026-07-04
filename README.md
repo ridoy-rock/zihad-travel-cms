@@ -44,6 +44,10 @@ import/export engine, and installable bilingual (English/Bangla) demo data.
   (TouristTrip, GovernmentService, Country, BreadcrumbList, FAQPage) with
   per-post overrides and global defaults; automatically defers to
   Yoast SEO / Rank Math; every output filterable (`ztc_seo_*`).
+- **Setup wizard** — eleven-step first-run installer (resumable,
+  skippable, no-JS capable, REST-driven) that writes through the normal
+  settings pipeline and installs demo data via the import engine;
+  re-runnable from Travel CMS → Setup.
 - **Settings & dashboard** — 12-tab settings screen (branding, contact,
   WhatsApp, Maps/Analytics/Pixel, booking, performance, custom CSS/JS),
   REST settings API, dashboard widgets (content counts, demo status,
@@ -67,9 +71,13 @@ import/export engine, and installable bilingual (English/Bangla) demo data.
 2. (Optional, dev) `composer install` — the plugin ships a PSR-4 fallback
    autoloader, so Composer is not required at runtime.
 3. Activate **Zihad Travel CMS** on the Plugins screen.
-4. Configure **Travel CMS → Settings**; check **Travel CMS → Health**.
-5. Optional demo content: **Travel CMS → Import / Export → Demo Data →
-   Install**, or `wp ztc demo install`.
+4. The **Setup Wizard** opens automatically — company info, branding,
+   contact channels, tracking and optional demo data in eleven guided,
+   skippable steps (re-run anytime from **Travel CMS → Setup**).
+5. Fine-tune under **Travel CMS → Settings**; check **Travel CMS →
+   Health**.
+6. Demo content (if not installed during setup): **Travel CMS →
+   Import / Export → Demo Data → Install**, or `wp ztc demo install`.
 
 ## Folder Structure
 

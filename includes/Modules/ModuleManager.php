@@ -79,6 +79,7 @@ final class ModuleManager {
 			Importer\ImporterModule::class,
 			DemoData\DemoDataModule::class,
 			Seo\SeoModule::class,
+			Wizard\WizardModule::class,
 			Ai\AiModule::class,
 			Elementor\ElementorModule::class,
 			Analytics\AnalyticsModule::class,

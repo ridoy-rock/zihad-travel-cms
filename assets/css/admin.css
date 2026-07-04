@@ -398,3 +398,76 @@ legend.ztc-field__label {
 	font-family: Consolas, Monaco, monospace;
 	tab-size: 2;
 }
+
+/* Setup wizard */
+.ztc-wizard__steps {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 16px;
+	list-style: none;
+	margin: 16px 0 0;
+	padding: 0;
+}
+
+.ztc-wizard__step {
+	color: #646970;
+	margin: 0;
+	padding-left: 22px;
+	position: relative;
+}
+
+.ztc-wizard__step::before {
+	content: "\25CB";
+	left: 0;
+	position: absolute;
+}
+
+.ztc-wizard__step.is-completed::before {
+	color: #00a32a;
+	content: "\2713";
+}
+
+.ztc-wizard__step.is-current {
+	color: #1d2327;
+	font-weight: 600;
+}
+
+.ztc-wizard__step.is-current::before {
+	content: "\25CF";
+}
+
+.ztc-wizard__card {
+	max-width: 720px;
+	padding: 8px 20px 20px;
+}
+
+.ztc-wizard__count {
+	color: #646970;
+	float: right;
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.ztc-wizard__nav {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	margin-top: 20px;
+}
+
+.ztc-wizard__stats {
+	display: flex;
+	gap: 24px;
+	list-style: none;
+	margin: 16px 0;
+	padding: 0;
+}
+
+.ztc-wizard__stats strong {
+	display: block;
+	font-size: 20px;
+}
+
+.ztc-wizard__checks {
+	margin: 16px 0;
+}

@@ -17,7 +17,7 @@ Everything required to replace WP Travel Engine on a production agency site.
 | ✅ | Module 3 — Demo Data generator + installer (bilingual, deterministic, importer-driven) |
 | ✅ | Module 4 — Global Dashboard & Settings (11 tabs, REST, integrations, dashboard widgets) |
 | ✅ | Module 5 — SEO: global defaults + per-post overrides (incl. robots/canonical), meta title/description/keywords, canonical URLs, OpenGraph, Twitter Cards, Schema.org (TouristTrip / GovernmentService / Country / CollectionPage), breadcrumb schema, 8 output filters; auto-defers to Yoast/Rank Math |
-| ⬜ | Module 6 — Setup Wizard: first-run installer (company info, defaults, demo data, permalink check) |
+| ✅ | Module 6 — Setup Wizard: eleven-step first-run installer (company info, branding, contact, social, WhatsApp, Maps, analytics, homepage, demo data, permalink check); resumable/skippable/rerunnable, no-JS capable, REST-driven, pure orchestration of existing services |
 | ⬜ | Module 7 — Homepage Search Widget: tabbed Visa (Country, Visa Type) / Tour (Country, Tour Type, Duration, Budget); shortcode + Elementor widget + AJAX via the existing SearchService |
 | ⬜ | Module 8 — Booking / Inquiry: visa & tour inquiry forms, inquiry CPT, WhatsApp CTA, email notifications |
 | ⬜ | Release hardening: ship real Bootstrap 5 builds, migrate smoke suites into `tests/` + CI (PHPCS/PHPStan/suites), custom capabilities ("Travel Manager" role), licensing/update mechanism, regenerate `.pot` |

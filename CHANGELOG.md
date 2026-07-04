@@ -139,3 +139,38 @@ so all work is under **Unreleased** (targeting 1.0.0) in chronological order.
 - Tests: new `seo-smoke` suite (12 suites total, all green); visa- and
   country-editor suites updated for the extended `ztc_seo` shape.
 - Docs: `docs/seo.md`.
+
+### Module 6: Setup Wizard — 2026-07-04
+
+- `Modules\Wizard`: an eleven-step first-run installer (Welcome,
+  Company, Branding, Contact, Social, WhatsApp, Maps, Analytics/Pixel,
+  Homepage, optional Demo Data, Finish) that only orchestrates existing
+  functionality — shared field components pre-filled from Config,
+  saves through the settings pipeline (field sanitize → structural
+  SettingsSanitizer → one batched write), demo install through
+  DemoDataInstaller/ImportService, finish summary from
+  DashboardData + HealthService (incl. the permalink check).
+- Resumable (progress in `ztc_wizard_state`; completed steps
+  revisitable), skippable (per step and entirely), rerunnable from
+  Travel CMS → Setup, restartable without touching settings; each step
+  saves independently and every field shows its saved value before
+  anything is written.
+- Progressive enhancement: plain forms/redirects throughout; the demo
+  step installs without JavaScript via bounded batch slices per
+  submission, and reuses the existing admin.js REST progress loop when
+  JavaScript is available.
+- First-run flow: one-shot redirect after activation (via the existing
+  `ztc_activated` action — Activator untouched) plus a dismissible
+  "finish setting up" notice on plugin screens.
+- REST under `ztc/v1`: `GET /wizard`, `POST /wizard/step`,
+  `/wizard/skip`, `/wizard/complete`, `/wizard/reset` (all
+  `manage_options`); demo installs reuse `/demo/start` +
+  `/import/process`.
+- Extension points: `ztc_wizard_steps` filter;
+  `ztc_wizard_step_saved`, `ztc_wizard_step_completed`,
+  `ztc_wizard_completed`, `ztc_wizard_reset` actions.
+- Tests: new `wizard-smoke` suite (13 suites total, all green; includes
+  a full no-JS demo install through the real import engine);
+  registration suite updated for the new module id.
+- Docs: `docs/setup-wizard.md`; dashboard gained a Setup Wizard quick
+  action.

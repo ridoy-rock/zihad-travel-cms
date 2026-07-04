@@ -79,5 +79,6 @@ $ztc_imports = (array) ( $data['imports'] ?? array() );
 		<a class="button" href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ztc_country' ) ); ?>"><?php esc_html_e( 'Add Country', 'zihad-travel-cms' ); ?></a>
 		<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zihad-travel-cms-settings' ) ); ?>"><?php esc_html_e( 'Settings', 'zihad-travel-cms' ); ?></a>
 		<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zihad-travel-cms-health' ) ); ?>"><?php esc_html_e( 'Plugin Health', 'zihad-travel-cms' ); ?></a>
+		<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=zihad-travel-cms-setup' ) ); ?>"><?php esc_html_e( 'Setup Wizard', 'zihad-travel-cms' ); ?></a>
 	</p>
 </div>
