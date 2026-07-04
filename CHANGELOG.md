@@ -1,10 +1,20 @@
 # Changelog
 
 All notable changes to Zihad Travel CMS. The format follows
-[Keep a Changelog](https://keepachangelog.com/); the project is pre-release,
-so all work is under **Unreleased** (targeting 1.0.0) in chronological order.
+[Keep a Changelog](https://keepachangelog.com/); sections within a
+release are chronological.
 
 ## [Unreleased]
+
+_Nothing yet._
+
+## [1.0.0] — 2026-07-05
+
+The first release: Country/Visa/Tour content types with tabbed editors,
+a themeable Bootstrap 5 frontend with AJAX search and the tabbed search
+widget, inquiry forms, a built-in SEO module, a guided setup wizard,
+bilingual demo data, a CSV/JSON import/export engine, Elementor
+integration, REST API and WP-CLI commands. Development history below.
 
 ### Foundation — 2026-07-04 (`ad36f06`)
 
