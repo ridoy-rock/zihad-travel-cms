@@ -23,7 +23,10 @@ jobs:
       - name: JS syntax
         run: for f in assets/js/*.js; do node --check "$f"; done
       - name: XML validation
-        run: php -r 'exit( false === simplexml_load_file( "wpml-config.xml" ) ? 1 : 0 );'
+        # Block scalar: the ternary's ": 0" would otherwise be parsed
+        # as a YAML mapping and invalidate the whole workflow.
+        run: |
+          php -r 'exit( false === simplexml_load_file( "wpml-config.xml" ) ? 1 : 0 );'
 
   tests:
     name: Smoke suites (PHP ${{ matrix.php }})
