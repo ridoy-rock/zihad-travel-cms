@@ -25,9 +25,13 @@ final class Menu implements Registrable {
 	/**
 	 * Constructor.
 	 *
-	 * @param Template $template Template renderer.
+	 * @param Template      $template  Template renderer.
+	 * @param DashboardData $dashboard Dashboard view-model provider.
 	 */
-	public function __construct( private Template $template ) {}
+	public function __construct(
+		private Template $template,
+		private DashboardData $dashboard,
+	) {}
 
 	/**
 	 * {@inheritDoc}
@@ -56,6 +60,6 @@ final class Menu implements Registrable {
 	 * Render the top-level (dashboard) screen.
 	 */
 	public function render_dashboard(): void {
-		$this->template->render( 'admin/dashboard.php' );
+		$this->template->render( 'admin/dashboard.php', $this->dashboard->stats() );
 	}
 }

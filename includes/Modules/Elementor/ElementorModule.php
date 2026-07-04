@@ -110,6 +110,7 @@ final class ElementorModule extends BaseModule {
 
 		$dynamic_tags->register( new Tags\FieldTag() );
 		$dynamic_tags->register( new Tags\HeroImageTag() );
+		$dynamic_tags->register( new Tags\SettingTag() );
 	}
 
 	/**

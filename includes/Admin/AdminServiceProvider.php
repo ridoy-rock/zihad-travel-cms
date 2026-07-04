@@ -30,6 +30,7 @@ final class AdminServiceProvider extends ServiceProvider {
 	 */
 	private function pages(): array {
 		$pages = array(
+			Pages\SettingsPage::class,
 			Pages\HealthPage::class,
 		);
 

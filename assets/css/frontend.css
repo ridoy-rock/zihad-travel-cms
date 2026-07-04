@@ -254,3 +254,30 @@
 .ztc-grid-section__heading {
 	margin-bottom: 1rem;
 }
+
+/* ------------------------------------------------------------------
+ * Floating WhatsApp button.
+ * ---------------------------------------------------------------- */
+
+.ztc-whatsapp-fab {
+	align-items: center;
+	background: #25d366;
+	border-radius: 50%;
+	bottom: 1.25rem;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+	color: #fff;
+	display: flex;
+	height: 56px;
+	justify-content: center;
+	position: fixed;
+	right: 1.25rem;
+	transition: transform 0.15s ease-in-out;
+	width: 56px;
+	z-index: 999;
+}
+
+.ztc-whatsapp-fab:hover,
+.ztc-whatsapp-fab:focus {
+	color: #fff;
+	transform: scale(1.08);
+}

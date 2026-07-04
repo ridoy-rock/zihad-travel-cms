@@ -12,6 +12,7 @@ namespace ZihadTravelCMS\Modules\Search;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
+use ZihadTravelCMS\Core\Config;
 use ZihadTravelCMS\RestApi\RestApiServiceProvider;
 
 defined( 'ABSPATH' ) || exit;
@@ -30,8 +31,12 @@ final class SearchController {
 	 * Constructor.
 	 *
 	 * @param SearchService $search Search service.
+	 * @param Config        $config Plugin configuration (cache TTL).
 	 */
-	public function __construct( private SearchService $search ) {}
+	public function __construct(
+		private SearchService $search,
+		private Config $config,
+	) {}
 
 	/**
 	 * Register the /search route.
@@ -114,8 +119,10 @@ final class SearchController {
 	public function handle( WP_REST_Request $request ): WP_REST_Response {
 		$response = new WP_REST_Response( $this->search->search( $request->get_params() ) );
 
-		// Public, read-only data: let CDNs and proxies cache briefly.
-		$response->header( 'Cache-Control', 'public, max-age=60' );
+		// Public, read-only data: let CDNs and proxies cache for the
+		// TTL configured in Settings → Performance.
+		$ttl = max( 0, (int) $this->config->get( 'performance.cache_ttl', 300 ) );
+		$response->header( 'Cache-Control', 'public, max-age=' . $ttl );
 
 		return $response;
 	}

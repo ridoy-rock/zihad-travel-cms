@@ -107,17 +107,21 @@ final class Assets implements Registrable {
 			true
 		);
 
+		// Themes that ship their own Bootstrap can disable the bundled
+		// build in Settings → Performance.
+		$load_bootstrap = (bool) $this->config->get( 'performance.load_bootstrap', true );
+
 		wp_register_style(
 			self::STYLE_FRONTEND,
 			$this->config->url( 'assets/css/frontend.css' ),
-			array( self::STYLE_BOOTSTRAP ),
+			$load_bootstrap ? array( self::STYLE_BOOTSTRAP ) : array(),
 			$this->config->version()
 		);
 
 		wp_register_script(
 			self::SCRIPT_FRONTEND,
 			$this->config->url( 'assets/js/frontend.js' ),
-			array( self::SCRIPT_BOOTSTRAP ),
+			$load_bootstrap ? array( self::SCRIPT_BOOTSTRAP ) : array(),
 			$this->config->version(),
 			true
 		);

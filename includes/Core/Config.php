@@ -99,22 +99,32 @@ final class Config {
 	 */
 	public function defaults(): array {
 		$defaults = array(
-			'general'  => array(
+			'general'      => array(
 				'currency'          => 'USD',
 				'currency_position' => 'before',
 				'date_format'       => 'Y-m-d',
 				'language'          => '',
+				'default_country'   => 0,
 			),
-			'company'  => array(
-				'name'        => '',
-				'whatsapp'    => '',
-				'phone'       => '',
-				'email'       => '',
-				'address'     => '',
-				'brand_color' => '#0d6efd',
-				'logo'        => 0,
+			'homepage'     => array(
+				'hero_title'              => '',
+				'hero_subtitle'           => '',
+				'show_search'             => true,
+				'featured_countries_count' => 8,
+				'popular_tours_count'     => 6,
 			),
-			'social'   => array(
+			'company'      => array(
+				'name'            => '',
+				'whatsapp'        => '',
+				'phone'           => '',
+				'hotline'         => '',
+				'email'           => '',
+				'address'         => '',
+				'brand_color'     => '#0d6efd',
+				'secondary_color' => '#198754',
+				'logo'            => 0,
+			),
+			'social'       => array(
 				'facebook'  => '',
 				'instagram' => '',
 				'twitter'   => '',
@@ -122,11 +132,36 @@ final class Config {
 				'linkedin'  => '',
 				'tiktok'    => '',
 			),
-			'display'  => array(
+			'whatsapp'     => array(
+				'default_message' => '',
+				'floating_button' => false,
+			),
+			'integrations' => array(
+				'maps_api_key'      => '',
+				'maps_default_zoom' => 10,
+				'ga_id'             => '',
+				'fb_pixel_id'       => '',
+			),
+			'booking'      => array(
+				'notification_email'  => '',
+				'enable_visa_inquiry' => true,
+				'enable_tour_inquiry' => true,
+				'success_message'     => '',
+			),
+			'performance'  => array(
+				'cache_ttl'      => 300,
+				'lazy_load'      => true,
+				'load_bootstrap' => true,
+			),
+			'custom_code'  => array(
+				'css' => '',
+				'js'  => '',
+			),
+			'display'      => array(
 				'tours_per_page' => 12,
 				'enable_reviews' => true,
 			),
-			'advanced' => array(
+			'advanced'     => array(
 				'delete_data_on_uninstall' => false,
 			),
 		);

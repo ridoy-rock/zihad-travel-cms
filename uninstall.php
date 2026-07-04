@@ -65,6 +65,7 @@ function ztc_uninstall_site() {
 	delete_option( 'ztc_installed_at' );
 	delete_option( 'ztc_flush_rewrite_rules' );
 	delete_option( 'ztc_import_jobs' );
+	delete_option( 'ztc_demo_installed' );
 
 	// Delete import job records and transients created by the plugin.
 	global $wpdb;

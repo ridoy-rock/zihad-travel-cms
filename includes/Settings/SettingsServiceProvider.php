@@ -15,14 +15,29 @@ use ZihadTravelCMS\Core\ServiceProvider;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Owns the settings schema: registration with the WordPress Settings
- * API and sanitization of everything saved into the plugin option.
- *
- * The settings *screen* lives in Admin\Pages; this provider owns the
- * data layer so REST and WP-CLI writes go through the same
- * sanitization as the admin form.
+ * Owns the settings data layer: the Settings API registration, the
+ * shared structural sanitizer and the REST settings endpoint. The
+ * settings *screen* lives in Admin\Pages\SettingsPage; every write
+ * path (form, REST, WP-CLI) goes through SettingsSanitizer.
  */
 final class SettingsServiceProvider extends ServiceProvider {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function register(): void {
+		$this->container->singleton( SettingsSanitizer::class );
+		$this->container->singleton( GlobalSettings::class );
+
+		add_filter(
+			'ztc_rest_controllers',
+			static function ( array $controllers ): array {
+				$controllers[] = SettingsController::class;
+
+				return $controllers;
+			}
+		);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -40,27 +55,9 @@ final class SettingsServiceProvider extends ServiceProvider {
 			Config::OPTION_NAME,
 			array(
 				'type'              => 'object',
-				'sanitize_callback' => array( $this, 'sanitize' ),
+				'sanitize_callback' => array( $this->container->get( SettingsSanitizer::class ), 'sanitize' ),
 				'show_in_rest'      => false,
 			)
 		);
-	}
-
-	/**
-	 * Sanitize the settings array before it is saved.
-	 *
-	 * Field-level sanitization is added alongside the settings screen;
-	 * until then, unknown top-level sections are stripped.
-	 *
-	 * @param mixed $value Raw submitted value.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function sanitize( mixed $value ): array {
-		$config = $this->container->get( Config::class );
-		$value  = is_array( $value ) ? $value : array();
-
-		// Only keep sections that exist in the defaults schema.
-		return array_intersect_key( $value, $config->defaults() );
 	}
 }

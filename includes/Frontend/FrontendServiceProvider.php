@@ -31,6 +31,7 @@ final class FrontendServiceProvider extends ServiceProvider {
 		$this->container->singleton( SearchFormData::class );
 		$this->container->singleton( TemplateLoader::class );
 		$this->container->singleton( Shortcodes::class );
+		$this->container->singleton( Integrations::class );
 	}
 
 	/**
@@ -44,5 +45,6 @@ final class FrontendServiceProvider extends ServiceProvider {
 		}
 
 		$this->container->get( TemplateLoader::class )->register();
+		$this->container->get( Integrations::class )->register();
 	}
 }

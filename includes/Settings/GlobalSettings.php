@@ -67,6 +67,62 @@ final class GlobalSettings {
 	}
 
 	/**
+	 * Hotline number.
+	 */
+	public function hotline(): string {
+		return (string) $this->config->get( 'company.hotline', '' );
+	}
+
+	/**
+	 * Secondary brand color as a hex value.
+	 */
+	public function secondary_color(): string {
+		return (string) $this->config->get( 'company.secondary_color', '#198754' );
+	}
+
+	/**
+	 * Default destination country (post ID, 0 when unset).
+	 */
+	public function default_country(): int {
+		return (int) $this->config->get( 'general.default_country', 0 );
+	}
+
+	/**
+	 * Pre-filled message for WhatsApp conversations.
+	 */
+	public function whatsapp_default_message(): string {
+		return (string) $this->config->get( 'whatsapp.default_message', '' );
+	}
+
+	/**
+	 * Whether the floating WhatsApp button is enabled.
+	 */
+	public function floating_whatsapp_enabled(): bool {
+		return (bool) $this->config->get( 'whatsapp.floating_button', false );
+	}
+
+	/**
+	 * Google Maps API key.
+	 */
+	public function maps_api_key(): string {
+		return (string) $this->config->get( 'integrations.maps_api_key', '' );
+	}
+
+	/**
+	 * Google Analytics measurement ID.
+	 */
+	public function analytics_id(): string {
+		return (string) $this->config->get( 'integrations.ga_id', '' );
+	}
+
+	/**
+	 * Facebook Pixel ID.
+	 */
+	public function pixel_id(): string {
+		return (string) $this->config->get( 'integrations.fb_pixel_id', '' );
+	}
+
+	/**
 	 * Contact email, falling back to the site admin email.
 	 */
 	public function email(): string {

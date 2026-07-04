@@ -338,3 +338,63 @@ legend.ztc-field__label {
 	margin: 0;
 	padding: 4px 0;
 }
+
+/* ------------------------------------------------------------------
+ * Dashboard + settings.
+ * ---------------------------------------------------------------- */
+
+.ztc-stat-grid {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	margin: 16px 0;
+	max-width: 900px;
+}
+
+.ztc-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin: 0;
+	padding: 20px;
+	text-decoration: none;
+}
+
+.ztc-stat__count {
+	color: #1d2327;
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1;
+}
+
+.ztc-stat__label {
+	color: #50575e;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 0.75rem;
+}
+
+.ztc-stat__status {
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+.ztc-stat__status--good {
+	color: #00a32a;
+}
+
+.ztc-dashboard__actions {
+	margin-top: 16px;
+}
+
+.ztc-settings .ztc-editor {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	margin: 16px 0 0;
+	max-width: 960px;
+}
+
+.ztc-code {
+	font-family: Consolas, Monaco, monospace;
+	tab-size: 2;
+}

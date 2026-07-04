@@ -46,5 +46,21 @@ final class DemoDataModule extends BaseModule {
 				\WP_CLI::add_command( 'ztc demo', ztc()->get( DemoCliCommand::class ) );
 			}
 		);
+
+		// Record completed demo installs for the dashboard widget. The
+		// importer fires this for every job; demo jobs are recognised
+		// by their source file living in the demo-data directory.
+		add_action(
+			'ztc_import_batch_processed',
+			static function ( object $job ): void {
+				if (
+					$job->is_finished()
+					&& str_contains( (string) $job->file, 'demo-data' )
+					&& ( $job->created + $job->updated ) > 0
+				) {
+					update_option( 'ztc_demo_installed', 1, false );
+				}
+			}
+		);
 	}
 }
