@@ -84,6 +84,7 @@ final class ElementorModule extends BaseModule {
 			Widgets\CountriesWidget::class,
 			Widgets\CtaWidget::class,
 			Widgets\SearchWidget::class,
+			Widgets\InquiryFormWidget::class,
 		);
 
 		/**

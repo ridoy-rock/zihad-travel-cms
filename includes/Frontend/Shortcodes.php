@@ -14,6 +14,7 @@ use ZihadTravelCMS\Core\Assets;
 use ZihadTravelCMS\Helpers\Template;
 use ZihadTravelCMS\Views\Cards\CtaCard;
 use ZihadTravelCMS\Views\GridRenderer;
+use ZihadTravelCMS\Views\InquiryFormRenderer;
 use ZihadTravelCMS\Views\SearchFormData;
 use ZihadTravelCMS\Views\SearchWidgetRenderer;
 
@@ -27,6 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *  [ztc_countries count="6" columns="3" region="asia" heading=""]
  *  [ztc_search type="tour"]
  *  [ztc_search_widget tabs="visa,tour" default="visa" heading=""]
+ *  [ztc_inquiry_form type="visa" post_id="0" heading=""]
  *  [ztc_cta title="" text="" button_text="" button_url=""]
  */
 final class Shortcodes implements Registrable {
@@ -44,6 +46,7 @@ final class Shortcodes implements Registrable {
 		private GridRenderer $grids,
 		private SearchFormData $search,
 		private SearchWidgetRenderer $widget,
+		private InquiryFormRenderer $inquiry,
 		private CtaCard $cta,
 		private Template $template,
 	) {}
@@ -57,7 +60,36 @@ final class Shortcodes implements Registrable {
 		add_shortcode( 'ztc_countries', array( $this, 'countries' ) );
 		add_shortcode( 'ztc_search', array( $this, 'search_form' ) );
 		add_shortcode( 'ztc_search_widget', array( $this, 'search_widget' ) );
+		add_shortcode( 'ztc_inquiry_form', array( $this, 'inquiry_form' ) );
 		add_shortcode( 'ztc_cta', array( $this, 'cta' ) );
+	}
+
+	/**
+	 * [ztc_inquiry_form] — a visa/tour inquiry form (the same renderer
+	 * the Elementor widget and single templates use). Renders nothing
+	 * when the type's inquiries are disabled in Booking settings.
+	 *
+	 * @param array<string, string>|string $atts Shortcode attributes.
+	 */
+	public function inquiry_form( array|string $atts ): string {
+		$atts = shortcode_atts(
+			array(
+				'type'    => 'visa',
+				'post_id' => 0,
+				'heading' => '',
+			),
+			is_array( $atts ) ? $atts : array(),
+			'ztc_inquiry_form'
+		);
+
+		// The renderer enqueues the frontend assets itself.
+		return $this->inquiry->render(
+			array(
+				'type'    => (string) $atts['type'],
+				'post_id' => (int) $atts['post_id'],
+				'heading' => (string) $atts['heading'],
+			)
+		);
 	}
 
 	/**

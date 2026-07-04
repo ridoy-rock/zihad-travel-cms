@@ -114,6 +114,71 @@
 		} );
 	}
 
+	function setupInquiry( form ) {
+		if ( ! config.restUrl || ! window.fetch ) {
+			return; // No-JS fallback: the form posts to admin-post.php.
+		}
+
+		var wrapper = form.closest( '.ztc-inquiry' ) || form.parentElement;
+		var message = wrapper.querySelector( '[data-ztc-inquiry-message]' );
+		var button = form.querySelector( 'button[type="submit"]' );
+
+		function show( text, isError ) {
+			if ( ! message ) {
+				return;
+			}
+
+			message.hidden = false;
+			message.innerHTML = '';
+
+			var paragraph = document.createElement( 'p' );
+			paragraph.className = isError ? 'ztc-inquiry__error' : 'ztc-inquiry__success';
+			paragraph.textContent = text;
+			message.appendChild( paragraph );
+		}
+
+		form.addEventListener( 'submit', function ( event ) {
+			event.preventDefault();
+
+			var payload = {};
+			new FormData( form ).forEach( function ( value, key ) {
+				payload[ key ] = value;
+			} );
+
+			button.disabled = true;
+			form.setAttribute( 'aria-busy', 'true' );
+
+			fetch( config.restUrl + '/inquiry', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify( payload )
+			} )
+				.then( function ( response ) {
+					return response.json();
+				} )
+				.then( function ( result ) {
+					if ( result.success ) {
+						show( form.getAttribute( 'data-ztc-success' ) || result.message, false );
+						form.hidden = true;
+						return;
+					}
+
+					var errors = result.errors || {};
+					var first = Object.keys( errors )[ 0 ];
+					show( first ? errors[ first ] : result.message, true );
+				} )
+				.catch( function () {
+					// Network/parse failure: fall back to the no-JS path
+					// (the native submit() skips this submit listener).
+					form.submit();
+				} )
+				.finally( function () {
+					button.disabled = false;
+					form.setAttribute( 'aria-busy', 'false' );
+				} );
+		} );
+	}
+
 	function ready( fn ) {
 		if ( 'loading' === document.readyState ) {
 			document.addEventListener( 'DOMContentLoaded', fn );
@@ -124,5 +189,6 @@
 
 	ready( function () {
 		document.querySelectorAll( '[data-ztc-search]' ).forEach( setupSearch );
+		document.querySelectorAll( '[data-ztc-inquiry]' ).forEach( setupInquiry );
 	} );
 } )();

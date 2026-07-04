@@ -33,11 +33,15 @@ import/export engine, and installable bilingual (English/Bangla) demo data.
   (Country, Tour Type, Duration, Budget) search with CSS-only tabs; one
   shared render path for the shortcode, the Elementor widget and the
   optional homepage auto-injection.
+- **Booking / inquiries** — visa & tour inquiry forms on the single pages
+  (plus shortcode/Elementor placements) feeding a private Inquiries screen;
+  works without JavaScript, honeypot + rate-limit protected; email
+  notifications through a swappable mail abstraction (`ztc_mailer`).
 - **Elementor** — "Travel CMS" widget category (Tours/Visas/Countries grids,
-  CTA, Travel Search) and dynamic tags (post fields, hero image, global
-  settings).
+  CTA, Travel Search, Inquiry Form) and dynamic tags (post fields, hero
+  image, global settings).
 - **Shortcodes** — `[ztc_tours]`, `[ztc_visas]`, `[ztc_countries]`,
-  `[ztc_search]`, `[ztc_search_widget]`, `[ztc_cta]`.
+  `[ztc_search]`, `[ztc_search_widget]`, `[ztc_inquiry_form]`, `[ztc_cta]`.
 - **Import / Export** — generic CSV/JSON engine with batched jobs, live
   progress, resume, error logs, duplicate detection (create/update/upsert),
   rollback, and image sideloading from URLs. REST + WP-CLI + admin UI.

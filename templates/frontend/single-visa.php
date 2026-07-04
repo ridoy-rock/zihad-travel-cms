@@ -125,6 +125,10 @@ get_header();
 				</div>
 			</aside>
 		</div>
+
+		<?php if ( ! empty( $view['inquiry'] ) ) : ?>
+			<?php ztc_part( 'inquiry-form', (array) $view['inquiry'] ); ?>
+		<?php endif; ?>
 	</div>
 </main>
 <?php

@@ -204,3 +204,37 @@ so all work is under **Unreleased** (targeting 1.0.0) in chronological order.
   registration/frontend suites updated for the new meta key and
   shortcode.
 - Docs: `docs/search-widget.md`.
+
+### Module 8: Booking / Inquiry Forms — 2026-07-05
+
+- `Modules\Booking`: visa and tour inquiry forms feeding a **private**
+  `ztc_inquiry` post type (no frontend, no REST exposure, REST-hidden
+  meta — visitor data never leaves wp-admin; "Add New" disabled) with
+  contact/type/subject/status admin list columns.
+- One submission pipeline (`InquiryService::submit()`) shared by both
+  entry points: sanitize every field → honeypot → per-IP rate limit
+  (5/10 min, `ztc_inquiry_rate_limit`) → server-side validation
+  (required name, valid email, 5000-char message cap, type whitelist,
+  Booking toggles, related-post/type match, `ztc_inquiry_validate`) →
+  persist → notify → `ztc_inquiry_created`.
+- No-JS baseline: nonce-protected `admin-post.php` handler (logged-in +
+  logged-out) redirecting back with a result flag and a stable form
+  anchor; frontend.js only enhances (inline REST submit with native
+  fallback on network failure).
+- `POST ztc/v1/inquiry`: public by design, every arg typed, validated,
+  sanitized and described (email format, type enum, honeypot arg);
+  200/400 (field errors)/429 (rate limited) responses.
+- New `Contracts\Mailer` + `Services\WpMailer` — the plugin never calls
+  `wp_mail()` directly; providers swap in via the `ztc_mailer` filter.
+  Notification recipient falls back Booking email → company email →
+  site admin; subject/body/headers (Reply-To visitor) all filterable.
+- One render path: `Views\InquiryFormRenderer` + theme-overridable
+  `inquiry-form.php` part shared by the single visa/tour templates
+  (injected through the `ztc_template_view` seam — zero service
+  changes), the `[ztc_inquiry_form]` shortcode and the new "Inquiry
+  Form" Elementor widget; all surfaces hide when the type's inquiries
+  are disabled in settings.
+- Tests: new `booking-smoke` suite (15 suites total, all green);
+  frontend suite updated for the new shortcode.
+- Docs: `docs/booking.md`; `ztc_inquiry` declared non-translatable in
+  `wpml-config.xml`.

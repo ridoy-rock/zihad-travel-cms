@@ -336,3 +336,26 @@
 .ztc-search-widget__results:not(:empty) {
 	margin-top: 1.5rem;
 }
+
+/* Inquiry form */
+.ztc-inquiry {
+	margin-top: 2rem;
+}
+
+.ztc-inquiry__hp {
+	left: -9999px;
+	position: absolute;
+	top: auto;
+}
+
+.ztc-inquiry__success {
+	color: #146c43;
+	font-weight: 600;
+	margin: 0 0 1rem;
+}
+
+.ztc-inquiry__error {
+	color: #b02a37;
+	font-weight: 600;
+	margin: 0 0 1rem;
+}

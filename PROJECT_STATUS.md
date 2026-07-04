@@ -1,6 +1,6 @@
 # Zihad Travel CMS — Project Status
 
-_Last updated: 2026-07-05 (after Module 7: Homepage Search Widget)._
+_Last updated: 2026-07-05 (after Module 8: Booking / Inquiry Forms)._
 
 _See also: [README.md](README.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROADMAP.md](ROADMAP.md) (v1.0 → v2.0) · [CHANGELOG.md](CHANGELOG.md) · [CONTRIBUTING.md](CONTRIBUTING.md)._
 
@@ -68,23 +68,26 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | 4 | **Global Dashboard & Settings** | `89cc196` | 11-tab settings screen (reusing the field framework); structural SettingsSanitizer on every write path; REST settings API; Elementor SettingTag; frontend Integrations (brand CSS vars, custom CSS/JS, GA, FB Pixel, floating WhatsApp); dashboard widgets (counts, demo status, recent imports) |
 | 5 | **SEO** | `d5542e0` | Title/description/keywords, canonical URLs (incl. pagination), robots, OpenGraph + Twitter Cards on all plugin routes; Schema.org JSON-LD via one SchemaService (TouristTrip, GovernmentService, Country, CollectionPage, BreadcrumbList — FAQPage stays with the FAQ part); per-post `ztc_seo` extended with robots/canonical; `seo.*` settings + 12th tab via existing filters; auto-defers to Yoast/Rank Math; 8 `ztc_seo_*` output filters; once-per-request memoized resolution |
 | 6 | **Setup Wizard** | `36a693c` | Eleven-step first-run installer that only orchestrates existing services (settings pipeline, demo installer, health checks, dashboard data); resumable/skippable/rerunnable, independent per-step saves, pre-filled fields (no silent overwrites), no-JS demo install via bounded import batches, one-shot activation redirect, `ztc/v1/wizard*` REST, `ztc_wizard_steps` filter + lifecycle actions |
-| 7 | **Homepage Search Widget** | — | Tabbed Visa (Country, Visa Type) / Tour (Country, Tour Type, Duration, Budget) search; one render path for shortcode + Elementor "Travel Search" widget + settings-gated homepage injection; CSS-only tabs, no-JS archive parity via `ArchiveFilters` (`pre_get_posts` reusing `SearchService::filter_clauses()`); `ztc_duration_days` numeric mirror + sync; cached country options; validated `duration`/`budget` REST range params |
+| 7 | **Homepage Search Widget** | `ac2526b` | Tabbed Visa (Country, Visa Type) / Tour (Country, Tour Type, Duration, Budget) search; one render path for shortcode + Elementor "Travel Search" widget + settings-gated homepage injection; CSS-only tabs, no-JS archive parity via `ArchiveFilters` (`pre_get_posts` reusing `SearchService::filter_clauses()`); `ztc_duration_days` numeric mirror + sync; cached country options; validated `duration`/`budget` REST range params |
+| 8 | **Booking / Inquiry Forms** | — | Visa/tour inquiry forms → private `ztc_inquiry` CPT (REST-hidden, admin columns); one pipeline for the nonce-protected no-JS handler + validated public `POST ztc/v1/inquiry` (honeypot, per-IP rate limit, server-side validation); `Contracts\Mailer` abstraction (`ztc_mailer`) with filterable notifications; one render path (single templates via `ztc_template_view`, `[ztc_inquiry_form]`, Elementor "Inquiry Form") |
 
-**Testing:** 14 standalone smoke suites (WP-function stubs, no WordPress
+**Testing:** 15 standalone smoke suites (WP-function stubs, no WordPress
 install needed) covering boot, registration, services, the editor framework,
 all three editors, the frontend engine, importer, demo data,
-settings/dashboard, SEO, the setup wizard and the search widget — all green
-after Module 7.
+settings/dashboard, SEO, the setup wizard, the search widget and
+booking/inquiries — all green after Module 8.
 
 **Docs:** [docs/](docs/) — architecture, tour editor, importer, demo data,
-settings, SEO, setup wizard, search widget.
+settings, SEO, setup wizard, search widget, booking.
 
 ## Remaining Roadmap (strict order)
 
-1. **Booking / Inquiry Forms** — visa & tour inquiries, WhatsApp CTA, email
-   notifications (settings section already exists).
-2. **AI Module** — auto-fill via the editor toolbar hooks + REST-registered
-   meta (extension points already in place).
+1. **Release hardening** — ship real Bootstrap 5 builds, migrate the smoke
+   suites into `tests/` with CI (PHPCS + PHPStan + suites), custom
+   capabilities ("Travel Manager" role), licensing/update mechanism,
+   regenerate the `.pot` file.
+2. **v1.1+** — analytics, inquiry management screen, reviews, WPML/Polylang
+   adapters, AI module (see [ROADMAP.md](ROADMAP.md)).
 
 **Release hardening (before 1.0 ship, alongside the modules):** ship real
 Bootstrap 5 builds in `assets/vendor/bootstrap/` (currently empty
@@ -114,18 +117,18 @@ licensing & update mechanism; regenerate the `.pot` file.
 
 ## Current Completion
 
-**≈ 85%** toward a shippable 1.0.
+**≈ 92%** toward a shippable 1.0.
 
 | Area | Status |
 |---|---|
 | Architecture / kernel / data layer | ██████████ 100% |
 | Admin editors (Visa, Country, Tour) | ██████████ 100% |
 | Frontend engine (templates, search, shortcodes) | ██████████ 100% |
-| Elementor integration | █████████░ 90% (5 widgets + 3 dynamic tags; booking widget pending) |
+| Elementor integration | ██████████ 100% (6 widgets + 3 dynamic tags) |
 | Import/Export + Demo data | ██████████ 100% |
 | Dashboard & Settings | ██████████ 100% |
 | SEO | ██████████ 100% |
 | Setup wizard | ██████████ 100% |
-| Booking / inquiry | █░░░░░░░░░ 10% (settings + WhatsApp CTA exist) |
+| Booking / inquiry | ██████████ 100% |
 | AI module | █░░░░░░░░░ 10% (hooks + REST meta ready) |
 | Release hardening (assets, CI, caps, licensing) | ██░░░░░░░░ 20% |
