@@ -12,6 +12,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       zihad-travel-cms
  * Domain Path:       /languages
+ * Update URI:        https://zihadtravelcms.com/updates
  * Elementor tested up to: 3.25
  *
  * @package ZihadTravelCMS

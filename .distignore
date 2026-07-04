@@ -1,0 +1,23 @@
+# Excluded from the distributable zip (bin/package.sh / wp dist-archive).
+# Directory entries are root-anchored so e.g. /vendor never matches
+# assets/vendor (the shipped Bootstrap build).
+/.distignore
+/.git
+/.github
+/.gitignore
+/ARCHITECTURE.md
+/CHANGELOG.md
+/CONTRIBUTING.md
+/PROJECT_STATUS.md
+/README.md
+/ROADMAP.md
+/bin
+/build
+/composer.lock
+/docs
+/node_modules
+/phpcs.xml.dist
+/phpstan.neon.dist
+/tests
+/vendor
+*.map
