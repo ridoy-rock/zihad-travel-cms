@@ -3,6 +3,8 @@
 // duplicate detection, rollback, Bangla round-trip, REST controller.
 define( 'ABSPATH', '/tmp/' );
 define( 'ZTC_PLUGIN_DIR', dirname( __DIR__ ) . '/' );
+define( 'MINUTE_IN_SECONDS', 60 );
+define( 'DAY_IN_SECONDS', 86400 );
 
 $SCRATCH = sys_get_temp_dir() . '/ztc-importer-test';
 @mkdir( $SCRATCH, 0777, true );

@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace ZihadTravelCMS\Admin;
 
 use ZihadTravelCMS\Modules\Country\CountryRepository;
-use ZihadTravelCMS\Modules\DemoData\DemoDataInstaller;
+use ZihadTravelCMS\Modules\DemoData\DemoDataStatus;
 use ZihadTravelCMS\Modules\Importer\ImportJob;
 use ZihadTravelCMS\Modules\Importer\JobRepository;
 use ZihadTravelCMS\Modules\Tour\TourRepository;
@@ -32,14 +32,14 @@ final class DashboardData {
 	 * @param VisaRepository    $visas     Visa repository.
 	 * @param TourRepository    $tours     Tour repository.
 	 * @param JobRepository     $jobs      Import job repository.
-	 * @param DemoDataInstaller $demo      Demo data installer.
+	 * @param DemoDataStatus    $demo      Truthful demo data state.
 	 */
 	public function __construct(
 		private CountryRepository $countries,
 		private VisaRepository $visas,
 		private TourRepository $tours,
 		private JobRepository $jobs,
-		private DemoDataInstaller $demo,
+		private DemoDataStatus $demo,
 	) {}
 
 	/**
@@ -66,10 +66,9 @@ final class DashboardData {
 					'url'   => admin_url( 'edit.php?post_type=' . $this->tours->post_type() ),
 				),
 			),
-			'demo'    => array(
-				'files_ready' => $this->demo->files_ready(),
-				'installed'   => (bool) get_option( 'ztc_demo_installed', false ),
-			),
+			// Computed from actual record counts (never a flag or the
+			// latest job) — see DemoDataStatus.
+			'demo'    => $this->demo->status(),
 			'imports' => array_map(
 				static fn( ImportJob $job ): array => $job->to_array(),
 				array_slice( $this->jobs->all(), 0, 5 )

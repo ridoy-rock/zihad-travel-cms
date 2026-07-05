@@ -72,6 +72,53 @@ defined( 'ABSPATH' ) || exit;
 		<h2><?php esc_html_e( 'Demo Data', 'zihad-travel-cms' ); ?></h2>
 		<p><?php esc_html_e( 'Install a full demo dataset (100+ countries, 400+ visas, 100+ tours) with placeholder images. Content is generated from data files and installed through the importer, so re-installing updates instead of duplicating.', 'zihad-travel-cms' ); ?></p>
 
+		<?php $ztc_demo = (array) ( $data['demo'] ?? array() ); ?>
+
+		<?php if ( ! empty( $ztc_demo['installed'] ) ) : ?>
+			<p class="ztc-demo__state">
+				<strong><?php esc_html_e( 'Demo data is installed.', 'zihad-travel-cms' ); ?></strong>
+				<?php
+				printf(
+					/* translators: 1-3: record counts. */
+					esc_html__( '%1$d countries, %2$d visas and %3$d tours are present. Reinstalling updates the existing content in place — nothing is duplicated.', 'zihad-travel-cms' ),
+					(int) ( $ztc_demo['counts']['country'] ?? 0 ),
+					(int) ( $ztc_demo['counts']['visa'] ?? 0 ),
+					(int) ( $ztc_demo['counts']['tour'] ?? 0 )
+				);
+				?>
+			</p>
+		<?php endif; ?>
+
+		<?php if ( ! empty( $ztc_demo['job'] ) ) : ?>
+			<p class="ztc-demo__state">
+				<strong>
+					<?php
+					printf(
+						/* translators: 1: job status, 2: content type, 3: processed count, 4: total count. */
+						esc_html__( 'An earlier demo import is %1$s: %2$s stopped at %3$d of %4$d records.', 'zihad-travel-cms' ),
+						esc_html( (string) ( $ztc_demo['job']['display_status'] ?? '' ) ),
+						esc_html( (string) ( $ztc_demo['job']['type'] ?? '' ) ),
+						(int) ( $ztc_demo['job']['processed'] ?? 0 ),
+						(int) ( $ztc_demo['job']['total'] ?? 0 )
+					);
+					?>
+				</strong>
+			</p>
+			<div class="ztc-demo__recovery">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline">
+					<input type="hidden" name="action" value="ztc_demo_resume">
+					<?php wp_nonce_field( 'ztc_demo_resume' ); ?>
+					<button type="submit" class="button button-primary"><?php esc_html_e( 'Resume demo import', 'zihad-travel-cms' ); ?></button>
+				</form>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline"
+					onsubmit="return window.confirm( '<?php echo esc_js( __( 'Clear the incomplete import record? Your content will not be touched.', 'zihad-travel-cms' ) ); ?>' );">
+					<input type="hidden" name="action" value="ztc_demo_reset">
+					<?php wp_nonce_field( 'ztc_demo_reset' ); ?>
+					<button type="submit" class="button"><?php esc_html_e( 'Reset demo import status', 'zihad-travel-cms' ); ?></button>
+				</form>
+			</div>
+		<?php endif; ?>
+
 		<div class="ztc-demo" data-ztc-demo>
 			<p>
 				<label for="ztc-demo-locale"><strong><?php esc_html_e( 'Language', 'zihad-travel-cms' ); ?></strong></label>
@@ -85,7 +132,7 @@ defined( 'ABSPATH' ) || exit;
 				</button>
 
 				<button type="button" class="button button-primary" data-ztc-demo-install>
-					<?php esc_html_e( 'Install demo data', 'zihad-travel-cms' ); ?>
+					<?php echo ! empty( $ztc_demo['installed'] ) ? esc_html__( 'Reinstall demo data', 'zihad-travel-cms' ) : esc_html__( 'Install demo data', 'zihad-travel-cms' ); ?>
 				</button>
 			</p>
 

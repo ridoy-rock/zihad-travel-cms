@@ -7,6 +7,8 @@ define( 'ZTC_MIN_PHP', '8.2' );
 define( 'ZTC_MIN_WP', '6.4' );
 define( 'ZTC_PLUGIN_FILE', dirname( __DIR__ ) . '/zihad-travel-cms.php' );
 define( 'ZTC_PLUGIN_DIR', dirname( __DIR__ ) . '/' );
+define( 'MINUTE_IN_SECONDS', 60 );
+define( 'DAY_IN_SECONDS', 86400 );
 define( 'ZTC_PLUGIN_URL', 'https://example.test/' );
 define( 'ZTC_PLUGIN_BASENAME', 'zihad-travel-cms/zihad-travel-cms.php' );
 
@@ -35,6 +37,7 @@ class WP_Error {
 $GLOBALS['store'] = array( 'posts' => array(), 'meta' => array(), 'terms' => array(), 'thumbs' => array(), 'next_id' => 100 );
 $GLOBALS['options'] = array();
 $GLOBALS['source_index'] = array(); // URL → attachment id (fast sideload dedup).
+$GLOBALS['transients'] = array();
 
 function is_wp_error( $x ) { return $x instanceof WP_Error; }
 function wp_insert_post( $arr, $wp_error = false ) {
@@ -105,6 +108,12 @@ function trailingslashit( $p ) { return rtrim( (string) $p, '/' ) . '/'; }
 function untrailingslashit( $p ) { return rtrim( (string) $p, '/' ); }
 function wp_delete_file( $f ) {}
 function download_url( $url, $timeout = 30 ) { return '/tmp/fake-download'; }
+function set_transient( $k, $v, $e ) { $GLOBALS['transients'][ $k ] = $v; return true; }
+function get_transient( $k ) { return $GLOBALS['transients'][ $k ] ?? false; }
+function delete_transient( $k ) { unset( $GLOBALS['transients'][ $k ] ); return true; }
+function wp_count_posts( $t ) { $o = new stdClass(); $o->publish = count( array_filter( $GLOBALS['store']['posts'], static fn( $p ) => $p->post_type === $t && 'publish' === $p->post_status ) ); return $o; }
+function get_locale() { return 'en_US'; }
+function get_current_user_id() { return 1; }
 function media_handle_sideload( $file_array, $parent_id ) {
 	return wp_insert_post( array( 'post_type' => 'attachment', 'post_title' => $file_array['name'], 'post_status' => 'inherit' ) );
 }
@@ -220,5 +229,123 @@ $jobs   = $installer->install( 100 );
 assert( 0 === $jobs['country']->created && $jobs['country']->updated >= 100 );
 assert( count( $GLOBALS['store']['posts'] ) === $before );                     // no new posts, no new attachments
 echo "install via importer + idempotent re-install: OK\n";
+
+
+// --- 6. Truthful demo status (QA: the dashboard said "Ready to
+//        install" after a real install because it trusted a flag).
+$translations = new ZihadTravelCMS\Translations\SiteTranslationProvider();
+$job_repo     = new JobRepository();
+$status       = new ZihadTravelCMS\Modules\DemoData\DemoDataStatus(
+	new ZihadTravelCMS\Modules\Country\CountryRepository( $translations ),
+	new ZihadTravelCMS\Modules\Visa\VisaRepository( $translations ),
+	new ZihadTravelCMS\Modules\Tour\TourRepository( $translations ),
+	$sources,
+	$job_repo,
+	$installer
+);
+
+unset( $GLOBALS['options']['ztc_demo_installed'] );                     // the drifted flag from the bug report
+$expected = $status->expected_counts();
+assert( $expected === array_map( 'intval', $result['counts'] ), 'expected counts must come from the files' );
+assert( true === $status->installed() );                                // computed from records, not the flag
+assert( null === $status->active_job() );
+$snapshot = $status->status();
+assert( true === $snapshot['installed'] && true === $snapshot['files_ready'] && null === $snapshot['job'] && false === $snapshot['stale'] );
+assert( is_array( $GLOBALS['transients']['ztc_demo_expected_counts'] ?? null ) ); // cached for later reads
+echo "truthful demo status: OK\n";
+
+// --- 7. Interrupted install: never "running" forever.
+$abandoned = $installer->start( 'country' );
+$import->process( $abandoned->id, 30 );                                 // one batch, then walk away
+$stored = $GLOBALS['options'][ 'ztc_import_job_' . $abandoned->id ];
+assert( 'running' === $stored['status'] && 30 === $stored['processed'] );
+assert( ( $stored['updated_at'] ?? 0 ) > 0 );                           // heartbeat persisted with the batch
+
+$active = $status->active_job();
+assert( null !== $active && $abandoned->id === $active->id );
+assert( 'running' === $active->display_status() );                      // fresh job: genuinely running
+
+$GLOBALS['options'][ 'ztc_import_job_' . $abandoned->id ]['updated_at'] = time() - 3600;
+$active = $status->active_job();
+assert( true === $active->is_stale() );
+assert( 'interrupted' === $active->display_status() );                  // stale job: interrupted
+assert( 'interrupted' === $active->to_array()['display_status'] );
+assert( 'running' === $active->status );                                // storage status untouched: resumable
+assert( true === $status->status()['stale'] );
+echo "interrupted display state: OK\n";
+
+// --- 8. Resume completes the abandoned job and fills missing types,
+//        without creating duplicates.
+$ztc_removed = 0;
+foreach ( $GLOBALS['store']['posts'] as $ztc_id => $ztc_post ) {
+	if ( 'ztc_tour' === $ztc_post->post_type && $ztc_removed < 20 ) {
+		unset( $GLOBALS['store']['posts'][ $ztc_id ] );
+		++$ztc_removed;
+	}
+}
+assert( false === $status->installed() );                               // 20 tours short
+
+$actions = new ZihadTravelCMS\Modules\DemoData\DemoDataActions(
+	$status, $installer, $import, $job_repo, new ZihadTravelCMS\Services\NotificationService()
+);
+
+$rounds = 0;
+do {
+	$resume = $actions->advance( 10, 50 );
+	assert( ++$rounds < 40, 'resume did not converge' );
+} while ( ! $resume['installed'] );
+
+assert( true === $status->installed() );
+assert( null === $status->active_job() );                               // abandoned job finished, not orphaned
+assert( $status->actual_counts()['country'] === $expected['country'] ); // resume upserted: zero duplicates
+assert( $status->actual_counts()['tour'] === $expected['tour'] );
+echo "resume incomplete install: OK\n";
+
+// --- 9. Reinstall over a complete dataset stays idempotent, and
+//        resetting a stale job never touches content.
+$installer->install( 100 );
+assert( true === $status->installed() );
+assert( $status->actual_counts() === array_map( 'intval', $result['counts'] ) ); // reinstall: no duplicates
+
+$stale2 = $installer->start( 'visa' );
+$import->process( $stale2->id, 10 );
+$GLOBALS['options'][ 'ztc_import_job_' . $stale2->id ]['updated_at'] = time() - 3600;
+assert( null !== $status->active_job() );
+
+$posts_before = count( $GLOBALS['store']['posts'] );
+assert( 1 === $actions->clear_unfinished_jobs() );                      // only the stale demo job record
+assert( null === $status->active_job() );
+assert( count( $GLOBALS['store']['posts'] ) === $posts_before );        // content untouched
+assert( true === $status->installed() );
+echo "reinstall + reset status: OK\n";
+
+// --- 10. Failed counts only actual failures, never processed/total.
+$bad_file = $SCRATCH . '/bad-countries.json';
+file_put_contents(
+	$bad_file,
+	json_encode(
+		array(
+			'records' => array(
+				array( 'title' => 'Testland A', 'slug' => 'testland-a' ),
+				array( 'slug' => 'no-title-so-required-field-fails' ),
+				array( 'title' => 'Testland B', 'slug' => 'testland-b' ),
+			),
+		)
+	)
+);
+
+$fail_job = $import->start( 'country', $bad_file, 'upsert', false );
+while ( ! $fail_job->is_finished() ) {
+	$fail_job = $import->process( $fail_job->id, 2 );
+}
+
+assert( ImportJob::STATUS_COMPLETED === $fail_job->status );
+assert( 3 === $fail_job->total && 3 === $fail_job->processed );
+assert( 1 === $fail_job->failed, 'exactly the one bad record fails' );
+assert( 2 === $fail_job->created );
+assert( $fail_job->failed !== $fail_job->processed && $fail_job->failed !== $fail_job->total );
+assert( $fail_job->created + $fail_job->updated + $fail_job->skipped + $fail_job->failed === $fail_job->processed ); // count invariant
+assert( false === $status->is_demo_job( $fail_job ) );                  // a user import never colours demo status
+echo "failed count accuracy: OK\n";
 
 echo "ALL DEMO DATA TESTS PASSED\n";

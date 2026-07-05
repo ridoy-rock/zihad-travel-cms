@@ -44,6 +44,10 @@ final class JobRepository {
 	 * @param ImportJob $job The job.
 	 */
 	public function save( ImportJob $job ): void {
+		// Every batch lands here, so this timestamp is the staleness
+		// signal ImportJob::is_stale() reads.
+		$job->updated_at = time();
+
 		update_option( self::OPTION_PREFIX . $job->id, $job->to_array(), false );
 	}
 

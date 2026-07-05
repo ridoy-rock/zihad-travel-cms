@@ -8,6 +8,8 @@ define( 'ZTC_MIN_PHP', '8.2' );
 define( 'ZTC_MIN_WP', '6.4' );
 define( 'ZTC_PLUGIN_FILE', dirname( __DIR__ ) . '/zihad-travel-cms.php' );
 define( 'ZTC_PLUGIN_DIR', dirname( __DIR__ ) . '/' );
+define( 'MINUTE_IN_SECONDS', 60 );
+define( 'DAY_IN_SECONDS', 86400 );
 define( 'ZTC_PLUGIN_URL', 'https://example.test/' );
 define( 'ZTC_PLUGIN_BASENAME', 'zihad-travel-cms/zihad-travel-cms.php' );
 
@@ -65,7 +67,7 @@ function get_option( $n, $d = false ) { return $GLOBALS['options'][ $n ] ?? $d; 
 function update_option( $n, $v, $autoload = null ) { $GLOBALS['options'][ $n ] = $v; return true; }
 function delete_option( $n ) { unset( $GLOBALS['options'][ $n ] ); return true; }
 function get_posts( $args ) { return array( new WP_Post( 20, 'ztc_country', 'Japan', 'japan' ) ); }
-function wp_count_posts( $t ) { $o = new stdClass(); $o->publish = 'ztc_visa' === $t ? 473 : 105; return $o; }
+function wp_count_posts( $t ) { $o = new stdClass(); $map = array( 'ztc_country' => 105, 'ztc_visa' => 473, 'ztc_tour' => 132 ); $o->publish = $map[ $t ] ?? 0; return $o; }
 function get_post_meta( $id, $k, $s = true ) { return ''; }
 function update_post_meta( ...$a ) { return true; }
 function admin_url( $p = '' ) { return 'https://example.test/wp-admin/' . $p; }

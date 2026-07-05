@@ -27,6 +27,17 @@ final class ImportJob {
 	public const STATUS_FAILED      = 'failed';
 	public const STATUS_ROLLED_BACK = 'rolled_back';
 
+	/**
+	 * Presentation status for a job that stopped mid-run.
+	 */
+	public const STATUS_INTERRUPTED = 'interrupted';
+
+	/**
+	 * An unfinished job untouched for this long is considered
+	 * interrupted (batches normally land seconds apart).
+	 */
+	public const STALE_AFTER = 5 * MINUTE_IN_SECONDS;
+
 	private const MAX_ERRORS = 100;
 
 	/**
@@ -46,6 +57,7 @@ final class ImportJob {
 	 * @param int        $failed              Failed records.
 	 * @param array      $errors              Error log (label => message).
 	 * @param array<int> $created_ids         Post IDs created by this job.
+	 * @param int        $updated_at          Unix time of the last save (0 = never).
 	 */
 	public function __construct(
 		public readonly string $id,
@@ -62,6 +74,7 @@ final class ImportJob {
 		public int $failed = 0,
 		public array $errors = array(),
 		public array $created_ids = array(),
+		public int $updated_at = 0,
 	) {}
 
 	/**
@@ -91,6 +104,25 @@ final class ImportJob {
 	}
 
 	/**
+	 * Whether an unfinished job has been abandoned mid-run (no batch
+	 * saved for STALE_AFTER seconds).
+	 */
+	public function is_stale(): bool {
+		return ! $this->is_finished()
+			&& $this->updated_at > 0
+			&& ( time() - $this->updated_at ) > self::STALE_AFTER;
+	}
+
+	/**
+	 * The status to show people: an abandoned run reads "interrupted"
+	 * instead of "running" forever. Storage status is untouched, so the
+	 * job stays resumable.
+	 */
+	public function display_status(): string {
+		return $this->is_stale() ? self::STATUS_INTERRUPTED : $this->status;
+	}
+
+	/**
 	 * Serialize for storage / REST responses.
 	 *
 	 * @return array<string, mixed>
@@ -111,8 +143,10 @@ final class ImportJob {
 			'failed'              => $this->failed,
 			'errors'              => $this->errors,
 			'created_ids'         => $this->created_ids,
+			'updated_at'          => $this->updated_at,
 			'progress'            => $this->progress(),
 			'finished'            => $this->is_finished(),
+			'display_status'      => $this->display_status(),
 		);
 	}
 
@@ -137,6 +171,7 @@ final class ImportJob {
 			(int) ( $data['failed'] ?? 0 ),
 			(array) ( $data['errors'] ?? array() ),
 			array_map( 'intval', (array) ( $data['created_ids'] ?? array() ) ),
+			(int) ( $data['updated_at'] ?? 0 ),
 		);
 	}
 }

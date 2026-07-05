@@ -21,6 +21,13 @@ defined( 'ABSPATH' ) || exit;
 final class DemoDataModule extends BaseModule {
 
 	/**
+	 * Constructor.
+	 *
+	 * @param DemoDataActions $actions Resume/reset admin actions.
+	 */
+	public function __construct( private DemoDataActions $actions ) {}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function id(): string {
@@ -47,9 +54,9 @@ final class DemoDataModule extends BaseModule {
 			}
 		);
 
-		// Record completed demo installs for the dashboard widget. The
-		// importer fires this for every job; demo jobs are recognised
-		// by their source file living in the demo-data directory.
+		// Informational flag only — DemoDataStatus computes the real
+		// installed state from record counts; this survives for
+		// anything third-party that read the option.
 		add_action(
 			'ztc_import_batch_processed',
 			static function ( object $job ): void {
@@ -62,5 +69,11 @@ final class DemoDataModule extends BaseModule {
 				}
 			}
 		);
+
+		// Resume/reset run through admin-post.php, which loads wp-admin
+		// for logged-in users regardless of screen.
+		if ( is_admin() ) {
+			$this->actions->register();
+		}
 	}
 }

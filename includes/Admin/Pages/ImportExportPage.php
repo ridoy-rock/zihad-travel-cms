@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ZihadTravelCMS\Admin\Pages;
 
 use ZihadTravelCMS\Helpers\Template;
+use ZihadTravelCMS\Modules\DemoData\DemoDataStatus;
 use ZihadTravelCMS\Modules\Importer\ExportService;
 use ZihadTravelCMS\Modules\Importer\ImportService;
 use ZihadTravelCMS\Modules\Importer\MappingRegistry;
@@ -28,8 +29,9 @@ final class ImportExportPage extends AdminPage {
 	 *
 	 * @param Template        $template Template renderer.
 	 * @param MappingRegistry $registry Mapping registry.
+	 * @param DemoDataStatus  $demo     Truthful demo data state.
 	 */
-	public function __construct( Template $template, private MappingRegistry $registry ) {
+	public function __construct( Template $template, private MappingRegistry $registry, private DemoDataStatus $demo ) {
 		parent::__construct( $template );
 	}
 
@@ -73,6 +75,7 @@ final class ImportExportPage extends AdminPage {
 				'types'   => $this->registry->types(),
 				'modes'   => ImportService::MODES,
 				'formats' => ExportService::FORMATS,
+				'demo'    => $this->demo->status(),
 			)
 		);
 	}

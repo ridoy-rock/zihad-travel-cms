@@ -29,6 +29,17 @@ $ztc_imports = (array) ( $data['imports'] ?? array() );
 			<span class="ztc-stat__label"><?php esc_html_e( 'Demo Data', 'zihad-travel-cms' ); ?></span>
 			<?php if ( ! empty( $ztc_demo['installed'] ) ) : ?>
 				<span class="ztc-stat__status ztc-stat__status--good"><?php esc_html_e( 'Installed', 'zihad-travel-cms' ); ?></span>
+			<?php elseif ( ! empty( $ztc_demo['job'] ) ) : ?>
+				<span class="ztc-stat__status">
+					<?php
+					printf(
+						/* translators: 1: processed count, 2: total count. */
+						esc_html__( 'Import incomplete (%1$d/%2$d) — resume from Import / Export', 'zihad-travel-cms' ),
+						(int) ( $ztc_demo['job']['processed'] ?? 0 ),
+						(int) ( $ztc_demo['job']['total'] ?? 0 )
+					);
+					?>
+				</span>
 			<?php elseif ( ! empty( $ztc_demo['files_ready'] ) ) : ?>
 				<span class="ztc-stat__status"><?php esc_html_e( 'Ready to install', 'zihad-travel-cms' ); ?></span>
 			<?php else : ?>
@@ -51,7 +62,7 @@ $ztc_imports = (array) ( $data['imports'] ?? array() );
 					<tr>
 						<th scope="col"><?php esc_html_e( 'Type', 'zihad-travel-cms' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Status', 'zihad-travel-cms' ); ?></th>
-						<th scope="col"><?php esc_html_e( 'Progress', 'zihad-travel-cms' ); ?></th>
+						<th scope="col"><?php esc_html_e( 'Processed', 'zihad-travel-cms' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Created', 'zihad-travel-cms' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Updated', 'zihad-travel-cms' ); ?></th>
 						<th scope="col"><?php esc_html_e( 'Failed', 'zihad-travel-cms' ); ?></th>
@@ -61,7 +72,8 @@ $ztc_imports = (array) ( $data['imports'] ?? array() );
 					<?php foreach ( $ztc_imports as $ztc_job ) : ?>
 						<tr>
 							<td><?php echo esc_html( (string) $ztc_job['type'] ); ?></td>
-							<td><?php echo esc_html( (string) $ztc_job['status'] ); ?></td>
+							<?php // display_status: abandoned runs read "interrupted", never a stuck "running". ?>
+							<td><?php echo esc_html( (string) ( $ztc_job['display_status'] ?? $ztc_job['status'] ) ); ?></td>
 							<td><?php echo esc_html( $ztc_job['processed'] . '/' . $ztc_job['total'] ); ?></td>
 							<td><?php echo esc_html( (string) $ztc_job['created'] ); ?></td>
 							<td><?php echo esc_html( (string) $ztc_job['updated'] ); ?></td>

@@ -14,6 +14,7 @@ define( 'ZTC_PLUGIN_DIR', dirname( __DIR__ ) . '/' );
 define( 'ZTC_PLUGIN_URL', 'https://example.test/' );
 define( 'ZTC_PLUGIN_BASENAME', 'zihad-travel-cms/zihad-travel-cms.php' );
 define( 'MINUTE_IN_SECONDS', 60 );
+define( 'DAY_IN_SECONDS', 86400 );
 
 // --- In-memory WordPress store (same bank as the importer suite).
 class WP_Post {
