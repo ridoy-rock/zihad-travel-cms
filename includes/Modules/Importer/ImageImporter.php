@@ -61,9 +61,26 @@ final class ImageImporter {
 
 		$name = sanitize_file_name( (string) wp_basename( (string) wp_parse_url( $url, PHP_URL_PATH ) ) );
 
+		// Placeholder services often serve extensionless URLs
+		// (e.g. …/1600/900); WordPress rejects uploads whose filename
+		// carries no known image extension, so derive one from the
+		// downloaded bytes.
+		if ( ! preg_match( '/\.(jpe?g|png|gif|webp|avif)$/i', $name ) ) {
+			$mime = function_exists( 'wp_get_image_mime' ) ? (string) wp_get_image_mime( $tmp ) : '';
+			$map  = array(
+				'image/jpeg' => 'jpg',
+				'image/png'  => 'png',
+				'image/gif'  => 'gif',
+				'image/webp' => 'webp',
+				'image/avif' => 'avif',
+			);
+
+			$name = ( '' !== $name ? $name : 'ztc-import-' . md5( $url ) ) . '.' . ( $map[ $mime ] ?? 'jpg' );
+		}
+
 		$attachment_id = media_handle_sideload(
 			array(
-				'name'     => '' !== $name ? $name : 'ztc-import-' . md5( $url ) . '.jpg',
+				'name'     => $name,
 				'tmp_name' => $tmp,
 			),
 			$parent_id
@@ -92,7 +109,11 @@ final class ImageImporter {
 		$ids = array();
 
 		foreach ( $urls as $url ) {
-			$id = $this->import( (string) $url, $parent_id );
+			try {
+				$id = $this->import( (string) $url, $parent_id );
+			} catch ( RuntimeException $e ) {
+				continue; // One broken URL never aborts the gallery.
+			}
 
 			if ( $id > 0 ) {
 				$ids[] = $id;

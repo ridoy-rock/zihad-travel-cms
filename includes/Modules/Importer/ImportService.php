@@ -282,25 +282,50 @@ final class ImportService {
 					$related = $this->find_existing( $this->relation_post_type( $name ), sanitize_title( $this->to_string( $value ) ) );
 
 					if ( 0 === $related ) {
-						$job->log_error( 'post ' . $post_id, sprintf( 'Related record "%s" not found for "%s".', $this->to_string( $value ), $key ) );
+						$job->log_error( 'post ' . $post_id . ' (' . $key . ')', sprintf( 'Related record "%s" not found for "%s".', $this->to_string( $value ), $key ) );
 					}
 
 					update_post_meta( $post_id, $name, $related );
 					break;
 
+				// Image problems are soft warnings, like unresolved
+				// relations: the record's post is already written, so a
+				// broken URL must never flip the whole record to
+				// "failed" (QA: failed used to equal processed when a
+				// placeholder host rejected sideloads).
 				case 'image':
-					update_post_meta( $post_id, $name, $this->images->import( $this->to_string( $value ), $post_id ) );
+					try {
+						update_post_meta( $post_id, $name, $this->images->import( $this->to_string( $value ), $post_id ) );
+					} catch ( Throwable $e ) {
+						// Field-unique label: multiple warnings on one
+						// post must not overwrite each other.
+						$job->log_error( 'post ' . $post_id . ' (' . $key . ')', $e->getMessage() );
+					}
 					break;
 
 				case 'gallery':
-					update_post_meta( $post_id, $name, $this->images->import_all( $this->to_list( $value ), $post_id ) );
+					$urls = $this->to_list( $value );
+					$ids  = $this->images->import_all( $urls, $post_id );
+
+					if ( count( $ids ) < count( $urls ) ) {
+						$job->log_error(
+							'post ' . $post_id . ' (' . $key . ')',
+							sprintf( '%d of %d gallery images could not be imported for "%s".', count( $urls ) - count( $ids ), count( $urls ), $key )
+						);
+					}
+
+					update_post_meta( $post_id, $name, $ids );
 					break;
 
 				case 'thumbnail':
-					$thumbnail_id = $this->images->import( $this->to_string( $value ), $post_id );
+					try {
+						$thumbnail_id = $this->images->import( $this->to_string( $value ), $post_id );
 
-					if ( $thumbnail_id > 0 ) {
-						set_post_thumbnail( $post_id, $thumbnail_id );
+						if ( $thumbnail_id > 0 ) {
+							set_post_thumbnail( $post_id, $thumbnail_id );
+						}
+					} catch ( Throwable $e ) {
+						$job->log_error( 'post ' . $post_id . ' (' . $key . ')', $e->getMessage() );
 					}
 					break;
 			}

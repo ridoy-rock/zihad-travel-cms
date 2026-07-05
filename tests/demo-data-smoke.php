@@ -115,6 +115,12 @@ function wp_count_posts( $t ) { $o = new stdClass(); $o->publish = count( array_
 function get_locale() { return 'en_US'; }
 function get_current_user_id() { return 1; }
 function media_handle_sideload( $file_array, $parent_id ) {
+	// Mirror WordPress: a filename without a known image extension is
+	// rejected ("not allowed to upload this file type") — placeholder
+	// URLs like picsum's /1600/900 hit exactly this.
+	if ( ! preg_match( '/\.(jpe?g|png|gif|webp|avif)$/i', (string) $file_array['name'] ) || str_contains( (string) $file_array['name'], 'reject' ) ) {
+		return new WP_Error( 'upload_error', 'Sorry, you are not allowed to upload this file type.' );
+	}
 	return wp_insert_post( array( 'post_type' => 'attachment', 'post_title' => $file_array['name'], 'post_status' => 'inherit' ) );
 }
 
@@ -347,5 +353,38 @@ assert( $fail_job->failed !== $fail_job->processed && $fail_job->failed !== $fai
 assert( $fail_job->created + $fail_job->updated + $fail_job->skipped + $fail_job->failed === $fail_job->processed ); // count invariant
 assert( false === $status->is_demo_job( $fail_job ) );                  // a user import never colours demo status
 echo "failed count accuracy: OK\n";
+
+// --- 11. Image sideload failures are soft warnings — the record's
+//         post imports and is counted; failed stays at zero (QA: on a
+//         host rejecting sideloads, failed used to equal processed).
+$img_file = $SCRATCH . '/img-fail.json';
+file_put_contents(
+	$img_file,
+	json_encode(
+		array(
+			'records' => array(
+				array(
+					'title'      => 'Imageland',
+					'slug'       => 'imageland',
+					'hero_image' => 'https://img.test/reject-this.jpg',
+					'gallery'    => array( 'https://img.test/keep-1.jpg', 'https://img.test/reject-2.jpg' ),
+				),
+			),
+		)
+	)
+);
+
+$img_job = $import->start( 'country', $img_file, 'upsert', false );
+while ( ! $img_job->is_finished() ) {
+	$img_job = $import->process( $img_job->id, 5 );
+}
+
+assert( ImportJob::STATUS_COMPLETED === $img_job->status );
+assert( 1 === $img_job->created && 0 === $img_job->failed );            // post imported; images are warnings
+assert( count( $img_job->errors ) >= 2 );                               // hero warning + gallery shortfall warning
+$imageland = get_posts( array( 'post_type' => 'ztc_country', 'name' => 'imageland' ) )[0];
+assert( 0 === (int) get_post_meta( $imageland->ID, 'ztc_hero_image' ) );        // failed hero → no attachment
+assert( 1 === count( (array) get_post_meta( $imageland->ID, 'ztc_gallery' ) ) ); // the good image survives
+echo "image sideload soft warnings: OK\n";
 
 echo "ALL DEMO DATA TESTS PASSED\n";
