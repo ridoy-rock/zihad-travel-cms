@@ -34,6 +34,8 @@
         "lint": "phpcs",
         "lint:fix": "phpcbf",
         "stan": "phpstan analyse --memory-limit=1G",
-        "test": "bash tests/run.sh php"
+        "test": "bash tests/run.sh php",
+        "build:wporg": "bash bin/package.sh --channel=wporg",
+        "build:pro": "bash bin/package.sh --channel=pro"
     }
 }

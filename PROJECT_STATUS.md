@@ -6,9 +6,8 @@ _See also: [README.md](README.md) · [ARCHITECTURE.md](ARCHITECTURE.md) · [ROAD
 
 ## Project Goal
 
-A commercial-grade WordPress Travel CMS plugin that fully replaces WP Travel
-Engine for travel agencies (primary market: Bangladesh — first-class Bangla
-content support). It manages three content types — **Countries**, **Visas**
+A commercial-grade WordPress Travel CMS plugin for travel agencies
+(primary market: Bangladesh — first-class Bangla content support). It manages three content types — **Countries**, **Visas**
 and **Tours** — with professional admin editors, a themeable frontend, AJAX
 search, Elementor integration, a generic import/export engine, installable
 demo data, a full SEO module, and (upcoming) booking/inquiry and AI modules.
@@ -87,15 +86,18 @@ settings, SEO, setup wizard, search widget, booking.
    [docs/release-checklist.md](docs/release-checklist.md) (fresh install,
    wizard + demo, search, inquiries, Elementor, mobile) on the staged
    Local "testing" site.
-2. **v1.1+** — Travel Manager role, inquiry management screen, update
-   client + licensing server, analytics, reviews, WPML/Polylang adapters,
-   AI module (see [ROADMAP.md](ROADMAP.md)).
+2. **v1.1+** — Travel Manager role, inquiry management screen, analytics,
+   reviews, WPML/Polylang adapters, AI module (see [ROADMAP.md](ROADMAP.md)).
+   Licensing and the update client move to the separate Pro add-on plugin
+   (see [docs/distribution.md](docs/distribution.md)).
 
-**Release hardening (before 1.0 ship, alongside the modules):** ship real
-Bootstrap 5 builds in `assets/vendor/bootstrap/` (currently empty
-placeholders); migrate scratchpad test suites into `tests/` with CI
-(PHPCS + PHPStan + suites); custom capabilities / Travel Manager role;
-licensing & update mechanism; regenerate the `.pot` file.
+**Distribution (2026-07-05):** freemium strategy — the free plugin ships on
+wordpress.org, fully functional; Pro arrives later as a separate add-on
+plugin extending the public `ztc_*` seams. Two build channels from one
+source tree: `composer build:wporg` (Update URI stripped, updater/licensing
+gate) and `composer build:pro` (self-hosted, identical to today). Plugin
+Check: 0 ERRORs on the wporg build. See
+[docs/distribution.md](docs/distribution.md).
 
 ## Coding Rules
 

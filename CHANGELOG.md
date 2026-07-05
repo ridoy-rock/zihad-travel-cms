@@ -6,7 +6,25 @@ release are chronological.
 
 ## [Unreleased]
 
-_Nothing yet._
+### Distribution & WordPress.org compliance — 2026-07-05
+
+- Plugin Check compliance: dynamic parts of exception messages escaped
+  (`esc_html()`), `array_is_list()` replaced with an equivalent check
+  (WP core only polyfills it since 6.5; our minimum stays 6.4),
+  `Tested up to: 7.0`, readme short description rewritten (the previous
+  phrasing failed Plugin Check's language detection).
+- Freemium distribution: two build channels from one source tree —
+  `composer build:wporg` strips the `Update URI` header and gates the zip
+  against updater/licensing artifacts; `composer build:pro` produces the
+  self-hosted zip unchanged. Licensing/updates will live in a separate Pro
+  add-on plugin (`docs/distribution.md`).
+- readme.txt in full wordpress.org format: External Services disclosure
+  (demo images from picsum.photos / flagcdn.com), third-party library
+  attribution (Bootstrap 5.3.3, MIT), privacy note, screenshot captions,
+  upgrade notice.
+- Competitor references removed from all shipped files and documentation;
+  the plugin describes its own features only.
+- CI builds the wporg zip and runs Plugin Check on every push.
 
 ## [1.0.0] — 2026-07-05
 

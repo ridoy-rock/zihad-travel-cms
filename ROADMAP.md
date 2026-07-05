@@ -7,7 +7,7 @@ filters.
 
 ## v1.0 — Launch (in progress)
 
-Everything required to replace WP Travel Engine on a production agency site.
+Everything required to run a production travel agency site.
 
 | Status | Deliverable |
 |---|---|
@@ -20,7 +20,8 @@ Everything required to replace WP Travel Engine on a production agency site.
 | ✅ | Module 6 — Setup Wizard: eleven-step first-run installer (company info, branding, contact, social, WhatsApp, Maps, analytics, homepage, demo data, permalink check); resumable/skippable/rerunnable, no-JS capable, REST-driven, pure orchestration of existing services |
 | ✅ | Module 7 — Homepage Search Widget: tabbed Visa (Country, Visa Type) / Tour (Country, Tour Type, Duration, Budget); shortcode + Elementor widget + settings-gated homepage injection; CSS-only tabs + no-JS archive filter parity; duration mirror meta + cached country options; via the existing SearchService/GridRenderer |
 | ✅ | Module 8 — Booking / Inquiry: visa & tour inquiry forms (no-JS + REST, honeypot + rate limit), private inquiry CPT with admin columns, WhatsApp CTA, email notifications through the new Mailer contract |
-| ⬜ | Release hardening: ship real Bootstrap 5 builds, migrate smoke suites into `tests/` + CI (PHPCS/PHPStan/suites), custom capabilities ("Travel Manager" role), licensing/update mechanism, regenerate `.pot` |
+| ✅ | Release hardening: real Bootstrap 5 build shipped, smoke suites in `tests/` + CI (PHPCS/PHPStan/suites), `.pot` regenerated, Plugin Check clean, dual-channel builds (wordpress.org / self-hosted — see [docs/distribution.md](docs/distribution.md)) |
+| ⬜ | Custom capabilities ("Travel Manager" role) — moved to v1.1; licensing/update client — moved to the separate Pro add-on plugin |
 
 ## v1.1 — Operations
 

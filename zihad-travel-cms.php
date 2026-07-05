@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Zihad Travel CMS
  * Plugin URI:        https://zihadtravelcms.com
- * Description:       A complete travel content management system — tours, visas, countries, bookings and more. A modern, professional replacement for WP Travel Engine.
+ * Description:       Zihad Travel CMS helps travel agencies manage tours, visa services, and destination guides, with built-in search and inquiry forms.
  * Version:           1.0.0
  * Requires at least: 6.4
  * Requires PHP:      8.2

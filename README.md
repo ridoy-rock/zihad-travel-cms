@@ -1,7 +1,7 @@
 # Zihad Travel CMS
 
-A commercial-grade WordPress Travel CMS plugin for travel agencies — a
-complete replacement for WP Travel Engine. Manage **Countries**, **Visas**
+A commercial-grade WordPress Travel CMS plugin for travel
+agencies. Manage **Countries**, **Visas**
 and **Tours** with professional tabbed editors, a themeable Bootstrap 5
 frontend, AJAX search, Elementor widgets and dynamic tags, a generic
 import/export engine, and installable bilingual (English/Bangla) demo data.
@@ -127,7 +127,8 @@ composer install          # dev tools: PHPCS/WPCS, PHPCompatibility, PHPStan
 composer lint             # WordPress Coding Standards
 composer stan             # PHPStan level 5
 composer test             # all smoke suites (tests/run.sh)
-bin/package.sh            # build the distributable zip
+composer build:wporg      # WordPress.org zip (Update URI stripped, channel gate)
+composer build:pro        # self-hosted/development zip (identical to the source tree)
 ```
 
 - **Tests**: standalone smoke suites in [tests/](tests/)

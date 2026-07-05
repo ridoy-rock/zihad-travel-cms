@@ -71,3 +71,20 @@ jobs:
         run: composer install --prefer-dist --no-progress
       - name: PHPStan
         run: composer stan
+
+  plugin-check:
+    name: Plugin Check (wporg build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the wordpress.org zip (runs the channel gate)
+        run: bash bin/package.sh --channel=wporg
+      - name: Unpack the built zip
+        run: unzip -q build/zihad-travel-cms-*-wporg.zip -d build/check
+      - name: Plugin Check
+        uses: WordPress/plugin-check-action@v1
+        with:
+          build-dir: ./build/check/zihad-travel-cms
+          # Warnings are documented as intentional (ztc_ prefix false
+          # positives, load_plugin_textdomain) — see docs/distribution.md.
+          ignore-warnings: true
