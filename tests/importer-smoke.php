@@ -89,6 +89,7 @@ function delete_option( $n ) { unset( $GLOBALS['options'][ $n ] ); return true; 
 function apply_filters( $h, $v ) { return $v; }
 function do_action( ...$a ) {}
 function __( $t, $d = 'default' ) { return $t; }
+function esc_html( $t ) { return htmlspecialchars( (string) $t, ENT_QUOTES ); }
 function current_user_can( ...$a ) { return true; }
 function sanitize_title( $t ) { return trim( (string) preg_replace( '/[^a-z0-9]+/', '-', strtolower( (string) $t ) ), '-' ); }
 function sanitize_file_name( $t ) { return (string) preg_replace( '/[^A-Za-z0-9._-]/', '-', (string) $t ); }

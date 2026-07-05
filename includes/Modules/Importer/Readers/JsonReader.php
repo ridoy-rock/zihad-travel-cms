@@ -31,14 +31,14 @@ final class JsonReader {
 	 */
 	public function records( string $path ): array {
 		if ( ! is_readable( $path ) ) {
-			throw new RuntimeException( sprintf( 'File "%s" is not readable.', $path ) );
+			throw new RuntimeException( sprintf( 'File "%s" is not readable.', esc_html( $path ) ) );
 		}
 
 		$raw  = (string) file_get_contents( $path ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$data = json_decode( $raw, true );
 
 		if ( ! is_array( $data ) ) {
-			throw new RuntimeException( 'The JSON file is invalid: ' . json_last_error_msg() );
+			throw new RuntimeException( 'The JSON file is invalid: ' . esc_html( json_last_error_msg() ) );
 		}
 
 		if ( isset( $data['records'] ) && is_array( $data['records'] ) ) {

@@ -60,11 +60,11 @@ final class ImportService {
 	 */
 	public function start( string $type, string $file, string $mode = 'upsert', bool $rollback_on_failure = false ): ImportJob {
 		if ( null === $this->registry->get( $type ) ) {
-			throw new RuntimeException( sprintf( 'Unknown import type "%s". Available: %s.', $type, implode( ', ', $this->registry->types() ) ) );
+			throw new RuntimeException( sprintf( 'Unknown import type "%s". Available: %s.', esc_html( $type ), esc_html( implode( ', ', $this->registry->types() ) ) ) );
 		}
 
 		if ( ! in_array( $mode, self::MODES, true ) ) {
-			throw new RuntimeException( sprintf( 'Unknown mode "%s".', $mode ) );
+			throw new RuntimeException( sprintf( 'Unknown mode "%s".', esc_html( $mode ) ) );
 		}
 
 		$records = $this->records( $file ); // Validates the file up front.
@@ -90,7 +90,7 @@ final class ImportService {
 		$job = $this->jobs->find( $job_id );
 
 		if ( null === $job ) {
-			throw new RuntimeException( sprintf( 'Unknown import job "%s".', $job_id ) );
+			throw new RuntimeException( sprintf( 'Unknown import job "%s".', esc_html( $job_id ) ) );
 		}
 
 		if ( $job->is_finished() ) {
@@ -100,7 +100,7 @@ final class ImportService {
 		$mapping = $this->registry->get( $job->type );
 
 		if ( null === $mapping ) {
-			throw new RuntimeException( sprintf( 'No mapping registered for "%s".', $job->type ) );
+			throw new RuntimeException( sprintf( 'No mapping registered for "%s".', esc_html( $job->type ) ) );
 		}
 
 		$records     = $this->records( $job->file );
@@ -154,7 +154,7 @@ final class ImportService {
 		$job = $this->jobs->find( $job_id );
 
 		if ( null === $job ) {
-			throw new RuntimeException( sprintf( 'Unknown import job "%s".', $job_id ) );
+			throw new RuntimeException( sprintf( 'Unknown import job "%s".', esc_html( $job_id ) ) );
 		}
 
 		$this->delete_created( $job );
@@ -190,7 +190,7 @@ final class ImportService {
 			$missing  = null === $value || ( is_string( $value ) && '' === trim( $value ) );
 
 			if ( $required && $missing ) {
-				throw new RuntimeException( sprintf( 'Required field "%s" is missing.', $key ) );
+				throw new RuntimeException( sprintf( 'Required field "%s" is missing.', esc_html( $key ) ) );
 			}
 
 			if ( str_starts_with( $target, 'post:' ) && ! $missing ) {
@@ -224,7 +224,7 @@ final class ImportService {
 		}
 
 		if ( is_wp_error( $result ) ) {
-			throw new RuntimeException( $result->get_error_message() );
+			throw new RuntimeException( esc_html( $result->get_error_message() ) );
 		}
 
 		$post_id = (int) $result;
@@ -347,7 +347,7 @@ final class ImportService {
 		return match ( $extension ) {
 			'csv'   => $this->csv->records( $file ),
 			'json'  => $this->json->records( $file ),
-			default => throw new RuntimeException( sprintf( 'Unsupported file type ".%s" — use .csv or .json.', $extension ) ),
+			default => throw new RuntimeException( sprintf( 'Unsupported file type ".%s" — use .csv or .json.', esc_html( $extension ) ) ),
 		};
 	}
 
@@ -446,7 +446,7 @@ final class ImportService {
 		$decoded = json_decode( $this->to_string( $value ), true );
 
 		if ( ! is_array( $decoded ) ) {
-			throw new RuntimeException( sprintf( 'Field "%s" contains invalid JSON.', $key ) );
+			throw new RuntimeException( sprintf( 'Field "%s" contains invalid JSON.', esc_html( $key ) ) );
 		}
 
 		return $decoded;

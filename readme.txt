@@ -2,13 +2,13 @@
 Contributors: zihad
 Tags: travel, tours, visa, booking, itinerary
 Requires at least: 6.4
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 8.2
 Stable tag: 1.0.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A complete travel content management system — tours, visas, countries, search, inquiries and more.
+Zihad Travel CMS helps travel agencies manage tours, visa services, and destination guides, with built-in search and inquiry forms.
 
 == Description ==
 

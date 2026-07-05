@@ -49,11 +49,11 @@ final class ExportService {
 		$mapping = $this->registry->get( $type );
 
 		if ( null === $mapping ) {
-			throw new RuntimeException( sprintf( 'Unknown export type "%s".', $type ) );
+			throw new RuntimeException( sprintf( 'Unknown export type "%s".', esc_html( $type ) ) );
 		}
 
 		if ( ! in_array( $format, self::FORMATS, true ) ) {
-			throw new RuntimeException( sprintf( 'Unknown format "%s".', $format ) );
+			throw new RuntimeException( sprintf( 'Unknown format "%s".', esc_html( $format ) ) );
 		}
 
 		$records = array_map(
@@ -199,7 +199,8 @@ final class ExportService {
 			return (string) $value;
 		}
 
-		$is_flat = array_filter( $value, 'is_string' ) === $value && array_is_list( $value );
+		// array_values( $x ) === $x ≡ array_is_list( $x ) (WP core only polyfills the latter since 6.5).
+		$is_flat = array_filter( $value, 'is_string' ) === $value && array_values( $value ) === $value;
 
 		return $is_flat
 			? implode( '|', $value )

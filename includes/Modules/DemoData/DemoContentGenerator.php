@@ -45,13 +45,13 @@ final class DemoContentGenerator {
 	 */
 	public function generate( string $locale = 'en', ?string $dir = null ): array {
 		if ( ! in_array( $locale, self::LOCALES, true ) ) {
-			throw new RuntimeException( sprintf( 'Unknown demo locale "%s".', $locale ) );
+			throw new RuntimeException( sprintf( 'Unknown demo locale "%s".', esc_html( $locale ) ) );
 		}
 
 		$dir = null !== $dir ? untrailingslashit( $dir ) : untrailingslashit( $this->sources->output_dir() );
 
 		if ( ! wp_mkdir_p( $dir ) ) {
-			throw new RuntimeException( sprintf( 'Could not create "%s".', $dir ) );
+			throw new RuntimeException( sprintf( 'Could not create "%s".', esc_html( $dir ) ) );
 		}
 
 		$countries = array();
@@ -523,7 +523,7 @@ final class DemoContentGenerator {
 
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 		if ( false === file_put_contents( $path, (string) $body ) ) {
-			throw new RuntimeException( sprintf( 'Could not write "%s".', $path ) );
+			throw new RuntimeException( sprintf( 'Could not write "%s".', esc_html( $path ) ) );
 		}
 
 		return $path;

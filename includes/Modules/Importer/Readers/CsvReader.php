@@ -32,13 +32,13 @@ final class CsvReader {
 	 */
 	public function records( string $path ): array {
 		if ( ! is_readable( $path ) ) {
-			throw new RuntimeException( sprintf( 'File "%s" is not readable.', $path ) );
+			throw new RuntimeException( sprintf( 'File "%s" is not readable.', esc_html( $path ) ) );
 		}
 
 		$handle = fopen( $path, 'r' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 
 		if ( false === $handle ) {
-			throw new RuntimeException( sprintf( 'Could not open "%s".', $path ) );
+			throw new RuntimeException( sprintf( 'Could not open "%s".', esc_html( $path ) ) );
 		}
 
 		// The explicit escape argument ('' = none) keeps PHP 8.4+ from

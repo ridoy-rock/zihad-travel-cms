@@ -98,13 +98,13 @@ final class SourceRepository {
 		$path = $this->config->path( 'demo-data/sources/' . $name . '.json' );
 
 		if ( ! is_readable( $path ) ) {
-			throw new RuntimeException( sprintf( 'Demo source "%s" is missing.', $path ) );
+			throw new RuntimeException( sprintf( 'Demo source "%s" is missing.', esc_html( $path ) ) );
 		}
 
 		$data = json_decode( (string) file_get_contents( $path ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
 		if ( ! is_array( $data ) ) {
-			throw new RuntimeException( sprintf( 'Demo source "%s" contains invalid JSON: %s', $path, json_last_error_msg() ) );
+			throw new RuntimeException( sprintf( 'Demo source "%s" contains invalid JSON: %s', esc_html( $path ), esc_html( json_last_error_msg() ) ) );
 		}
 
 		$this->cache[ $name ] = $data;

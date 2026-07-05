@@ -42,7 +42,7 @@ final class ImageImporter {
 		}
 
 		if ( ! preg_match( '#^https?://#i', $url ) ) {
-			throw new RuntimeException( sprintf( 'Invalid image URL "%s".', $url ) );
+			throw new RuntimeException( sprintf( 'Invalid image URL "%s".', esc_html( $url ) ) );
 		}
 
 		$existing = $this->find_by_source( $url );
@@ -56,7 +56,7 @@ final class ImageImporter {
 		$tmp = download_url( $url, 30 );
 
 		if ( is_wp_error( $tmp ) ) {
-			throw new RuntimeException( sprintf( 'Could not download "%s": %s', $url, $tmp->get_error_message() ) );
+			throw new RuntimeException( sprintf( 'Could not download "%s": %s', esc_html( $url ), esc_html( $tmp->get_error_message() ) ) );
 		}
 
 		$name = sanitize_file_name( (string) wp_basename( (string) wp_parse_url( $url, PHP_URL_PATH ) ) );
@@ -88,7 +88,7 @@ final class ImageImporter {
 
 		if ( is_wp_error( $attachment_id ) ) {
 			wp_delete_file( $tmp );
-			throw new RuntimeException( sprintf( 'Could not import "%s": %s', $url, $attachment_id->get_error_message() ) );
+			throw new RuntimeException( sprintf( 'Could not import "%s": %s', esc_html( $url ), esc_html( $attachment_id->get_error_message() ) ) );
 		}
 
 		update_post_meta( (int) $attachment_id, self::SOURCE_META, esc_url_raw( $url ) );

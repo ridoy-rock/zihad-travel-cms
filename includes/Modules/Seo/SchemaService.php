@@ -320,6 +320,7 @@ final class SchemaService {
 			$clean[ $key ] = $value;
 		}
 
-		return array_is_list( $properties ) && array() !== $clean ? array_values( $clean ) : $clean;
+		// array_values( $x ) === $x ≡ array_is_list( $x ) (WP core only polyfills the latter since 6.5).
+		return array_values( $properties ) === $properties && array() !== $clean ? array_values( $clean ) : $clean;
 	}
 }
